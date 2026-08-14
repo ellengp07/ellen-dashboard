@@ -4,636 +4,74 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wisconsin Wildlife Zoo</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #f4f1e8;
-  color: #344238;
-  font-family: Georgia, "Times New Roman", serif;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-header {
-  background: #304b3b;
-  color: white;
-  padding: 24px 34px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo h1 {
-  margin: 0;
-  font-size: 29px;
-  font-weight: normal;
-}
-
-.logo p {
-  margin: 5px 0 0;
-  color: #dce5dc;
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-}
-
-.points {
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 16px;
-  padding: 10px 18px;
-  text-align: center;
-}
-
-.points b {
-  font-size: 25px;
-}
-
-.points small {
-  display: block;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-nav {
-  background: #263d30;
-  display: flex;
-  padding: 0 24px;
-  overflow-x: auto;
-}
-
-nav button {
-  background: none;
-  border: 0;
-  color: #cbd5cc;
-  padding: 14px 17px;
-  white-space: nowrap;
-}
-
-nav button:hover,
-nav button.active {
-  background: rgba(255,255,255,.08);
-  color: white;
-}
-
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 30px 22px 70px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.title {
-  margin-bottom: 20px;
-}
-
-.title h2 {
-  margin: 0;
-  font-size: 29px;
-  font-weight: normal;
-}
-
-.title p {
-  color: #72786f;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
-
-.card {
-  background: white;
-  border-radius: 20px;
-  padding: 22px;
-  box-shadow: 0 4px 18px rgba(47,59,49,.06);
-  margin-bottom: 20px;
-}
-
-.grid {
-  display: grid;
-  gap: 20px;
-}
-
-.two {
-  grid-template-columns: 1.4fr 1fr;
-}
-
-.three {
-  grid-template-columns: repeat(3,1fr);
-}
-
-.welcome {
-  background: #304b3b;
-  color: white;
-  border-radius: 23px;
-  padding: 30px;
-  margin-bottom: 22px;
-}
-
-.welcome h2 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: normal;
-}
-
-.welcome p {
-  color: #dce5dc;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 12px;
-  margin-top: 22px;
-}
-
-.stat {
-  background: rgba(255,255,255,.08);
-  border-radius: 14px;
-  padding: 16px;
-}
-
-.stat b {
-  font-size: 24px;
-}
-
-.stat span {
-  display: block;
-  color: #dce5dc;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-.progress {
-  height: 10px;
-  background: #e7e5dc;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.fill {
-  height: 100%;
-  width: 0;
-  background: #8da48d;
-  transition: width .3s;
-}
-
-.row {
-  display: flex;
-  gap: 9px;
-  align-items: center;
-}
-
-.between {
-  justify-content: space-between;
-}
-
-.muted {
-  color: #777;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-}
-
-.btn {
-  border: 0;
-  border-radius: 10px;
-  padding: 10px 15px;
-  background: #304b3b;
-  color: white;
-}
-
-.btn.secondary {
-  background: #ece9df;
-  color: #435047;
-}
-
-.btn.danger {
-  background: #ead8d5;
-  color: #7b3e35;
-}
-
-.btn:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-}
-
-.task {
-  border-top: 1px solid #eeeae1;
-  padding: 14px 0;
-}
-
-.task:first-child {
-  border-top: 0;
-}
-
-.task-main {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.task-main input {
-  width: 19px;
-  height: 19px;
-  accent-color: #304b3b;
-}
-
-.task-name {
-  flex: 1;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
-
-.done .task-name {
-  color: #999;
-  text-decoration: line-through;
-}
-
-.pts {
-  color: #9a7a2d;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.subtasks {
-  margin: 9px 0 0 31px;
-  padding-left: 13px;
-  border-left: 2px solid #e6e2d8;
-}
-
-.sub {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 5px 0;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-}
-
-.sub input {
-  accent-color: #304b3b;
-}
-
-.badge {
-  display: inline-block;
-  padding: 4px 7px;
-  border-radius: 7px;
-  background: #edf0e8;
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  text-transform: uppercase;
-}
-
-.badge.rec {
-  background: #e5edf1;
-}
-
-.badge.project {
-  background: #eee5f0;
-}
-
-.smallbtn {
-  border: 0;
-  background: none;
-  color: #8b8d88;
-  font-size: 16px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 130px 150px;
-  gap: 10px;
-}
-
-.form-grid input,
-.form-grid select,
-.modalbox input,
-.modalbox select {
-  width: 100%;
-  border: 1px solid #ddd8cc;
-  border-radius: 9px;
-  padding: 10px;
-  background: white;
-}
-
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 15px;
-}
-
-.filters input,
-.filters select {
-  padding: 9px;
-  border: 1px solid #ddd8cc;
-  border-radius: 9px;
-  background: white;
-}
-
-.calendar-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.calendar-head h3 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: normal;
-}
-
-.calgrid {
-  display: grid;
-  grid-template-columns: repeat(7,1fr);
-  border-top: 1px solid #ddd8cc;
-  border-left: 1px solid #ddd8cc;
-}
-
-.dow {
-  padding: 9px;
-  background: #edf0e8;
-  border-right: 1px solid #ddd8cc;
-  border-bottom: 1px solid #ddd8cc;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-}
-
-.day {
-  min-height: 110px;
-  background: white;
-  padding: 7px;
-  border-right: 1px solid #ddd8cc;
-  border-bottom: 1px solid #ddd8cc;
-}
-
-.day.other {
-  background: #f5f3ed;
-  color: #aaa;
-}
-
-.daynum {
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.today {
-  outline: 2px solid #8da48d;
-  outline-offset: -2px;
-}
-
-.calitem {
-  margin-top: 5px;
-  padding: 4px;
-  background: #edf0e8;
-  border-radius: 5px;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-}
-
-.calitem.done {
-  opacity: .5;
-  text-decoration: line-through;
-}
-
-.animal-grid {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 16px;
-}
-
-.animal {
-  background: white;
-  border-radius: 18px;
-  padding: 16px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.04);
-}
-
-.animalpic {
-  height: 105px;
-  border-radius: 13px;
-  background: #edf0e8;
-  display: grid;
-  place-items: center;
-  margin-bottom: 12px;
-  font-size: 58px;
-}
-
-.animal h3 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: normal;
-}
-
-.animal p {
-  color: #777;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-}
-
-.animal .bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.zoohab {
-  background: white;
-  border-radius: 20px;
-  margin-bottom: 18px;
-  overflow: hidden;
-}
-
-.zoohead {
-  background: #edf0e8;
-  padding: 18px 22px;
-}
-
-.zoohead h3 {
-  margin: 0;
-  font-weight: normal;
-}
-
-.zoobody {
-  padding: 20px;
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.zooanimal {
-  width: 100px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-}
-
-.zooicon {
-  width: 70px;
-  height: 70px;
-  margin: auto;
-  border-radius: 50%;
-  background: #f3f0e7;
-  display: grid;
-  place-items: center;
-  font-size: 38px;
-}
-
-.collection {
-  display: grid;
-  grid-template-columns: repeat(5,1fr);
-  gap: 13px;
-}
-
-.collect {
-  background: white;
-  border-radius: 15px;
-  padding: 13px;
-  text-align: center;
-}
-
-.collect.lock {
-  opacity: .42;
-}
-
-.collect .icon {
-  font-size: 40px;
-}
-
-.collect h4 {
-  margin: 6px 0;
-  font-size: 13px;
-  font-weight: normal;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  display: none;
-  place-items: center;
-  padding: 20px;
-  z-index: 10;
-}
-
-.modal.show {
-  display: grid;
-}
-
-.modalbox {
-  width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-}
-
-.modalbox h3 {
-  margin-top: 0;
-  font-weight: normal;
-}
-
-.formrow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.sub-input {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.sub-input input {
-  flex: 1;
-}
-
-@media(max-width:900px) {
-  .animal-grid {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .two {
-    grid-template-columns: 1fr;
-  }
-
-  .collection {
-    grid-template-columns: repeat(3,1fr);
-  }
-}
-
-@media(max-width:650px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .animal-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .collection {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .day {
-    min-height: 85px;
-  }
-}
+*{box-sizing:border-box}
+:root{
+  --forest:#304b3b;--forest2:#263d30;--sage:#8da48d;--cream:#f4f1e8;
+  --paper:#fff;--line:#e8e3d8;--text:#344238;--muted:#72786f;--gold:#9a7a2d;
+  --blue:#e7eef2;--lav:#eee7f0;--peach:#f3e8dc;--rose:#f2e2df;
+}
+body{margin:0;background:var(--cream);color:var(--text);font-family:Georgia,"Times New Roman",serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+header{background:var(--forest);color:#fff;padding:24px 34px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.logo h1{margin:0;font-weight:normal;font-size:29px}.logo p{margin:5px 0 0;color:#dce5dc;font:13px Arial}
+.points{background:#ffffff12;border:1px solid #ffffff33;border-radius:16px;padding:10px 18px;text-align:center;min-width:130px}
+.points b{font-size:25px}.points small{display:block;font:11px Arial;text-transform:uppercase;letter-spacing:1px}
+nav{background:var(--forest2);display:flex;padding:0 22px;overflow:auto}
+nav button{background:none;border:0;color:#cbd5cc;padding:14px 16px;white-space:nowrap}
+nav button.active,nav button:hover{background:#ffffff12;color:white}
+main{max-width:1220px;margin:auto;padding:30px 22px 70px}.page{display:none}.page.active{display:block}
+.title{margin-bottom:20px}.title h2{margin:0;font-size:29px;font-weight:normal}.title p{font:14px Arial;color:var(--muted)}
+.card{background:var(--paper);border-radius:20px;padding:22px;box-shadow:0 4px 18px rgba(47,59,49,.06);margin-bottom:20px}
+.grid{display:grid;gap:20px}.two{grid-template-columns:1.4fr 1fr}.three{grid-template-columns:repeat(3,1fr)}
+.welcome{background:linear-gradient(135deg,#304b3b,#3d5e49);color:white;border-radius:23px;padding:30px;margin-bottom:22px}
+.welcome h2{margin:0;font-size:32px;font-weight:normal}.welcome p{font:14px Arial;color:#dce5dc}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.stat{background:#ffffff13;border-radius:14px;padding:16px}
+.stat b{font-size:24px}.stat span{display:block;color:#dce5dc;font:11px Arial;margin-top:3px}
+.progress{height:10px;background:#e7e5dc;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:var(--sage);transition:.3s}
+.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}.muted{color:#777;font:12px Arial}
+.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--forest);color:white}.btn.secondary{background:#ece9df;color:#435047}
+.btn.danger{background:#ead8d5;color:#7b3e35}.btn:disabled{opacity:.45;cursor:not-allowed}
+.section-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}.section-title h3{margin:0;font-weight:normal}
+.task{border-top:1px solid #eeeae1;padding:14px 0}.task:first-child{border-top:0}.task-main{display:flex;align-items:center;gap:10px}
+.task-main input[type=checkbox]{width:19px;height:19px;accent-color:var(--forest)}.task-name{flex:1;font:14px Arial}
+.done .task-name{text-decoration:line-through;color:#999}.pts{color:var(--gold);font:bold 12px Arial}
+.badge{display:inline-block;padding:4px 7px;border-radius:7px;background:#edf0e8;font:10px Arial;text-transform:uppercase}
+.badge.daily{background:var(--blue)}.badge.weekly{background:var(--lav)}.badge.bonus{background:var(--peach)}.badge.event{background:var(--rose)}
+.subtasks{margin:9px 0 0 31px;padding-left:13px;border-left:2px solid #e6e2d8}.sub{display:flex;gap:8px;align-items:center;padding:5px 0;font:12px Arial}
+.smallbtn{border:0;background:none;color:#8b8d88;font-size:16px;padding:5px}
+.info-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.mini{background:#f4f2eb;border-radius:12px;padding:12px}.mini b{display:block;font-size:18px}.mini span{font:11px Arial;color:#777}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.filters input,.filters select,.modalbox input,.modalbox select,.modalbox textarea{
+  padding:9px;border:1px solid #ddd8cc;border-radius:9px;background:white;width:100%
+}
+.filters input{max-width:320px}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.calendar-head h3{margin:0;font-size:22px;font-weight:normal}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid #ddd8cc;border-left:1px solid #ddd8cc}
+.dow{padding:9px;background:#edf0e8;border-right:1px solid #ddd8cc;border-bottom:1px solid #ddd8cc;text-align:center;font:11px Arial}
+.day{min-height:115px;background:white;padding:7px;border-right:1px solid #ddd8cc;border-bottom:1px solid #ddd8cc;cursor:pointer}
+.day:hover{background:#faf9f5}.day.other{background:#f5f3ed;color:#aaa}.daynum{font:bold 11px Arial}.today{outline:2px solid var(--sage);outline-offset:-2px}
+.calitem{margin-top:5px;padding:4px;border-radius:5px;overflow:hidden;font:10px Arial;background:#edf0e8}.calitem.done{opacity:.5;text-decoration:line-through}
+.calitem.event{background:#f4e9e6}.calitem.weekly{background:#eee8f2}.calitem.bonus{background:#f4eadf}
+.animal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.animal{background:white;border-radius:18px;padding:16px;box-shadow:0 4px 15px rgba(0,0,0,.04)}
+.animalpic{height:105px;border-radius:13px;background:#edf0e8;display:grid;place-items:center;margin-bottom:12px;font-size:58px}.animal h3{margin:0;font-size:17px;font-weight:normal}
+.animal p{font:11px Arial;color:#777}.animal .bottom{display:flex;justify-content:space-between;align-items:center}
+.zoohab{background:white;border-radius:20px;margin-bottom:18px;overflow:hidden}.zoohead{background:#edf0e8;padding:18px 22px}.zoohead h3{margin:0;font-weight:normal}
+.zoobody{padding:20px;display:flex;gap:18px;flex-wrap:wrap}.zooanimal{width:100px;text-align:center;font:11px Arial}.zooicon{width:70px;height:70px;margin:auto;border-radius:50%;background:#f3f0e7;display:grid;place-items:center;font-size:38px}
+.collection{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}.collect{background:white;border-radius:15px;padding:13px;text-align:center}.collect.lock{opacity:.42}
+.collect .icon{font-size:40px}.collect h4{margin:6px 0;font-size:13px;font-weight:normal}
+.usccb{background:linear-gradient(135deg,#f8f5ed,#ede7d8);border:1px solid #e2dac9}.usccb a{text-decoration:none}
+.modal{position:fixed;inset:0;background:#0006;display:none;place-items:center;padding:20px;z-index:10}.modal.show{display:grid}
+.modalbox{width:100%;max-width:640px;max-height:90vh;overflow:auto;background:white;border-radius:20px;padding:25px}.modalbox h3{margin-top:0;font-weight:normal}
+.day-picker{display:flex;gap:6px;flex-wrap:wrap}.day-picker label{font:12px Arial;background:#f1efe8;border-radius:8px;padding:7px 9px}
+.sub-input{display:flex;gap:8px;margin-top:8px}
+@media(max-width:900px){.animal-grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.collection{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){header{flex-direction:column;align-items:flex-start;padding:20px}.stats,.info-strip{grid-template-columns:1fr}.animal-grid{grid-template-columns:1fr 1fr}.collection{grid-template-columns:repeat(2,1fr)}.formrow{grid-template-columns:1fr}.day{min-height:90px}}
 </style>
 </head>
-
 <body>
-
 <header>
-  <div class="logo">
-    <h1>🌲 Wisconsin Wildlife Zoo</h1>
-    <p>Build your collection. Explore Wisconsin.</p>
-  </div>
-
-  <div class="points">
-    <b>🐾 <span id="points">0</span></b>
-    <small>Trail Points</small>
-  </div>
+  <div class="logo"><h1>🌲 Wisconsin Wildlife Zoo</h1><p>Plan your days. Earn Trail Points. Build your zoo.</p></div>
+  <div class="points"><b>🐾 <span id="points">0</span></b><small>Trail Points</small></div>
 </header>
 
 <nav>
@@ -641,2777 +79,416 @@ main {
   <button onclick="showPage('tasks',this)">✅ Tasks</button>
   <button onclick="showPage('calendar',this)">📅 Calendar</button>
   <button onclick="showPage('history',this)">🔎 History</button>
+  <button onclick="showPage('routines',this)">⚙️ Routines</button>
   <button onclick="showPage('zoo',this)">🏞️ My Zoo</button>
   <button onclick="showPage('shop',this)">🛒 Animal Shop</button>
   <button onclick="showPage('collection',this)">📖 Collection</button>
 </nav>
 
 <main>
-
 <section id="home" class="page active">
-
   <div class="welcome">
-    <h2 id="greeting"></h2>
-    <p id="currentDate"></p>
-
+    <h2 id="greeting"></h2><p id="currentDate"></p>
     <div class="stats">
-      <div class="stat">
-        <b id="homePoints">0</b>
-        <span>Trail Points</span>
-      </div>
-
-      <div class="stat">
-        <b id="homeAnimals">0</b>
-        <span>Animals Collected</span>
-      </div>
-
-      <div class="stat">
-        <b id="homeLevel">1</b>
-        <span>Ranger Level</span>
-      </div>
+      <div class="stat"><b id="homePoints">0</b><span>Trail Points</span></div>
+      <div class="stat"><b id="homeAnimals">0</b><span>Animals Collected</span></div>
+      <div class="stat"><b id="homeLevel">1</b><span>Ranger Level</span></div>
     </div>
   </div>
 
   <div class="grid two">
-
-    <div class="card">
-      <h3>🌿 Today's Progress</h3>
-
-      <div class="row between muted">
-        <span id="todayProgressText">0 / 0 completed</span>
-        <span id="todayPercent">0%</span>
+    <div>
+      <div class="card">
+        <div class="section-title"><div><h3>🌿 Today</h3><p class="muted">Your daily tasks and bonus goals.</p></div><button class="btn" onclick="showPage('tasks')">Open Tasks</button></div>
+        <div class="row between muted"><span id="todayProgressText">0 / 0 completed</span><span id="todayPercent">0%</span></div>
+        <div class="progress"><div class="fill" id="todayProgressFill"></div></div>
       </div>
 
-      <div class="progress">
-        <div class="fill" id="todayProgressFill"></div>
-      </div>
-
-      <br>
-
-      <button class="btn" onclick="showPage('tasks')">
-        Go to Today's Tasks →
-      </button>
-    </div>
-
-    <div class="card">
-      <h3>🌲 Ranger Progress</h3>
-
-      <div style="font-size:38px" id="rangerLevel">1</div>
-
-      <div id="rangerTitle">Junior Explorer</div>
-
-      <br>
-
-      <div class="row between muted">
-        <span>Progress to next level</span>
-        <span id="levelProgressText">0 / 100</span>
-      </div>
-
-      <div class="progress">
-        <div class="fill" id="levelProgressFill"></div>
+      <div class="card">
+        <div class="section-title"><div><h3>🌲 This Week</h3><p class="muted" id="weekRange"></p></div><button class="btn secondary" onclick="showPage('tasks')">View Week</button></div>
+        <div class="row between muted"><span id="weekProgressText">0 / 0 weekly goals</span><span id="weekPercent">0%</span></div>
+        <div class="progress"><div class="fill" id="weekProgressFill"></div></div>
+        <div class="info-strip">
+          <div class="mini"><b id="weekRemaining">0</b><span>Weekly goals left</span></div>
+          <div class="mini"><b id="weekPointsLeft">0</b><span>Weekly points available</span></div>
+          <div class="mini"><b id="bonusWeekEarned">0</b><span>Bonus points this week</span></div>
+        </div>
       </div>
     </div>
 
+    <div>
+      <div class="card usccb">
+        <h3>✝️ Today's Mass Readings</h3>
+        <p class="muted">Open the official USCCB readings or audio for today.</p>
+        <div class="row">
+          <a class="btn" href="https://bible.usccb.org/daily-bible-reading" target="_blank" rel="noopener">Read Today →</a>
+          <a class="btn secondary" href="https://bible.usccb.org/podcasts/audio" target="_blank" rel="noopener">Listen 🎧</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🌲 Ranger Progress</h3>
+        <div style="font-size:38px" id="rangerLevel">1</div><div id="rangerTitle">Junior Explorer</div><br>
+        <div class="row between muted"><span>Progress to next level</span><span id="levelProgressText">0 / 100</span></div>
+        <div class="progress"><div class="fill" id="levelProgressFill"></div></div>
+      </div>
+    </div>
   </div>
-
 </section>
-
 
 <section id="tasks" class="page">
-
-  <div class="title">
-    <h2>✅ Tasks</h2>
-    <p>Projects, subtasks, and recurring routines all live here.</p>
-  </div>
+  <div class="title"><h2>✅ Tasks</h2><p>Today's work, flexible weekly goals, and bonus habits.</p></div>
 
   <div class="card">
-
-    <div class="row between">
-      <h3 style="margin:0">Today's Tasks</h3>
-
-      <button class="btn" onclick="openNewTaskModal()">
-        ＋ New Task
-      </button>
-    </div>
-
+    <div class="section-title"><div><h3>☀️ Today</h3><p class="muted">One-time tasks and daily recurring tasks.</p></div><button class="btn" onclick="openNewTaskModal()">＋ New Task</button></div>
     <div id="todayTasks"></div>
-
   </div>
-
 
   <div class="card">
-
-    <div class="row between">
-      <div>
-        <h3 style="margin:0">🔄 Recurring Tasks</h3>
-        <p class="muted">
-          Daily tasks appear every day. Weekly tasks repeat on the day you choose.
-          Weekly schedules reset at midnight Sunday.
-        </p>
-      </div>
-
-      <button class="btn" onclick="openRecurringModal()">
-        ＋ Add Recurring Task
-      </button>
-    </div>
-
-    <div id="recurringTasks"></div>
-
+    <div class="section-title"><div><h3>🌲 This Week</h3><p class="muted">Complete these any time from Sunday through Saturday.</p></div><span class="badge weekly" id="weekBadge"></span></div>
+    <div class="row between muted"><span id="weekTaskText">0 / 0 completed</span><span id="weekTaskPercent">0%</span></div>
+    <div class="progress"><div class="fill" id="weekTaskFill"></div></div>
+    <div id="weeklyTasks" style="margin-top:10px"></div>
   </div>
 
+  <div class="card">
+    <div class="section-title"><div><h3>✨ Bonus Goals</h3><p class="muted">Extra points for habits you want to reward.</p></div></div>
+    <div id="bonusGoals"></div>
+  </div>
 </section>
-
 
 <section id="calendar" class="page">
-
-  <div class="title">
-    <h2>📅 My Calendar</h2>
-    <p>Your own personalized calendar.</p>
-  </div>
-
+  <div class="title"><h2>📅 My Calendar</h2><p>Tasks, weekly goals, birthdays, holidays, appointments, and more.</p></div>
   <div class="card">
-
     <div class="calendar-head">
-
-      <button class="btn secondary" onclick="changeMonth(-1)">
-        ←
-      </button>
-
+      <button class="btn secondary" onclick="changeMonth(-1)">←</button>
       <h3 id="calendarMonth"></h3>
-
-      <div>
-        <button class="btn secondary" onclick="goToToday()">
-          Today
-        </button>
-
-        <button class="btn secondary" onclick="changeMonth(1)">
-          →
-        </button>
-      </div>
-
+      <div><button class="btn" onclick="openEventModal()">＋ Add Event</button> <button class="btn secondary" onclick="goToToday()">Today</button> <button class="btn secondary" onclick="changeMonth(1)">→</button></div>
     </div>
-
     <div class="calgrid" id="calendarGrid"></div>
-
   </div>
-
 </section>
-
 
 <section id="history" class="page">
-
-  <div class="title">
-    <h2>🔎 Task History</h2>
-    <p>Your completed work never disappears.</p>
-  </div>
-
+  <div class="title"><h2>🔎 Task History</h2><p>Search completed tasks and recurring goals.</p></div>
   <div class="card">
-
-    <div class="filters">
-
-      <input
-        id="historySearch"
-        placeholder="Search previous tasks..."
-        oninput="renderHistory()"
-      >
-
-      <select id="historyFilter" onchange="renderHistory()">
-        <option value="all">All completed tasks</option>
-        <option value="recurring">Recurring tasks</option>
-        <option value="projects">Projects</option>
-      </select>
-
-    </div>
-
+    <div class="filters"><input id="historySearch" placeholder="Search previous tasks..." oninput="renderHistory()"><select id="historyFilter" onchange="renderHistory()"><option value="all">All completed items</option><option value="recurring">Recurring</option><option value="bonus">Bonus goals</option><option value="projects">Projects</option></select></div>
     <div id="historyList"></div>
-
   </div>
-
 </section>
 
-
-<section id="zoo" class="page">
-
-  <div class="title">
-    <h2>🏞️ My Wisconsin Zoo</h2>
-    <p>Your growing collection of Wisconsin wildlife.</p>
-  </div>
-
-  <div id="habitats"></div>
-
-</section>
-
-
-<section id="shop" class="page">
-
-  <div class="title">
-    <h2>🛒 Animal Shop</h2>
-    <p>Spend Trail Points to add Wisconsin wildlife to your zoo.</p>
-  </div>
-
-  <div class="animal-grid" id="shopGrid"></div>
-
-</section>
-
-
-<section id="collection" class="page">
-
-  <div class="title">
-    <h2>📖 Wildlife Collection</h2>
-    <p>Discover Wisconsin's animals.</p>
-  </div>
-
+<section id="routines" class="page">
+  <div class="title"><h2>⚙️ Manage Routines</h2><p>Edit daily tasks, weekly tasks, and bonus goals without changing your code.</p></div>
   <div class="card">
-
-    <div class="row between muted">
-      <span>Collection Progress</span>
-      <span id="collectionText"></span>
-    </div>
-
-    <div class="progress">
-      <div class="fill" id="collectionFill"></div>
-    </div>
-
+    <div class="section-title"><div><h3>☀️ Daily Recurring Tasks</h3><p class="muted">Reset each new day.</p></div><button class="btn" onclick="openRoutineModal('daily')">＋ Add Daily</button></div>
+    <div id="manageDaily"></div>
   </div>
-
-  <div class="collection" id="collectionGrid"></div>
-
+  <div class="card">
+    <div class="section-title"><div><h3>🌲 Weekly Recurring Tasks</h3><p class="muted">Available all week and reset every Sunday.</p></div><button class="btn" onclick="openRoutineModal('weekly')">＋ Add Weekly</button></div>
+    <div id="manageWeekly"></div>
+  </div>
+  <div class="card">
+    <div class="section-title"><div><h3>✨ Bonus Goals</h3><p class="muted">Choose points, active days, and an optional weekly streak bonus.</p></div><button class="btn" onclick="openBonusModal()">＋ Add Bonus Goal</button></div>
+    <div id="manageBonus"></div>
+  </div>
 </section>
 
+<section id="zoo" class="page"><div class="title"><h2>🏞️ My Wisconsin Zoo</h2><p>Your growing collection of Wisconsin wildlife.</p></div><div id="habitats"></div></section>
+<section id="shop" class="page"><div class="title"><h2>🛒 Animal Shop</h2><p>Spend Trail Points to add Wisconsin wildlife to your zoo.</p></div><div class="animal-grid" id="shopGrid"></div></section>
+<section id="collection" class="page"><div class="title"><h2>📖 Wildlife Collection</h2><p>Discover Wisconsin's animals.</p></div><div class="card"><div class="row between muted"><span>Collection Progress</span><span id="collectionText"></span></div><div class="progress"><div class="fill" id="collectionFill"></div></div></div><div class="collection" id="collectionGrid"></div></section>
 </main>
 
-
-<div class="modal" id="modal">
-  <div class="modalbox" id="modalBox"></div>
-</div>
-
+<div class="modal" id="modal"><div class="modalbox" id="modalBox"></div></div>
 
 <script>
+const animals=[
+["painted-turtle","Eastern Painted Turtle","Reptile","Rivers & Lakes","Common",20,"🐢"],
+["snapping-turtle","Snapping Turtle","Reptile","Wetlands","Common",30,"🐢"],
+["woodchuck","Woodchuck","Mammal","Prairie & Meadow","Common",25,"🦫"],
+["muskrat","Muskrat","Mammal","Wetlands","Common",30,"🐀"],
+["raccoon","Raccoon","Mammal","Wisconsin Forest","Common",35,"🦝"],
+["porcupine","Porcupine","Mammal","Wisconsin Forest","Uncommon",50,"🦔"],
+["beaver","American Beaver","Mammal","Wetlands","Uncommon",60,"🦫"],
+["mink","American Mink","Mammal","Wetlands","Uncommon",70,"🦦"],
+["red-fox","Red Fox","Mammal","Wisconsin Forest","Uncommon",75,"🦊"],
+["river-otter","North American River Otter","Mammal","Rivers & Lakes","Rare",120,"🦦"],
+["deer","White-tailed Deer","Mammal","Wisconsin Forest","Common",45,"🦌"],
+["black-bear","American Black Bear","Mammal","Wisconsin Forest","Rare",180,"🐻"],
+["brook-trout","Brook Trout","Fish","Rivers & Lakes","Common",35,"🐟"],
+["brown-trout","Brown Trout","Fish","Rivers & Lakes","Uncommon",55,"🐟"],
+["rainbow-trout","Rainbow Trout","Fish","Rivers & Lakes","Uncommon",65,"🐟"],
+["walleye","Walleye","Fish","Rivers & Lakes","Rare",100,"🐟"],
+["northern-pike","Northern Pike","Fish","Rivers & Lakes","Rare",110,"🐟"],
+["muskellunge","Muskellunge","Fish","Rivers & Lakes","Very Rare",225,"🐟"],
+["bullfrog","American Bullfrog","Amphibian","Wetlands","Common",30,"🐸"],
+["leopard-frog","Northern Leopard Frog","Amphibian","Wetlands","Uncommon",55,"🐸"],
+["map-turtle","Northern Map Turtle","Reptile","Rivers & Lakes","Uncommon",65,"🐢"],
+["wood-turtle","Wood Turtle","Reptile","Rivers & Lakes","Very Rare",250,"🐢"]
+].map(x=>({id:x[0],name:x[1],type:x[2],habitat:x[3],rarity:x[4],price:x[5],icon:x[6]}));
 
-/* =========================================================
-   WISCONSIN ANIMALS
-========================================================= */
-
-const animals = [
-
-  {
-    id:"painted-turtle",
-    name:"Eastern Painted Turtle",
-    type:"Reptile",
-    habitat:"Rivers & Lakes",
-    rarity:"Common",
-    price:20,
-    icon:"🐢"
-  },
-
-  {
-    id:"snapping-turtle",
-    name:"Snapping Turtle",
-    type:"Reptile",
-    habitat:"Wetlands",
-    rarity:"Common",
-    price:30,
-    icon:"🐢"
-  },
-
-  {
-    id:"woodchuck",
-    name:"Woodchuck",
-    type:"Mammal",
-    habitat:"Prairie & Meadow",
-    rarity:"Common",
-    price:25,
-    icon:"🦫"
-  },
-
-  {
-    id:"muskrat",
-    name:"Muskrat",
-    type:"Mammal",
-    habitat:"Wetlands",
-    rarity:"Common",
-    price:30,
-    icon:"🐀"
-  },
-
-  {
-    id:"raccoon",
-    name:"Raccoon",
-    type:"Mammal",
-    habitat:"Wisconsin Forest",
-    rarity:"Common",
-    price:35,
-    icon:"🦝"
-  },
-
-  {
-    id:"porcupine",
-    name:"Porcupine",
-    type:"Mammal",
-    habitat:"Wisconsin Forest",
-    rarity:"Uncommon",
-    price:50,
-    icon:"🦔"
-  },
-
-  {
-    id:"beaver",
-    name:"American Beaver",
-    type:"Mammal",
-    habitat:"Wetlands",
-    rarity:"Uncommon",
-    price:60,
-    icon:"🦫"
-  },
-
-  {
-    id:"mink",
-    name:"American Mink",
-    type:"Mammal",
-    habitat:"Wetlands",
-    rarity:"Uncommon",
-    price:70,
-    icon:"🦦"
-  },
-
-  {
-    id:"red-fox",
-    name:"Red Fox",
-    type:"Mammal",
-    habitat:"Wisconsin Forest",
-    rarity:"Uncommon",
-    price:75,
-    icon:"🦊"
-  },
-
-  {
-    id:"river-otter",
-    name:"North American River Otter",
-    type:"Mammal",
-    habitat:"Rivers & Lakes",
-    rarity:"Rare",
-    price:120,
-    icon:"🦦"
-  },
-
-  {
-    id:"deer",
-    name:"White-tailed Deer",
-    type:"Mammal",
-    habitat:"Wisconsin Forest",
-    rarity:"Common",
-    price:45,
-    icon:"🦌"
-  },
-
-  {
-    id:"black-bear",
-    name:"American Black Bear",
-    type:"Mammal",
-    habitat:"Wisconsin Forest",
-    rarity:"Rare",
-    price:180,
-    icon:"🐻"
-  },
-
-  {
-    id:"brook-trout",
-    name:"Brook Trout",
-    type:"Fish",
-    habitat:"Rivers & Lakes",
-    rarity:"Common",
-    price:35,
-    icon:"🐟"
-  },
-
-  {
-    id:"brown-trout",
-    name:"Brown Trout",
-    type:"Fish",
-    habitat:"Rivers & Lakes",
-    rarity:"Uncommon",
-    price:55,
-    icon:"🐟"
-  },
-
-  {
-    id:"rainbow-trout",
-    name:"Rainbow Trout",
-    type:"Fish",
-    habitat:"Rivers & Lakes",
-    rarity:"Uncommon",
-    price:65,
-    icon:"🐟"
-  },
-
-  {
-    id:"walleye",
-    name:"Walleye",
-    type:"Fish",
-    habitat:"Rivers & Lakes",
-    rarity:"Rare",
-    price:100,
-    icon:"🐟"
-  },
-
-  {
-    id:"northern-pike",
-    name:"Northern Pike",
-    type:"Fish",
-    habitat:"Rivers & Lakes",
-    rarity:"Rare",
-    price:110,
-    icon:"🐟"
-  },
-
-  {
-    id:"muskellunge",
-    name:"Muskellunge",
-    type:"Fish",
-    habitat:"Rivers & Lakes",
-    rarity:"Very Rare",
-    price:225,
-    icon:"🐟"
-  },
-
-  {
-    id:"bullfrog",
-    name:"American Bullfrog",
-    type:"Amphibian",
-    habitat:"Wetlands",
-    rarity:"Common",
-    price:30,
-    icon:"🐸"
-  },
-
-  {
-    id:"leopard-frog",
-    name:"Northern Leopard Frog",
-    type:"Amphibian",
-    habitat:"Wetlands",
-    rarity:"Uncommon",
-    price:55,
-    icon:"🐸"
-  },
-
-  {
-    id:"map-turtle",
-    name:"Northern Map Turtle",
-    type:"Reptile",
-    habitat:"Rivers & Lakes",
-    rarity:"Uncommon",
-    price:65,
-    icon:"🐢"
-  },
-
-  {
-    id:"wood-turtle",
-    name:"Wood Turtle",
-    type:"Reptile",
-    habitat:"Rivers & Lakes",
-    rarity:"Very Rare",
-    price:250,
-    icon:"🐢"
-  }
-
+const defaultRoutines=[
+{id:"daily-readings",name:"Read daily readings",points:1,type:"daily",dueTime:"",category:"Faith",active:true},
+{id:"morning-emails",name:"Answer emails before 10 AM",points:2,type:"daily",dueTime:"10:00",category:"Work",active:true},
+{id:"walk-butter",name:"Walk Butter",points:2,type:"daily",dueTime:"",category:"Personal",active:true},
+{id:"workout",name:"Workout",points:3,type:"daily",dueTime:"",category:"Personal",active:true},
+{id:"day-prepped",name:"Have the day fully prepped",points:5,type:"daily",dueTime:"",category:"Work",active:true},
+{id:"meal-prep",name:"Meal prep",points:3,type:"weekly",category:"Personal",active:true},
+{id:"grocery-store",name:"Grocery store",points:3,type:"weekly",category:"Personal",active:true},
+{id:"laundry",name:"Wash and put away laundry",points:3,type:"weekly",category:"Home",active:true},
+{id:"clean-floors",name:"Clean floors",points:3,type:"weekly",category:"Home",active:true},
+{id:"next-week-prep",name:"Have everything prepped for the following week",points:3,type:"weekly",category:"Work",active:true}
 ];
 
-
-/* =========================================================
-   DEFAULT RECURRING TASKS
-========================================================= */
-
-const defaultRecurringTasks = [
-
-  {
-    id:"daily-readings",
-    name:"Read daily readings",
-    points:1,
-    repeat:"daily",
-    dueTime:"",
-    dueDay:null,
-    category:"Faith",
-    active:true
-  },
-
-  {
-    id:"morning-emails",
-    name:"Answer emails before 10 AM",
-    points:2,
-    repeat:"daily",
-    dueTime:"10:00",
-    dueDay:null,
-    category:"Work",
-    active:true
-  },
-
-  {
-    id:"walk-butter",
-    name:"Walk Butter",
-    points:2,
-    repeat:"daily",
-    dueTime:"",
-    dueDay:null,
-    category:"Personal",
-    active:true
-  },
-
-  {
-    id:"workout",
-    name:"Workout",
-    points:3,
-    repeat:"daily",
-    dueTime:"",
-    dueDay:null,
-    category:"Personal",
-    active:true
-  },
-
-  {
-    id:"day-prepped",
-    name:"Have the day fully prepped",
-    points:5,
-    repeat:"daily",
-    dueTime:"",
-    dueDay:null,
-    category:"Work",
-    active:true
-  },
-
-  {
-    id:"meal-prep",
-    name:"Meal prep",
-    points:3,
-    repeat:"weekly",
-    dueTime:"",
-    dueDay:0,
-    category:"Personal",
-    active:true
-  },
-
-  {
-    id:"grocery-store",
-    name:"Grocery store",
-    points:3,
-    repeat:"weekly",
-    dueTime:"",
-    dueDay:0,
-    category:"Personal",
-    active:true
-  },
-
-  {
-    id:"laundry",
-    name:"Wash and put away laundry",
-    points:3,
-    repeat:"weekly",
-    dueTime:"",
-    dueDay:6,
-    category:"Home",
-    active:true
-  },
-
-  {
-    id:"clean-floors",
-    name:"Clean floors",
-    points:3,
-    repeat:"weekly",
-    dueTime:"",
-    dueDay:6,
-    category:"Home",
-    active:true
-  },
-
-  {
-    id:"next-week-prep",
-    name:"Have everything prepped for the following week",
-    points:3,
-    repeat:"weekly",
-    dueTime:"",
-    dueDay:0,
-    category:"Work",
-    active:true
-  }
-
+const defaultBonus=[
+{id:"on-time",name:"Arrive at work on time",points:1,days:[1,2,3,4,5],streakBonus:5,category:"Work",active:true}
 ];
 
-
-/* =========================================================
-   SAVE / LOAD
-========================================================= */
-
-let state =
-  JSON.parse(localStorage.getItem("wisconsinZooGameV3") || "null");
-
-if (!state) {
-
-  const oldState =
-    JSON.parse(localStorage.getItem("wisconsinZooGameV2") || "null");
-
-  const olderState =
-    JSON.parse(localStorage.getItem("wisconsinZooGame") || "null");
-
-  state = {
-
-    points:
-      oldState?.points ??
-      olderState?.trailPoints ??
-      0,
-
-    tasks:
-      oldState?.tasks ??
-      [],
-
-    recurring:
-      oldState?.recurring ??
-      defaultRecurringTasks,
-
-    history:
-      oldState?.history ??
-      [],
-
-    owned:
-      oldState?.owned ??
-      olderState?.ownedAnimals ??
-      []
-
+let state=JSON.parse(localStorage.getItem("wisconsinZooGameV4")||"null");
+if(!state){
+  const v3=JSON.parse(localStorage.getItem("wisconsinZooGameV3")||"null");
+  const v2=JSON.parse(localStorage.getItem("wisconsinZooGameV2")||"null");
+  const v1=JSON.parse(localStorage.getItem("wisconsinZooGame")||"null");
+  state={
+    points:v3?.points??v2?.points??v1?.trailPoints??0,
+    tasks:v3?.tasks??v2?.tasks??[],
+    routines:defaultRoutines,
+    bonus:defaultBonus,
+    history:v3?.history??v2?.history??[],
+    events:[],
+    owned:v3?.owned??v2?.owned??v1?.ownedAnimals??[],
+    awardedStreaks:[]
   };
-
 }
+state.tasks=state.tasks||[];state.routines=state.routines||defaultRoutines;state.bonus=state.bonus||defaultBonus;
+state.history=state.history||[];state.events=state.events||[];state.owned=state.owned||[];state.awardedStreaks=state.awardedStreaks||[];
+state.points=Number(state.points||0);
 
-state.tasks = state.tasks || [];
-state.recurring = state.recurring || defaultRecurringTasks;
-state.history = state.history || [];
-state.owned = state.owned || [];
-state.points = Number(state.points || 0);
+function saveState(){localStorage.setItem("wisconsinZooGameV4",JSON.stringify(state))}
+function esc(text){let d=document.createElement("div");d.textContent=text??"";return d.innerHTML}
+function dateKey(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function fromKey(k){return new Date(k+"T12:00:00")}
+function weekStart(k=todayKey()){let d=fromKey(k);d.setDate(d.getDate()-d.getDay());return dateKey(d)}
+function weekEnd(k=todayKey()){let d=fromKey(weekStart(k));d.setDate(d.getDate()+6);return dateKey(d)}
+function todayKey(){return dateKey(new Date())}
+function prettyDate(k){return fromKey(k).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}
+function formatTime(t){if(!t)return"";let [h,m]=t.split(":").map(Number),s=h>=12?"PM":"AM";return (h%12||12)+":"+String(m).padStart(2,"0")+" "+s}
+function showPage(id,btn){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");renderAll()}
+function openModal(html){document.getElementById("modalBox").innerHTML=html;document.getElementById("modal").classList.add("show")}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeModal()}
 
-function saveState() {
-
-  localStorage.setItem(
-    "wisconsinZooGameV3",
-    JSON.stringify(state)
-  );
-
+function routineHistory(r,date=todayKey()){
+  return state.history.find(h=>h.routineId===r.id && (r.type==="daily"?h.date===date:h.week===weekStart(date)));
 }
-
-
-/* =========================================================
-   DATE HELPERS
-========================================================= */
-
-function todayKey() {
-
-  const d = new Date();
-
-  return d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1).padStart(2,"0") +
-    "-" +
-    String(d.getDate()).padStart(2,"0");
-
+function bonusHistory(b,date=todayKey()){return state.history.find(h=>h.bonusId===b.id&&h.date===date)}
+function addHistory(item){state.history.push({id:"h-"+Date.now()+"-"+Math.random(),...item})}
+function toggleRoutine(id,date=todayKey()){
+  let r=state.routines.find(x=>x.id===id);if(!r)return;
+  let h=routineHistory(r,date);
+  if(h){state.points-=h.points;state.history=state.history.filter(x=>x.id!==h.id)}
+  else{state.points+=r.points;addHistory({name:r.name,points:r.points,date,week:r.type==="weekly"?weekStart(date):null,routineId:r.id,routineType:r.type,category:r.category})}
+  if(state.points<0)state.points=0;saveState();renderAll();
 }
-
-
-function dateObject(key) {
-
-  return new Date(key + "T12:00:00");
-
+function toggleBonus(id,date=todayKey()){
+  let b=state.bonus.find(x=>x.id===id);if(!b)return;
+  let h=bonusHistory(b,date);
+  if(h){state.points-=h.points;state.history=state.history.filter(x=>x.id!==h.id)}
+  else{state.points+=b.points;addHistory({name:b.name,points:b.points,date,bonusId:b.id,category:b.category})}
+  if(state.points<0)state.points=0;checkStreakBonuses();saveState();renderAll();
 }
-
-
-function weekStart(key) {
-
-  const d = dateObject(key);
-
-  d.setDate(d.getDate() - d.getDay());
-
-  return (
-    d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1).padStart(2,"0") +
-    "-" +
-    String(d.getDate()).padStart(2,"0")
-  );
-
-}
-
-
-function escapeHTML(text) {
-
-  const div = document.createElement("div");
-
-  div.textContent = text;
-
-  return div.innerHTML;
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showPage(id,button) {
-
-  document
-    .querySelectorAll(".page")
-    .forEach(page => page.classList.remove("active"));
-
-  document
-    .getElementById(id)
-    .classList.add("active");
-
-  document
-    .querySelectorAll("nav button")
-    .forEach(btn => btn.classList.remove("active"));
-
-  if(button) {
-    button.classList.add("active");
-  }
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(content) {
-
-  document.getElementById("modalBox").innerHTML = content;
-
-  document
-    .getElementById("modal")
-    .classList.add("show");
-
-}
-
-
-function closeModal() {
-
-  document
-    .getElementById("modal")
-    .classList.remove("show");
-
-}
-
-
-document
-  .getElementById("modal")
-  .addEventListener("click",function(event){
-
-    if(event.target.id === "modal") {
-      closeModal();
-    }
-
+function checkStreakBonuses(){
+  const ws=weekStart(),we=weekEnd();
+  state.bonus.filter(b=>b.active&&b.streakBonus>0).forEach(b=>{
+    let required=b.days.filter(d=>d>=0&&d<=6).map(day=>{let x=fromKey(ws);x.setDate(x.getDate()+day);return dateKey(x)});
+    let all=required.length>0 && required.every(k=>bonusHistory(b,k));
+    let key=b.id+"-"+ws;
+    let awarded=state.awardedStreaks.includes(key);
+    if(all&&!awarded){state.points+=b.streakBonus;state.awardedStreaks.push(key);addHistory({name:b.name+" — weekly streak bonus",points:b.streakBonus,date:we,bonusId:b.id,streak:true,category:b.category})}
   });
-
-
-/* =========================================================
-   TASK CREATION
-========================================================= */
-
-function openNewTaskModal() {
-
-  openModal(`
-
-    <h3>📝 Create a Task or Project</h3>
-
-    <label>
-      Task name
-      <input id="newTaskName"
-             placeholder="Create September Science Lesson Plans">
-    </label>
-
-    <br>
-
-    <div class="formrow">
-
-      <label>
-        Trail Points
-        <select id="newTaskPoints">
-          <option value="1">1 — Easy</option>
-          <option value="2">2 — Light</option>
-          <option value="3" selected>3 — Medium</option>
-          <option value="4">4 — Difficult</option>
-          <option value="5">5 — Very Difficult</option>
-        </select>
-      </label>
-
-      <label>
-        Due date
-        <input type="date"
-               id="newTaskDate"
-               value="${todayKey()}">
-      </label>
-
-    </div>
-
-    <br>
-
-    <b>Subtasks</b>
-
-    <p class="muted">
-      Trail Points are awarded only when every subtask is complete.
-      You can also leave the project without subtasks.
-    </p>
-
-    <div id="subtaskInputs"></div>
-
-    <button class="btn secondary"
-            onclick="addSubtaskInput()">
-      ＋ Add Subtask
-    </button>
-
-    <div class="row"
-         style="justify-content:flex-end;margin-top:20px">
-
-      <button class="btn secondary"
-              onclick="closeModal()">
-        Cancel
-      </button>
-
-      <button class="btn"
-              onclick="createTask()">
-        Create Task
-      </button>
-
-    </div>
-
-  `);
-
 }
 
+function openNewTaskModal(){
+  openModal(`<h3>📝 Create a Task or Project</h3>
+  <label>Task name<input id="tn" placeholder="Create September Science Lesson Plans"></label><br><br>
+  <div class="formrow"><label>Trail Points<select id="tp">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?"selected":""}>${n}</option>`).join("")}</select></label>
+  <label>Due date<input type="date" id="td" value="${todayKey()}"></label></div><br>
+  <b>Subtasks</b><p class="muted">You earn the Trail Points only after the whole task is complete.</p><div id="subtaskInputs"></div>
+  <button class="btn secondary" onclick="addSubInput()">＋ Add Subtask</button>
+  <div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="createTask()">Create Task</button></div>`);
+}
+function addSubInput(){let w=document.createElement("div");w.className="sub-input";w.innerHTML=`<input placeholder="Subtask"><button class="btn danger" onclick="this.parentElement.remove()">×</button>`;document.getElementById("subtaskInputs").appendChild(w)}
+function createTask(){
+  let name=document.getElementById("tn").value.trim();if(!name)return alert("Please enter a task name.");
+  let subs=[...document.querySelectorAll("#subtaskInputs input")].map(x=>x.value.trim()).filter(Boolean).map((name,i)=>({id:i,name,done:false}));
+  state.tasks.push({id:"t-"+Date.now(),name,points:+document.getElementById("tp").value,due:document.getElementById("td").value,subtasks:subs,done:false,completedAt:null});
+  saveState();closeModal();renderAll();
+}
+function toggleSub(tid,sid){let t=state.tasks.find(x=>x.id===tid),s=t?.subtasks.find(x=>x.id===sid);if(s){s.done=!s.done;saveState();renderAll()}}
+function toggleTask(id){
+  let t=state.tasks.find(x=>x.id===id);if(!t)return;
+  if(t.done){t.done=false;t.completedAt=null;state.points-=t.points;state.history=state.history.filter(h=>h.taskId!==t.id)}
+  else{if(t.subtasks.some(s=>!s.done))return alert("Complete every subtask before earning the Trail Points.");t.done=true;t.completedAt=todayKey();state.points+=t.points;addHistory({name:t.name,points:t.points,date:t.completedAt,taskId:t.id,category:"Task"})}
+  if(state.points<0)state.points=0;saveState();renderAll();
+}
+function deleteTask(id){if(confirm("Delete this task? Completed history will stay.")){state.tasks=state.tasks.filter(x=>x.id!==id);saveState();renderAll()}}
 
-function addSubtaskInput() {
-
-  const container =
-    document.getElementById("subtaskInputs");
-
-  const wrapper =
-    document.createElement("div");
-
-  wrapper.className = "sub-input";
-
-  wrapper.innerHTML = `
-
-    <input placeholder="Subtask">
-
-    <button class="btn danger"
-            onclick="this.parentElement.remove()">
-      ×
-    </button>
-
-  `;
-
-  container.appendChild(wrapper);
-
+function taskEl(t){
+  let d=document.createElement("div");d.className="task "+(t.done?"done":"");
+  let subs=t.subtasks?.length?`<div class="subtasks">${t.subtasks.map(s=>`<label class="sub"><input type="checkbox" ${s.done?"checked":""} onchange="toggleSub('${t.id}',${s.id})"><span>${esc(s.name)}</span></label>`).join("")}</div>`:"";
+  d.innerHTML=`<div class="task-main"><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask('${t.id}')"><span class="task-name">${esc(t.name)}</span>${t.subtasks?.length?`<span class="badge">${t.subtasks.filter(s=>s.done).length}/${t.subtasks.length}</span>`:""}<span class="pts">+${t.points} 🐾</span><button class="smallbtn" onclick="deleteTask('${t.id}')">×</button></div><div class="muted" style="margin-left:29px">Due ${prettyDate(t.due)}${t.completedAt?" · Completed "+prettyDate(t.completedAt):""}</div>${subs}`;
+  return d;
 }
 
+function renderTasks(){
+  let today=todayKey(),box=document.getElementById("todayTasks");box.innerHTML="";
+  let one=state.tasks.filter(t=>t.due===today||(!t.done&&t.due<today));
+  let daily=state.routines.filter(r=>r.active&&r.type==="daily");
+  if(!one.length&&!daily.length)box.innerHTML='<p class="muted">Nothing scheduled for today. 🎉</p>';
+  one.forEach(t=>box.appendChild(taskEl(t)));
+  daily.forEach(r=>box.appendChild(routineEl(r,today)));
 
-function createTask() {
+  let wbox=document.getElementById("weeklyTasks"),weekly=state.routines.filter(r=>r.active&&r.type==="weekly");wbox.innerHTML="";
+  weekly.forEach(r=>wbox.appendChild(routineEl(r,today)));
+  let wc=weekly.filter(r=>routineHistory(r,today)).length,wp=weekly.length?Math.round(wc/weekly.length*100):0;
+  document.getElementById("weekTaskText").textContent=`${wc} / ${weekly.length} completed`;document.getElementById("weekTaskPercent").textContent=wp+"%";document.getElementById("weekTaskFill").style.width=wp+"%";
+  document.getElementById("weekBadge").textContent=prettyDate(weekStart())+" – "+prettyDate(weekEnd());
 
-  const name =
-    document.getElementById("newTaskName")
-      .value
-      .trim();
-
-  if(!name) {
-
-    alert("Please enter a task name.");
-
-    return;
-
-  }
-
-  const points =
-    Number(
-      document.getElementById("newTaskPoints").value
-    );
-
-  const due =
-    document.getElementById("newTaskDate").value;
-
-  const subtasks =
-    [...document.querySelectorAll("#subtaskInputs input")]
-      .map(input => input.value.trim())
-      .filter(Boolean)
-      .map((name,index) => ({
-        id:index,
-        name:name,
-        done:false
-      }));
-
-  state.tasks.push({
-
-    id:"task-" + Date.now(),
-
-    name:name,
-
-    points:points,
-
-    due:due,
-
-    subtasks:subtasks,
-
-    done:false,
-
-    completedAt:null
-
-  });
-
-  saveState();
-
-  closeModal();
-
-  renderAll();
-
+  let bbox=document.getElementById("bonusGoals");bbox.innerHTML="";
+  let dow=new Date().getDay();
+  state.bonus.filter(b=>b.active&&b.days.includes(dow)).forEach(b=>bbox.appendChild(bonusEl(b,today)));
+  if(!bbox.children.length)bbox.innerHTML='<p class="muted">No bonus goals scheduled for today.</p>';
+}
+function routineEl(r,date){
+  let h=routineHistory(r,date),d=document.createElement("div");d.className="task "+(h?"done":"");
+  d.innerHTML=`<div class="task-main"><input type="checkbox" ${h?"checked":""} onchange="toggleRoutine('${r.id}','${date}')"><span class="task-name">${esc(r.name)}</span><span class="badge ${r.type}">${r.type}</span><span class="pts">+${r.points} 🐾</span></div><div class="muted" style="margin-left:29px">${esc(r.category||"General")}${r.dueTime?" · Due by "+formatTime(r.dueTime):""}${h&&r.type==="weekly"?" · Completed "+prettyDate(h.date):""}</div>`;
+  return d;
+}
+function bonusEl(b,date){
+  let h=bonusHistory(b,date),d=document.createElement("div");d.className="task "+(h?"done":"");
+  d.innerHTML=`<div class="task-main"><input type="checkbox" ${h?"checked":""} onchange="toggleBonus('${b.id}','${date}')"><span class="task-name">${esc(b.name)}</span><span class="badge bonus">bonus</span><span class="pts">+${b.points} 🐾</span></div><div class="muted" style="margin-left:29px">${esc(b.category||"Bonus")}${b.streakBonus?` · Weekly streak bonus: +${b.streakBonus}`:""}</div>`;
+  return d;
 }
 
+function openRoutineModal(type,id=null){
+  let r=id?state.routines.find(x=>x.id===id):null;
+  openModal(`<h3>${r?"⚙️ Edit":"＋ Add"} ${type==="daily"?"Daily":"Weekly"} Task</h3>
+    <label>Name<input id="rn" value="${esc(r?.name||"")}"></label><br><br>
+    <div class="formrow"><label>Trail Points<select id="rp">${[1,2,3,4,5].map(n=>`<option value="${n}" ${(r?.points||3)===n?"selected":""}>${n}</option>`).join("")}</select></label>
+    <label>Category<input id="rc" value="${esc(r?.category||"")}"></label></div>
+    ${type==="daily"?`<br><label>Optional due time<input type="time" id="rt" value="${r?.dueTime||""}"></label>`:""}
+    <div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveRoutine('${type}','${id||""}')">Save</button></div>`);
+}
+function saveRoutine(type,id){
+  let name=document.getElementById("rn").value.trim();if(!name)return alert("Please enter a name.");
+  let r=id?state.routines.find(x=>x.id===id):null;
+  if(!r){r={id:"r-"+Date.now(),type,active:true};state.routines.push(r)}
+  r.name=name;r.points=+document.getElementById("rp").value;r.category=document.getElementById("rc").value.trim()||"General";r.active=true;
+  if(type==="daily")r.dueTime=document.getElementById("rt").value;
+  saveState();closeModal();renderAll();
+}
+function toggleRoutineActive(id){let r=state.routines.find(x=>x.id===id);if(r){r.active=!r.active;saveState();renderAll()}}
+function deleteRoutine(id){if(confirm("Delete this routine? Past history will remain.")){state.routines=state.routines.filter(x=>x.id!==id);saveState();renderAll()}}
 
-/* =========================================================
-   TASK COMPLETION
-========================================================= */
+function openBonusModal(id=null){
+  let b=id?state.bonus.find(x=>x.id===id):null,days=b?.days||[1,2,3,4,5];
+  openModal(`<h3>${b?"⚙️ Edit":"＋ Add"} Bonus Goal</h3>
+    <label>Name<input id="bn" value="${esc(b?.name||"")}"></label><br><br>
+    <div class="formrow"><label>Points each time<select id="bp">${[1,2,3,4,5].map(n=>`<option value="${n}" ${(b?.points||1)===n?"selected":""}>${n}</option>`).join("")}</select></label>
+    <label>Weekly streak bonus<input type="number" min="0" id="bs" value="${b?.streakBonus??0}"></label></div><br>
+    <label>Category<input id="bc" value="${esc(b?.category||"")}"></label><br><br>
+    <b>Active days</b><div class="day-picker">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((x,i)=>`<label><input type="checkbox" class="bday" value="${i}" ${days.includes(i)?"checked":""}> ${x}</label>`).join("")}</div>
+    <div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveBonus('${id||""}')">Save</button></div>`);
+}
+function saveBonus(id){
+  let name=document.getElementById("bn").value.trim();if(!name)return alert("Please enter a name.");
+  let b=id?state.bonus.find(x=>x.id===id):null;if(!b){b={id:"b-"+Date.now(),active:true};state.bonus.push(b)}
+  b.name=name;b.points=+document.getElementById("bp").value;b.streakBonus=Math.max(0,+document.getElementById("bs").value||0);
+  b.category=document.getElementById("bc").value.trim()||"Bonus";b.days=[...document.querySelectorAll(".bday:checked")].map(x=>+x.value);b.active=true;
+  saveState();closeModal();renderAll();
+}
+function toggleBonusActive(id){let b=state.bonus.find(x=>x.id===id);if(b){b.active=!b.active;saveState();renderAll()}}
+function deleteBonus(id){if(confirm("Delete this bonus goal? Past history will remain.")){state.bonus=state.bonus.filter(x=>x.id!==id);saveState();renderAll()}}
 
-function toggleSubtask(taskId,subtaskId) {
-
-  const task =
-    state.tasks.find(task => task.id === taskId);
-
-  if(!task) return;
-
-  const subtask =
-    task.subtasks.find(sub => sub.id === subtaskId);
-
-  if(!subtask) return;
-
-  subtask.done = !subtask.done;
-
-  saveState();
-
-  renderAll();
-
+function renderRoutines(){
+  const row=(r,type)=>`<div class="task"><div class="task-main"><span class="task-name">${esc(r.name)}</span><span class="badge ${type}">${r.active?"active":"paused"}</span><span class="pts">${r.points} 🐾</span><button class="btn secondary" onclick="openRoutineModal('${type}','${r.id}')">Edit</button><button class="btn secondary" onclick="toggleRoutineActive('${r.id}')">${r.active?"Pause":"Resume"}</button><button class="smallbtn" onclick="deleteRoutine('${r.id}')">×</button></div><div class="muted">${esc(r.category||"General")}${r.dueTime?" · "+formatTime(r.dueTime):""}</div></div>`;
+  document.getElementById("manageDaily").innerHTML=state.routines.filter(r=>r.type==="daily").map(r=>row(r,"daily")).join("");
+  document.getElementById("manageWeekly").innerHTML=state.routines.filter(r=>r.type==="weekly").map(r=>row(r,"weekly")).join("");
+  document.getElementById("manageBonus").innerHTML=state.bonus.map(b=>`<div class="task"><div class="task-main"><span class="task-name">${esc(b.name)}</span><span class="badge bonus">${b.active?"active":"paused"}</span><span class="pts">${b.points} 🐾</span><button class="btn secondary" onclick="openBonusModal('${b.id}')">Edit</button><button class="btn secondary" onclick="toggleBonusActive('${b.id}')">${b.active?"Pause":"Resume"}</button><button class="smallbtn" onclick="deleteBonus('${b.id}')">×</button></div><div class="muted">${esc(b.category||"Bonus")} · Days: ${b.days.map(i=>["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][i]).join(", ")}${b.streakBonus?` · Streak +${b.streakBonus}`:""}</div></div>`).join("");
 }
 
-
-function toggleTask(taskId) {
-
-  const task =
-    state.tasks.find(task => task.id === taskId);
-
-  if(!task) return;
-
-
-  if(task.done) {
-
-    task.done = false;
-
-    task.completedAt = null;
-
-    state.points -= task.points;
-
-    state.history =
-      state.history.filter(
-        history =>
-          history.taskId !== task.id
-      );
-
-  }
-
-  else {
-
-    if(
-      task.subtasks.length > 0 &&
-      task.subtasks.some(sub => !sub.done)
-    ) {
-
-      alert(
-        "Complete every subtask before earning the Trail Points."
-      );
-
-      return;
-
-    }
-
-    task.done = true;
-
-    task.completedAt = todayKey();
-
-    state.points += task.points;
-
-    state.history.push({
-
-      id:"history-" + Date.now(),
-
-      name:task.name,
-
-      points:task.points,
-
-      date:todayKey(),
-
-      taskId:task.id,
-
-      category:"Task"
-
-    });
-
-  }
-
-
-  if(state.points < 0) {
-    state.points = 0;
-  }
-
-  saveState();
-
-  renderAll();
-
+function openEventModal(id=null,date=todayKey()){
+  let e=id?state.events.find(x=>x.id===id):null;
+  openModal(`<h3>${e?"⚙️ Edit":"📅 Add"} Calendar Event</h3>
+  <label>Event name<input id="en" value="${esc(e?.name||"")}"></label><br><br>
+  <div class="formrow"><label>Date<input type="date" id="ed" value="${e?.date||date}"></label><label>Time (optional)<input type="time" id="et" value="${e?.time||""}"></label></div><br>
+  <div class="formrow"><label>Category<input id="ec" value="${esc(e?.category||"")} " placeholder="Birthday, Holiday, School..."></label>
+  <label>Repeats<select id="er"><option value="none" ${e?.repeat!=="yearly"?"selected":""}>Does not repeat</option><option value="yearly" ${e?.repeat==="yearly"?"selected":""}>Yearly</option></select></label></div><br>
+  <label>Notes<textarea id="notes" rows="3">${esc(e?.notes||"")}</textarea></label>
+  <div class="row" style="justify-content:flex-end;margin-top:20px">${e?`<button class="btn danger" onclick="deleteEvent('${e.id}')">Delete</button>`:""}<button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveEvent('${id||""}')">Save</button></div>`);
 }
-
-
-function deleteTask(taskId) {
-
-  if(
-    !confirm(
-      "Delete this task? Completed history will remain."
-    )
-  ) return;
-
-  state.tasks =
-    state.tasks.filter(
-      task => task.id !== taskId
-    );
-
-  saveState();
-
-  renderAll();
-
+function saveEvent(id){
+  let name=document.getElementById("en").value.trim();if(!name)return alert("Please enter an event name.");
+  let e=id?state.events.find(x=>x.id===id):null;if(!e){e={id:"e-"+Date.now()};state.events.push(e)}
+  e.name=name;e.date=document.getElementById("ed").value;e.time=document.getElementById("et").value;e.category=document.getElementById("ec").value.trim()||"Event";
+  e.repeat=document.getElementById("er").value;e.notes=document.getElementById("notes").value.trim();saveState();closeModal();renderAll();
 }
-
-
-/* =========================================================
-   RECURRING TASKS
-========================================================= */
-
-function openRecurringModal(id=null) {
-
-  const existing =
-    id
-      ? state.recurring.find(task => task.id === id)
-      : null;
-
-  const editing = !!existing;
-
-  const name =
-    existing?.name || "";
-
-  const points =
-    existing?.points || 3;
-
-  const repeat =
-    existing?.repeat || "daily";
-
-  const dueTime =
-    existing?.dueTime || "";
-
-  const dueDay =
-    existing?.dueDay ?? 0;
-
-  const category =
-    existing?.category || "";
-
-
-  openModal(`
-
-    <h3>
-      ${editing
-        ? "⚙️ Edit Recurring Task"
-        : "🔄 Add Recurring Task"}
-    </h3>
-
-    <label>
-      Task name
-      <input id="recName"
-             value="${escapeHTML(name)}"
-             placeholder="Example: Plan next week">
-    </label>
-
-    <br>
-
-    <div class="formrow">
-
-      <label>
-        Trail Points
-        <select id="recPoints">
-
-          ${[1,2,3,4,5].map(n => `
-            <option value="${n}"
-              ${points === n ? "selected" : ""}>
-              ${n}
-            </option>
-          `).join("")}
-
-        </select>
-      </label>
-
-      <label>
-        Repeats
-        <select id="recRepeat"
-                onchange="updateRecurringForm()">
-
-          <option value="daily"
-            ${repeat==="daily"?"selected":""}>
-            Daily
-          </option>
-
-          <option value="weekly"
-            ${repeat==="weekly"?"selected":""}>
-            Weekly
-          </option>
-
-        </select>
-      </label>
-
-    </div>
-
-    <br>
-
-    <div id="weeklyDayBox">
-
-      <label>
-        Weekly due day
-
-        <select id="recDay">
-
-          ${[
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-          ].map((day,index)=>`
-
-            <option value="${index}"
-              ${dueDay === index ? "selected" : ""}>
-              ${day}
-            </option>
-
-          `).join("")}
-
-        </select>
-
-      </label>
-
-      <br>
-
-    </div>
-
-
-    <label>
-      Due time
-      <input type="time"
-             id="recTime"
-             value="${dueTime}">
-    </label>
-
-    <br><br>
-
-    <label>
-      Category
-      <input id="recCategory"
-             value="${escapeHTML(category)}"
-             placeholder="School, Home, Personal, Faith...">
-    </label>
-
-    <br><br>
-
-    <div class="row"
-         style="justify-content:flex-end">
-
-      <button class="btn secondary"
-              onclick="closeModal()">
-        Cancel
-      </button>
-
-      <button class="btn"
-              onclick="${editing
-                ? `saveRecurringEdit('${id}')`
-                : "createRecurringTask()"}">
-        ${editing ? "Save Changes" : "Add Task"}
-      </button>
-
-    </div>
-
-  `);
-
-  updateRecurringForm();
-
-}
-
-
-function updateRecurringForm() {
-
-  const repeat =
-    document.getElementById("recRepeat").value;
-
-  document.getElementById("weeklyDayBox").style.display =
-    repeat === "weekly"
-      ? "block"
-      : "none";
-
-}
-
-
-function createRecurringTask() {
-
-  const name =
-    document.getElementById("recName")
-      .value
-      .trim();
-
-  if(!name) {
-
-    alert("Please enter a task name.");
-
-    return;
-
-  }
-
-  state.recurring.push({
-
-    id:"rec-" + Date.now(),
-
-    name:name,
-
-    points:
-      Number(
-        document.getElementById("recPoints").value
-      ),
-
-    repeat:
-      document.getElementById("recRepeat").value,
-
-    dueDay:
-      Number(
-        document.getElementById("recDay").value
-      ),
-
-    dueTime:
-      document.getElementById("recTime").value,
-
-    category:
-      document.getElementById("recCategory").value.trim()
-      || "General",
-
-    active:true
-
-  });
-
-  saveState();
-
-  closeModal();
-
-  renderAll();
-
-}
-
-
-function saveRecurringEdit(id) {
-
-  const task =
-    state.recurring.find(
-      task => task.id === id
-    );
-
-  if(!task) return;
-
-  const name =
-    document.getElementById("recName")
-      .value
-      .trim();
-
-  if(!name) {
-
-    alert("Please enter a task name.");
-
-    return;
-
-  }
-
-  task.name = name;
-
-  task.points =
-    Number(
-      document.getElementById("recPoints").value
-    );
-
-  task.repeat =
-    document.getElementById("recRepeat").value;
-
-  task.dueDay =
-    Number(
-      document.getElementById("recDay").value
-    );
-
-  task.dueTime =
-    document.getElementById("recTime").value;
-
-  task.category =
-    document.getElementById("recCategory").value.trim()
-    || "General";
-
-  saveState();
-
-  closeModal();
-
-  renderAll();
-
-}
-
-
-function removeRecurringTask(id) {
-
-  if(
-    !confirm(
-      "Remove this recurring task? Previous completed history will stay."
-    )
-  ) return;
-
-  const task =
-    state.recurring.find(
-      task => task.id === id
-    );
-
-  if(!task) return;
-
-  task.active = false;
-
-  saveState();
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   RECURRING INSTANCE LOGIC
-========================================================= */
-
-function recurringAppliesOnDate(task,dateKey) {
-
-  if(!task.active) {
-    return false;
-  }
-
-  const date =
-    dateObject(dateKey);
-
-  if(task.repeat === "daily") {
-    return true;
-  }
-
-  if(task.repeat === "weekly") {
-    return date.getDay() === task.dueDay;
-  }
-
-  return false;
-
-}
-
-
-function recurringHistoryExists(task,dateKey) {
-
-  return state.history.some(
-    history =>
-      history.recurringId === task.id &&
-      history.date === dateKey
-  );
-
-}
-
-
-function toggleRecurringTask(taskId,dateKey) {
-
-  const task =
-    state.recurring.find(
-      task => task.id === taskId
-    );
-
-  if(!task) return;
-
-
-  const existing =
-    state.history.find(
-      history =>
-        history.recurringId === task.id &&
-        history.date === dateKey
-    );
-
-
-  if(existing) {
-
-    state.points -= existing.points;
-
-    state.history =
-      state.history.filter(
-        history => history !== existing
-      );
-
-  }
-
-  else {
-
-    state.points += task.points;
-
-    state.history.push({
-
-      id:"history-" + Date.now(),
-
-      name:task.name,
-
-      points:task.points,
-
-      date:dateKey,
-
-      recurringId:task.id,
-
-      category:task.category
-
-    });
-
-  }
-
-
-  if(state.points < 0) {
-    state.points = 0;
-  }
-
-  saveState();
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   TODAY'S TASKS
-========================================================= */
-
-function renderTodayTasks() {
-
-  const container =
-    document.getElementById("todayTasks");
-
-  container.innerHTML = "";
-
-  const today =
-    todayKey();
-
-
-  const oneTimeTasks =
-    state.tasks.filter(
-      task =>
-        task.due === today ||
-        (!task.done && task.due < today)
-    );
-
-
-  const recurring =
-    state.recurring.filter(
-      task =>
-        recurringAppliesOnDate(task,today)
-    );
-
-
-  if(
-    oneTimeTasks.length === 0 &&
-    recurring.length === 0
-  ) {
-
-    container.innerHTML =
-      `<p class="muted">
-        No tasks for today. 🎉
-      </p>`;
-
-  }
-
-
-  oneTimeTasks.forEach(task => {
-
-    container.appendChild(
-      createTaskElement(task)
-    );
-
-  });
-
-
-  recurring.forEach(task => {
-
-    const completed =
-      recurringHistoryExists(
-        task,
-        today
-      );
-
-    const wrapper =
-      document.createElement("div");
-
-    wrapper.className =
-      "task " +
-      (completed ? "done" : "");
-
-
-    wrapper.innerHTML = `
-
-      <div class="task-main">
-
-        <input
-          type="checkbox"
-          ${completed ? "checked" : ""}
-          onchange="
-            toggleRecurringTask(
-              '${task.id}',
-              '${today}'
-            )
-          "
-        >
-
-        <span class="task-name">
-          ${escapeHTML(task.name)}
-        </span>
-
-        <span class="badge rec">
-          ${task.repeat}
-        </span>
-
-        <span class="pts">
-          +${task.points} 🐾
-        </span>
-
-      </div>
-
-      <div class="muted"
-           style="margin-left:29px">
-
-        ${task.dueTime
-          ? "Due by " + formatTime(task.dueTime) + " · "
-          : ""}
-
-        ${escapeHTML(task.category)}
-
-      </div>
-
-    `;
-
-    container.appendChild(wrapper);
-
-  });
-
-}
-
-
-function createTaskElement(task) {
-
-  const wrapper =
-    document.createElement("div");
-
-  wrapper.className =
-    "task " +
-    (task.done ? "done" : "");
-
-
-  const completedSubs =
-    task.subtasks.filter(
-      sub => sub.done
-    ).length;
-
-
-  const subtasksHTML =
-    task.subtasks.length
-      ? `
-
-        <div class="subtasks">
-
-          ${task.subtasks.map(sub => `
-
-            <label class="sub">
-
-              <input
-                type="checkbox"
-                ${sub.done ? "checked" : ""}
-                onchange="
-                  toggleSubtask(
-                    '${task.id}',
-                    ${sub.id}
-                  )
-                "
-              >
-
-              <span>
-                ${escapeHTML(sub.name)}
-              </span>
-
-            </label>
-
-          `).join("")}
-
-        </div>
-
-      `
-      : "";
-
-
-  wrapper.innerHTML = `
-
-    <div class="task-main">
-
-      <input
-        type="checkbox"
-        ${task.done ? "checked" : ""}
-        onchange="
-          toggleTask('${task.id}')
-        "
-      >
-
-      <span class="task-name">
-        ${escapeHTML(task.name)}
-      </span>
-
-      ${
-        task.subtasks.length
-          ? `<span class="badge project">
-              ${completedSubs}/${task.subtasks.length}
-            </span>`
-          : ""
-      }
-
-      <span class="pts">
-        +${task.points} 🐾
-      </span>
-
-      <button
-        class="smallbtn"
-        onclick="
-          deleteTask('${task.id}')
-        ">
-        ×
-      </button>
-
-    </div>
-
-    <div class="muted"
-         style="margin-left:29px">
-
-      Due ${task.due}
-
-      ${
-        task.completedAt
-          ? " · Completed " + task.completedAt
-          : ""
-      }
-
-    </div>
-
-    ${subtasksHTML}
-
-  `;
-
-  return wrapper;
-
-}
-
-
-/* =========================================================
-   RECURRING TASK MANAGEMENT DISPLAY
-========================================================= */
-
-function renderRecurringTasks() {
-
-  const container =
-    document.getElementById("recurringTasks");
-
-  container.innerHTML = "";
-
-
-  const active =
-    state.recurring.filter(
-      task => task.active
-    );
-
-
-  const inactive =
-    state.recurring.filter(
-      task => !task.active
-    );
-
-
-  active.forEach(task => {
-
-    const wrapper =
-      document.createElement("div");
-
-    wrapper.className = "task";
-
-
-    let schedule =
-      task.repeat === "daily"
-        ? "Every day"
-        : "Every " +
-          [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-          ][task.dueDay];
-
-
-    if(task.dueTime) {
-
-      schedule +=
-        " · Due by " +
-        formatTime(task.dueTime);
-
-    }
-
-
-    wrapper.innerHTML = `
-
-      <div class="task-main">
-
-        <span class="task-name">
-          ${escapeHTML(task.name)}
-        </span>
-
-        <span class="badge rec">
-          ${schedule}
-        </span>
-
-        <span class="pts">
-          ${task.points} 🐾
-        </span>
-
-        <button
-          class="btn secondary"
-          onclick="
-            openRecurringModal('${task.id}')
-          ">
-          Edit
-        </button>
-
-        <button
-          class="smallbtn"
-          onclick="
-            removeRecurringTask('${task.id}')
-          ">
-          ×
-        </button>
-
-      </div>
-
-      <div class="muted"
-           style="margin-left:29px">
-
-        ${escapeHTML(task.category)}
-
-      </div>
-
-    `;
-
-    container.appendChild(wrapper);
-
-  });
-
-
-  if(inactive.length) {
-
-    const heading =
-      document.createElement("p");
-
-    heading.className = "muted";
-
-    heading.style.marginTop = "25px";
-
-    heading.textContent =
-      "Inactive recurring tasks";
-
-    container.appendChild(heading);
-
-
-    inactive.forEach(task => {
-
-      const wrapper =
-        document.createElement("div");
-
-      wrapper.className = "task";
-
-      wrapper.innerHTML = `
-
-        <div class="task-main">
-
-          <span
-            class="task-name"
-            style="color:#aaa">
-
-            ${escapeHTML(task.name)}
-
-          </span>
-
-          <span class="badge">
-            Inactive
-          </span>
-
-          <button
-            class="btn secondary"
-            onclick="
-              reactivateRecurring('${task.id}')
-            ">
-            Reactivate
-          </button>
-
-        </div>
-
-      `;
-
-      container.appendChild(wrapper);
-
-    });
-
-  }
-
-}
-
-
-function reactivateRecurring(id) {
-
-  const task =
-    state.recurring.find(
-      task => task.id === id
-    );
-
-  if(!task) return;
-
-  task.active = true;
-
-  saveState();
-
-  renderAll();
-
-}
-
-
-function formatTime(time) {
-
-  if(!time) return "";
-
-  const [hour,minute] =
-    time.split(":").map(Number);
-
-  const suffix =
-    hour >= 12 ? "PM" : "AM";
-
-  const displayHour =
-    hour % 12 || 12;
-
-  return displayHour +
-    ":" +
-    String(minute).padStart(2,"0") +
-    " " +
-    suffix;
-
-}
-
-
-/* =========================================================
-   CALENDAR
-========================================================= */
-
-let calendarDate = new Date();
-
-
-function changeMonth(amount) {
-
-  calendarDate.setMonth(
-    calendarDate.getMonth() + amount
-  );
-
-  renderCalendar();
-
-}
-
-
-function goToToday() {
-
-  calendarDate = new Date();
-
-  renderCalendar();
-
-}
-
-
-function renderCalendar() {
-
-  const year =
-    calendarDate.getFullYear();
-
-  const month =
-    calendarDate.getMonth();
-
-
-  document.getElementById(
-    "calendarMonth"
-  ).textContent =
-    calendarDate.toLocaleDateString(
-      "en-US",
-      {
-        month:"long",
-        year:"numeric"
-      }
-    );
-
-
-  const grid =
-    document.getElementById(
-      "calendarGrid"
-    );
-
-
-  grid.innerHTML = `
-
-    ${[
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat"
-    ].map(day =>
-      `<div class="dow">${day}</div>`
-    ).join("")}
-
-  `;
-
-
-  const first =
-    new Date(
-      year,
-      month,
-      1
-    );
-
-
-  const start =
-    new Date(first);
-
-  start.setDate(
-    start.getDate() -
-    first.getDay()
-  );
-
-
-  for(let i=0;i<42;i++) {
-
-    const current =
-      new Date(start);
-
-    current.setDate(
-      start.getDate() + i
-    );
-
-
-    const key =
-      current.getFullYear() +
-      "-" +
-      String(
-        current.getMonth()+1
-      ).padStart(2,"0") +
-      "-" +
-      String(
-        current.getDate()
-      ).padStart(2,"0");
-
-
-    const cell =
-      document.createElement("div");
-
-    cell.className =
-      "day " +
-      (
-        current.getMonth() !== month
-          ? "other "
-          : ""
-      ) +
-      (
-        key === todayKey()
-          ? "today"
-          : ""
-      );
-
-
-    cell.innerHTML =
-      `<div class="daynum">
-        ${current.getDate()}
-      </div>`;
-
-
-    state.tasks
-      .filter(task => task.due === key)
-      .forEach(task => {
-
-        cell.innerHTML += `
-
-          <div
-            class="calitem ${
-              task.done ? "done" : ""
-            }">
-
-            🌲
-            ${escapeHTML(task.name)}
-
-          </div>
-
-        `;
-
-      });
-
-
-    state.recurring
-      .filter(task =>
-        recurringAppliesOnDate(
-          task,
-          key
-        )
-      )
-      .forEach(task => {
-
-        const completed =
-          recurringHistoryExists(
-            task,
-            key
-          );
-
-
-        cell.innerHTML += `
-
-          <div
-            class="calitem ${
-              completed ? "done" : ""
-            }">
-
-            🔄
-            ${escapeHTML(task.name)}
-
-          </div>
-
-        `;
-
-      });
-
-
+function deleteEvent(id){if(confirm("Delete this calendar event?")){state.events=state.events.filter(x=>x.id!==id);saveState();closeModal();renderAll()}}
+function eventApplies(e,key){if(e.repeat==="yearly")return e.date.slice(5)===key.slice(5);return e.date===key}
+
+let calendarDate=new Date();
+function changeMonth(n){calendarDate.setMonth(calendarDate.getMonth()+n);renderCalendar()}
+function goToToday(){calendarDate=new Date();renderCalendar()}
+function renderCalendar(){
+  let y=calendarDate.getFullYear(),m=calendarDate.getMonth(),grid=document.getElementById("calendarGrid");
+  document.getElementById("calendarMonth").textContent=calendarDate.toLocaleDateString("en-US",{month:"long",year:"numeric"});
+  grid.innerHTML=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(x=>`<div class="dow">${x}</div>`).join("");
+  let first=new Date(y,m,1),start=new Date(first);start.setDate(start.getDate()-first.getDay());
+  for(let i=0;i<42;i++){
+    let d=new Date(start);d.setDate(start.getDate()+i);let key=dateKey(d),cell=document.createElement("div");
+    cell.className="day "+(d.getMonth()!==m?"other ":"")+(key===todayKey()?"today":"");cell.onclick=()=>openEventModal(null,key);cell.innerHTML=`<div class="daynum">${d.getDate()}</div>`;
+    state.events.filter(e=>eventApplies(e,key)).forEach(e=>cell.innerHTML+=`<div class="calitem event" onclick="event.stopPropagation();openEventModal('${e.id}')">📅 ${esc(e.name)}</div>`);
+    state.tasks.filter(t=>t.due===key).forEach(t=>cell.innerHTML+=`<div class="calitem ${t.done?"done":""}">🌲 ${esc(t.name)}</div>`);
+    state.routines.filter(r=>r.active&&r.type==="daily").forEach(r=>cell.innerHTML+=`<div class="calitem ${routineHistory(r,key)?"done":""}">🔄 ${esc(r.name)}</div>`);
+    let ws=weekStart(key);
+    if(d.getDay()===0)state.routines.filter(r=>r.active&&r.type==="weekly").forEach(r=>cell.innerHTML+=`<div class="calitem weekly ${routineHistory(r,key)?"done":""}">🌲 Weekly: ${esc(r.name)}</div>`);
+    let dow=d.getDay();state.bonus.filter(b=>b.active&&b.days.includes(dow)).forEach(b=>cell.innerHTML+=`<div class="calitem bonus ${bonusHistory(b,key)?"done":""}">✨ ${esc(b.name)}</div>`);
     grid.appendChild(cell);
-
   }
-
 }
 
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function renderHistory() {
-
-  const container =
-    document.getElementById(
-      "historyList"
-    );
-
-
-  const search =
-    (
-      document.getElementById(
-        "historySearch"
-      )?.value || ""
-    ).toLowerCase();
-
-
-  const filter =
-    document.getElementById(
-      "historyFilter"
-    )?.value || "all";
-
-
-  let history =
-    [...state.history]
-      .sort(
-        (a,b) =>
-          b.date.localeCompare(a.date)
-      );
-
-
-  history =
-    history.filter(item =>
-      item.name
-        .toLowerCase()
-        .includes(search)
-    );
-
-
-  if(filter === "recurring") {
-
-    history =
-      history.filter(
-        item => item.recurringId
-      );
-
-  }
-
-
-  if(filter === "projects") {
-
-    history =
-      history.filter(item => {
-
-        if(!item.taskId) {
-          return false;
-        }
-
-        const task =
-          state.tasks.find(
-            task =>
-              task.id === item.taskId
-          );
-
-        return task?.subtasks?.length > 0;
-
-      });
-
-  }
-
-
-  if(history.length === 0) {
-
-    container.innerHTML =
-      `<p class="muted">
-        No matching completed tasks.
-      </p>`;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    history.map(item => `
-
-      <div class="task">
-
-        <div class="task-main">
-
-          <span class="task-name">
-            ${escapeHTML(item.name)}
-          </span>
-
-          <span class="pts">
-            +${item.points} 🐾
-          </span>
-
-        </div>
-
-        <div class="muted"
-             style="margin-left:0">
-
-          Completed ${item.date}
-
-          ·
-
-          ${
-            item.recurringId
-              ? "Recurring"
-              : item.category || "Task"
-          }
-
-        </div>
-
-      </div>
-
-    `).join("");
-
+function renderHistory(){
+  let q=(document.getElementById("historySearch")?.value||"").toLowerCase(),f=document.getElementById("historyFilter")?.value||"all",box=document.getElementById("historyList");
+  let h=[...state.history].sort((a,b)=>b.date.localeCompare(a.date)).filter(x=>x.name.toLowerCase().includes(q));
+  if(f==="recurring")h=h.filter(x=>x.routineId);if(f==="bonus")h=h.filter(x=>x.bonusId);
+  if(f==="projects")h=h.filter(x=>x.taskId&&state.tasks.find(t=>t.id===x.taskId)?.subtasks?.length);
+  box.innerHTML=h.length?h.map(x=>`<div class="task"><div class="task-main"><span class="task-name">${esc(x.name)}</span><span class="pts">+${x.points} 🐾</span></div><div class="muted">Completed ${prettyDate(x.date)} · ${x.streak?"Streak bonus":x.bonusId?"Bonus goal":x.routineType?x.routineType+" recurring":"Task"}</div></div>`).join(""):'<p class="muted">No matching completed items.</p>';
 }
 
+function renderHome(){
+  let now=new Date(),g=now.getHours()<12?"Good morning!":now.getHours()<18?"Good afternoon!":"Good evening!";
+  document.getElementById("greeting").textContent=g+" Welcome to your zoo!";document.getElementById("currentDate").textContent=now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+  document.getElementById("points").textContent=state.points;document.getElementById("homePoints").textContent=state.points;document.getElementById("homeAnimals").textContent=state.owned.length;
+  let lv=Math.floor(state.points/100)+1,cur=state.points%100,names=["Junior Explorer","Wildlife Helper","Trail Explorer","Wildlife Ranger","Senior Ranger","Wildlife Expert","Master Naturalist"];
+  document.getElementById("homeLevel").textContent=lv;document.getElementById("rangerLevel").textContent=lv;document.getElementById("rangerTitle").textContent=names[Math.min(lv-1,names.length-1)];
+  document.getElementById("levelProgressText").textContent=`${cur} / 100`;document.getElementById("levelProgressFill").style.width=cur+"%";
 
-/* =========================================================
-   ZOO
-========================================================= */
+  let today=todayKey(),dow=new Date().getDay(),regular=state.tasks.filter(t=>t.due===today),daily=state.routines.filter(r=>r.active&&r.type==="daily"),bon=state.bonus.filter(b=>b.active&&b.days.includes(dow));
+  let total=regular.length+daily.length+bon.length,done=regular.filter(t=>t.done).length+daily.filter(r=>routineHistory(r,today)).length+bon.filter(b=>bonusHistory(b,today)).length,p=total?Math.round(done/total*100):0;
+  document.getElementById("todayProgressText").textContent=`${done} / ${total} completed`;document.getElementById("todayPercent").textContent=p+"%";document.getElementById("todayProgressFill").style.width=p+"%";
 
-function renderZoo() {
-
-  const habitats = [
-    "Wisconsin Forest",
-    "Rivers & Lakes",
-    "Prairie & Meadow",
-    "Wetlands"
-  ];
-
-
-  const container =
-    document.getElementById(
-      "habitats"
-    );
-
-
-  container.innerHTML = "";
-
-
-  habitats.forEach(habitat => {
-
-    const collected =
-      state.owned
-        .map(
-          id =>
-            animals.find(
-              animal =>
-                animal.id === id
-            )
-        )
-        .filter(
-          animal =>
-            animal &&
-            animal.habitat === habitat
-        );
-
-
-    const emoji =
-      habitat === "Wisconsin Forest"
-        ? "🌲"
-        : habitat === "Rivers & Lakes"
-          ? "💧"
-          : habitat === "Prairie & Meadow"
-            ? "🌾"
-            : "🌿";
-
-
-    container.innerHTML += `
-
-      <div class="zoohab">
-
-        <div class="zoohead">
-
-          <h3>
-            ${emoji}
-            ${habitat}
-          </h3>
-
-        </div>
-
-        <div class="zoobody">
-
-          ${
-            collected.length
-              ? collected.map(animal => `
-
-                  <div class="zooanimal">
-
-                    <div class="zooicon">
-                      ${animal.icon}
-                    </div>
-
-                    ${animal.name}
-
-                  </div>
-
-                `).join("")
-              : `<span class="muted">
-                  This habitat is waiting
-                  for its first animal.
-                </span>`
-          }
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
+  let weekly=state.routines.filter(r=>r.active&&r.type==="weekly"),wc=weekly.filter(r=>routineHistory(r,today)).length,wp=weekly.length?Math.round(wc/weekly.length*100):0;
+  document.getElementById("weekRange").textContent=prettyDate(weekStart())+" – "+prettyDate(weekEnd());document.getElementById("weekProgressText").textContent=`${wc} / ${weekly.length} weekly goals`;
+  document.getElementById("weekPercent").textContent=wp+"%";document.getElementById("weekProgressFill").style.width=wp+"%";document.getElementById("weekRemaining").textContent=weekly.length-wc;
+  document.getElementById("weekPointsLeft").textContent=weekly.filter(r=>!routineHistory(r,today)).reduce((s,r)=>s+r.points,0);
+  document.getElementById("bonusWeekEarned").textContent=state.history.filter(h=>h.bonusId&&h.date>=weekStart()&&h.date<=weekEnd()).reduce((s,h)=>s+h.points,0);
 }
 
-
-/* =========================================================
-   SHOP
-========================================================= */
-
-function renderShop() {
-
-  const container =
-    document.getElementById(
-      "shopGrid"
-    );
-
-
-  container.innerHTML =
-    animals.map(animal => {
-
-      const owned =
-        state.owned.includes(
-          animal.id
-        );
-
-
-      const affordable =
-        state.points >= animal.price;
-
-
-      return `
-
-        <div class="animal">
-
-          <div class="animalpic">
-            ${animal.icon}
-          </div>
-
-          <h3>
-            ${animal.name}
-          </h3>
-
-          <p>
-            ${animal.type}
-            ·
-            ${animal.habitat}
-          </p>
-
-          <span class="badge">
-            ${animal.rarity}
-          </span>
-
-          <br><br>
-
-          <div class="bottom">
-
-            <b style="
-              color:#8a6d2c;
-              font-family:Arial;
-              font-size:12px;
-            ">
-              ${animal.price} 🐾
-            </b>
-
-            <button
-              class="btn"
-              ${
-                owned || !affordable
-                  ? "disabled"
-                  : ""
-              }
-              onclick="
-                purchaseAnimal(
-                  '${animal.id}'
-                )
-              ">
-
-              ${
-                owned
-                  ? "Owned ✓"
-                  : affordable
-                    ? "Purchase"
-                    : "Need more"
-              }
-
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-function purchaseAnimal(id) {
-
-  const animal =
-    animals.find(
-      animal =>
-        animal.id === id
-    );
-
-
-  if(!animal) return;
-
-  if(
-    state.owned.includes(
-      animal.id
-    )
-  ) return;
-
-
-  if(
-    state.points < animal.price
-  ) return;
-
-
-  state.points -=
-    animal.price;
-
-
-  state.owned.push(
-    animal.id
-  );
-
-
-  saveState();
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   COLLECTION
-========================================================= */
-
-function renderCollection() {
-
-  const container =
-    document.getElementById(
-      "collectionGrid"
-    );
-
-
-  container.innerHTML =
-    animals.map(animal => {
-
-      const owned =
-        state.owned.includes(
-          animal.id
-        );
-
-
-      return `
-
-        <div class="
-          collect
-          ${owned ? "" : "lock"}
-        ">
-
-          <div class="icon">
-
-            ${
-              owned
-                ? animal.icon
-                : "❔"
-            }
-
-          </div>
-
-          <h4>
-
-            ${
-              owned
-                ? animal.name
-                : "Undiscovered"
-            }
-
-          </h4>
-
-          <div class="muted">
-
-            ${
-              owned
-                ? animal.type
-                : "Keep exploring!"
-            }
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-
-  const count =
-    state.owned.length;
-
-
-  const total =
-    animals.length;
-
-
-  document.getElementById(
-    "collectionText"
-  ).textContent =
-    `${count} / ${total}`;
-
-
-  document.getElementById(
-    "collectionFill"
-  ).style.width =
-    (count / total * 100) + "%";
-
-}
-
-
-/* =========================================================
-   HOME DASHBOARD
-========================================================= */
-
-function renderHome() {
-
-  const now =
-    new Date();
-
-
-  let greeting;
-
-  if(now.getHours() < 12) {
-
-    greeting = "Good morning!";
-
-  }
-
-  else if(now.getHours() < 18) {
-
-    greeting = "Good afternoon!";
-
-  }
-
-  else {
-
-    greeting = "Good evening!";
-
-  }
-
-
-  document.getElementById(
-    "greeting"
-  ).textContent =
-    greeting +
-    " Welcome to your zoo!";
-
-
-  document.getElementById(
-    "currentDate"
-  ).textContent =
-    now.toLocaleDateString(
-      "en-US",
-      {
-        weekday:"long",
-        month:"long",
-        day:"numeric",
-        year:"numeric"
-      }
-    );
-
-
-  document.getElementById(
-    "points"
-  ).textContent =
-    state.points;
-
-
-  document.getElementById(
-    "homePoints"
-  ).textContent =
-    state.points;
-
-
-  document.getElementById(
-    "homeAnimals"
-  ).textContent =
-    state.owned.length;
-
-
-  const level =
-    Math.floor(
-      state.points / 100
-    ) + 1;
-
-
-  const currentLevelPoints =
-    state.points % 100;
-
-
-  const rangerNames = [
-
-    "Junior Explorer",
-
-    "Wildlife Helper",
-
-    "Trail Explorer",
-
-    "Wildlife Ranger",
-
-    "Senior Ranger",
-
-    "Wildlife Expert",
-
-    "Master Naturalist"
-
-  ];
-
-
-  const rangerName =
-    rangerNames[
-      Math.min(
-        level - 1,
-        rangerNames.length - 1
-      )
-    ];
-
-
-  document.getElementById(
-    "homeLevel"
-  ).textContent =
-    level;
-
-
-  document.getElementById(
-    "rangerLevel"
-  ).textContent =
-    level;
-
-
-  document.getElementById(
-    "rangerTitle"
-  ).textContent =
-    rangerName;
-
-
-  document.getElementById(
-    "levelProgressText"
-  ).textContent =
-    `${currentLevelPoints} / 100`;
-
-
-  document.getElementById(
-    "levelProgressFill"
-  ).style.width =
-    currentLevelPoints + "%";
-
-
-  const today =
-    todayKey();
-
-
-  const regularTasks =
-    state.tasks.filter(
-      task =>
-        task.due === today
-    );
-
-
-  const recurringTasks =
-    state.recurring.filter(
-      task =>
-        recurringAppliesOnDate(
-          task,
-          today
-        )
-    );
-
-
-  const total =
-    regularTasks.length +
-    recurringTasks.length;
-
-
-  const completedRegular =
-    regularTasks.filter(
-      task =>
-        task.done
-    ).length;
-
-
-  const completedRecurring =
-    recurringTasks.filter(
-      task =>
-        recurringHistoryExists(
-          task,
-          today
-        )
-    ).length;
-
-
-  const completed =
-    completedRegular +
-    completedRecurring;
-
-
-  const percent =
-    total
-      ? Math.round(
-          completed / total * 100
-        )
-      : 0;
-
-
-  document.getElementById(
-    "todayProgressText"
-  ).textContent =
-    `${completed} / ${total} completed`;
-
-
-  document.getElementById(
-    "todayPercent"
-  ).textContent =
-    percent + "%";
-
-
-  document.getElementById(
-    "todayProgressFill"
-  ).style.width =
-    percent + "%";
-
-}
-
-
-/* =========================================================
-   RENDER EVERYTHING
-========================================================= */
-
-function renderAll() {
-
-  renderHome();
-
-  renderTodayTasks();
-
-  renderRecurringTasks();
-
-  renderCalendar();
-
-  renderHistory();
-
-  renderZoo();
-
-  renderShop();
-
-  renderCollection();
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-saveState();
-
-renderAll();
-
+function renderZoo(){let hs=["Wisconsin Forest","Rivers & Lakes","Prairie & Meadow","Wetlands"],el=document.getElementById("habitats");el.innerHTML="";hs.forEach(h=>{let aa=state.owned.map(id=>animals.find(a=>a.id===id)).filter(a=>a&&a.habitat===h),em=h==="Wisconsin Forest"?"🌲":h==="Rivers & Lakes"?"💧":h==="Prairie & Meadow"?"🌾":"🌿";el.innerHTML+=`<div class="zoohab"><div class="zoohead"><h3>${em} ${h}</h3></div><div class="zoobody">${aa.length?aa.map(a=>`<div class="zooanimal"><div class="zooicon">${a.icon}</div>${a.name}</div>`).join(""):'<span class="muted">This habitat is waiting for its first animal.</span>'}</div></div>`})}
+function renderShop(){let el=document.getElementById("shopGrid");el.innerHTML=animals.map(a=>{let own=state.owned.includes(a.id),can=state.points>=a.price;return `<div class="animal"><div class="animalpic">${a.icon}</div><h3>${a.name}</h3><p>${a.type} · ${a.habitat}</p><span class="badge">${a.rarity}</span><br><br><div class="bottom"><b style="font:12px Arial;color:#8a6d2c">${a.price} 🐾</b><button class="btn" ${own||!can?"disabled":""} onclick="purchaseAnimal('${a.id}')">${own?"Owned ✓":can?"Purchase":"Need more"}</button></div></div>`}).join("")}
+function purchaseAnimal(id){let a=animals.find(x=>x.id===id);if(!a||state.owned.includes(id)||state.points<a.price)return;state.points-=a.price;state.owned.push(id);saveState();renderAll()}
+function renderCollection(){let el=document.getElementById("collectionGrid");el.innerHTML=animals.map(a=>{let own=state.owned.includes(a.id);return `<div class="collect ${own?"":"lock"}"><div class="icon">${own?a.icon:"❔"}</div><h4>${own?a.name:"Undiscovered"}</h4><div class="muted">${own?a.type:"Keep exploring!"}</div></div>`}).join("");let n=state.owned.length;document.getElementById("collectionText").textContent=`${n} / ${animals.length}`;document.getElementById("collectionFill").style.width=(n/animals.length*100)+"%"}
+
+function renderAll(){checkStreakBonuses();renderHome();renderTasks();renderRoutines();renderCalendar();renderHistory();renderZoo();renderShop();renderCollection()}
+saveState();renderAll();
 </script>
-
 </body>
 </html>
