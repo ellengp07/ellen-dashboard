@@ -1,583 +1,2039 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<title>Wisconsin Wildlife Zoo</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --forest: #304b3b;
+    --forest-light: #52715d;
+    --sage: #91a78f;
+    --cream: #f6f3ea;
+    --cream-dark: #e9e4d7;
+    --brown: #765c45;
+    --gold: #c59b45;
+    --text: #343a35;
+    --muted: #777b73;
+    --white: #ffffff;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button,
+input,
+select {
+    font-family: Arial, sans-serif;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ---------------- HEADER ---------------- */
+
+header {
+    background: var(--forest);
+    color: white;
+    padding: 28px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo h1 {
+    font-size: 30px;
+    font-weight: normal;
+    letter-spacing: .5px;
+}
+
+.logo p {
+    margin-top: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    opacity: .75;
+}
+
+.point-box {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 18px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 125px;
+}
+
+.point-number {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.point-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: .75;
+}
+
+/* ---------------- NAVIGATION ---------------- */
+
+nav {
+    background: #263d30;
+    padding: 0 40px;
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+}
+
+nav button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,.7);
+    padding: 15px 20px;
+    font-size: 14px;
+}
+
+nav button:hover,
+nav button.active {
+    color: white;
+    background: rgba(255,255,255,.08);
+}
+
+/* ---------------- MAIN ---------------- */
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 35px 25px 60px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-title {
+    margin-bottom: 25px;
+}
+
+.page-title h2 {
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.page-title p {
+    font-family: Arial, sans-serif;
+    color: var(--muted);
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+/* ---------------- CARDS ---------------- */
+
+.card {
+    background: white;
+    border-radius: 22px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(47,59,49,.06);
+}
+
+.card h3 {
+    font-size: 21px;
+    font-weight: normal;
+    margin-bottom: 18px;
+}
+
+.grid {
+    display: grid;
+    gap: 22px;
+}
+
+.grid-two {
+    grid-template-columns: 1.4fr 1fr;
+}
+
+.grid-three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* ---------------- WELCOME ---------------- */
+
+.welcome {
+    background:
+        linear-gradient(rgba(48,75,59,.86), rgba(48,75,59,.86)),
+        linear-gradient(135deg, #78917c, #304b3b);
+    color: white;
+    border-radius: 25px;
+    padding: 35px;
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    font-size: 34px;
+    font-weight: normal;
+}
+
+.welcome p {
+    font-family: Arial, sans-serif;
+    margin-top: 8px;
+    opacity: .8;
+}
+
+.stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 28px;
+}
+
+.stat {
+    background: rgba(255,255,255,.11);
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.stat-number {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    opacity: .7;
+    margin-top: 3px;
+}
+
+/* ---------------- PROGRESS ---------------- */
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 11px;
+    background: #e8e7df;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--sage);
+    border-radius: 20px;
+    transition: width .4s ease;
+}
+
+/* ---------------- TASKS ---------------- */
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 3px;
+    border-bottom: 1px solid #eeeae0;
+}
+
+.task:last-child {
+    border-bottom: none;
+}
+
+.task input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--forest);
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-name {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.task.completed .task-name {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.difficulty {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.task-points {
+    color: var(--gold);
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.delete-task {
+    border: none;
+    background: transparent;
+    color: #bbb;
+    font-size: 16px;
+}
+
+.add-task {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 150px auto;
+    gap: 8px;
+}
+
+.add-task input,
+.add-task select {
+    border: 1px solid #ddd9cf;
+    border-radius: 12px;
+    padding: 12px;
+    outline: none;
+    background: white;
+}
+
+.primary-button {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    background: var(--forest);
+    color: white;
+}
+
+.primary-button:hover {
+    background: var(--forest-light);
+}
+
+/* ---------------- ANIMAL SHOP ---------------- */
+
+.animal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.animal-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.animal-icon {
+    height: 115px;
+    background: #edf0e8;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+.animal-card h3 {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.animal-type {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.rarity {
+    display: inline-block;
+    margin-top: 9px;
+    padding: 5px 8px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.common {
+    background: #e5eee5;
+    color: #476347;
+}
+
+.uncommon {
+    background: #e2ebf2;
+    color: #42627a;
+}
+
+.rare {
+    background: #e9e2f1;
+    color: #694b83;
+}
+
+.very-rare {
+    background: #f3e5d4;
+    color: #925d31;
+}
+
+.legendary {
+    background: #f2e7b9;
+    color: #856d22;
+}
+
+.animal-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+.price {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    color: var(--brown);
+}
+
+.buy-button {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 11px;
+    background: var(--forest);
+    color: white;
+    font-size: 11px;
+}
+
+.buy-button:disabled {
+    background: #d2d0ca;
+    cursor: not-allowed;
+}
+
+/* ---------------- ZOO ---------------- */
+
+.habitat {
+    background: white;
+    border-radius: 22px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.habitat-header {
+    padding: 20px 25px;
+    background: #edf0e8;
+}
+
+.habitat-header h3 {
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.habitat-header p {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.habitat-body {
+    padding: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.zoo-animal {
+    text-align: center;
+    width: 100px;
+}
+
+.zoo-animal-icon {
+    width: 75px;
+    height: 75px;
+    background: #f2f0e8;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    margin: auto;
+}
+
+.zoo-animal p {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin-top: 7px;
+}
+
+/* ---------------- COLLECTION ---------------- */
+
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.collection-card {
+    background: white;
+    border-radius: 17px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+
+.collection-card.locked {
+    opacity: .45;
+}
+
+.collection-icon {
+    font-size: 43px;
+    margin-bottom: 8px;
+}
+
+.collection-card h4 {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.collection-card p {
+    font-family: Arial, sans-serif;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+/* ---------------- LEVEL ---------------- */
+
+.level-box {
+    text-align: center;
+}
+
+.level-number {
+    font-size: 40px;
+    color: var(--forest);
+}
+
+.level-name {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+/* ---------------- NOTICE ---------------- */
+
+.notice {
+    padding: 12px 15px;
+    background: #f1eee5;
+    border-radius: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.message {
+    min-height: 20px;
+    margin-top: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: var(--forest-light);
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 900px) {
+
+    .animal-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    body {
-      font-family: Georgia, "Times New Roman", serif;
-      background: #f7f4ef;
-      color: #3f3a36;
-      min-height: 100vh;
+    .collection-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-two {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+
+    header {
+        padding: 22px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav {
+        padding: 0 10px;
     }
 
     .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 25px;
+        padding: 25px 15px;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 35px;
+    .stat-row {
+        grid-template-columns: 1fr;
     }
 
-    .greeting h1 {
-      font-size: 38px;
-      font-weight: normal;
-      margin-bottom: 8px;
+    .animal-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .greeting p {
-      color: #817970;
-      font-family: Arial, sans-serif;
-      font-size: 15px;
-    }
-
-    .points {
-      background: #fff;
-      padding: 15px 22px;
-      border-radius: 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-      text-align: center;
-    }
-
-    .points-number {
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .points-label {
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: #8b8178;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 25px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 24px;
-      padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    }
-
-    .card h2 {
-      font-size: 23px;
-      font-weight: normal;
-      margin-bottom: 20px;
-    }
-
-    .progress-container {
-      margin-bottom: 25px;
-    }
-
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      color: #817970;
-      margin-bottom: 8px;
-    }
-
-    .progress-bar {
-      height: 12px;
-      background: #eee9e2;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #b9a89a;
-      border-radius: 20px;
-      transition: width 0.4s ease;
-    }
-
-    .task {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 5px;
-      border-bottom: 1px solid #eee9e2;
-      gap: 10px;
-    }
-
-    .task:last-child {
-      border-bottom: none;
-    }
-
-    .task-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex: 1;
-    }
-
-    .task input {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      accent-color: #9d8b7d;
-    }
-
-    .task-text {
-      font-family: Arial, sans-serif;
-      font-size: 15px;
-    }
-
-    .task.completed .task-text {
-      text-decoration: line-through;
-      color: #aaa;
-    }
-
-    .task-points {
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      color: #9d8b7d;
-      white-space: nowrap;
+    .collection-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .add-task {
-      display: flex;
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    .add-task input {
-      flex: 1;
-      padding: 12px 15px;
-      border: 1px solid #e1d9d0;
-      border-radius: 12px;
-      outline: none;
-      font-family: Arial, sans-serif;
-    }
-
-    .add-task button {
-      border: none;
-      background: #8f7d70;
-      color: white;
-      padding: 12px 18px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-
-    .add-task button:hover {
-      opacity: 0.85;
-    }
-
-    .reward {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee9e2;
-      gap: 10px;
-    }
-
-    .reward:last-child {
-      border-bottom: none;
-    }
-
-    .reward-name {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-
-    .reward button {
-      border: none;
-      background: #eee7df;
-      color: #665b54;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .reward button:hover {
-      background: #e1d7cd;
-    }
-
-    .level {
-      margin-top: 25px;
-    }
-
-    .level-title {
-      display: flex;
-      justify-content: space-between;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .message {
-      margin-top: 15px;
-      min-height: 20px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      color: #8f7d70;
-    }
-
-    @media (max-width: 750px) {
-      .grid {
         grid-template-columns: 1fr;
-      }
-
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
-
-      .points {
-        width: 100%;
-      }
     }
-  </style>
+
+    .welcome {
+        padding: 25px;
+    }
+
+    .welcome h2 {
+        font-size: 27px;
+    }
+}
+
+</style>
 </head>
+
 
 <body>
 
-  <div class="container">
+<!-- HEADER -->
 
-    <header>
-      <div class="greeting">
-        <h1 id="greeting">Good morning!</h1>
+<header>
+
+    <div class="logo">
+        <h1>🌲 Wisconsin Wildlife Zoo</h1>
+        <p>Build your collection. Explore Wisconsin.</p>
+    </div>
+
+    <div class="point-box">
+        <div class="point-number">
+            🐾 <span id="trailPoints">0</span>
+        </div>
+
+        <div class="point-label">
+            Trail Points
+        </div>
+    </div>
+
+</header>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <button class="active" onclick="showPage('home', this)">
+        🏠 Home
+    </button>
+
+    <button onclick="showPage('tasks', this)">
+        ✅ Tasks
+    </button>
+
+    <button onclick="showPage('zoo', this)">
+        🏞️ My Zoo
+    </button>
+
+    <button onclick="showPage('shop', this)">
+        🛒 Animal Shop
+    </button>
+
+    <button onclick="showPage('collection', this)">
+        📖 Collection
+    </button>
+
+</nav>
+
+
+<div class="container">
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="page active">
+
+    <div class="welcome">
+
+        <h2 id="greeting">
+            Welcome to your zoo!
+        </h2>
+
         <p id="date"></p>
-      </div>
 
-      <div class="points">
-        <div class="points-number">⭐ <span id="points">0</span></div>
-        <div class="points-label">Points</div>
-      </div>
-    </header>
+        <div class="stat-row">
 
-    <div class="grid">
+            <div class="stat">
+                <div class="stat-number" id="homePoints">0</div>
+                <div class="stat-label">Trail Points</div>
+            </div>
 
-      <div class="card">
+            <div class="stat">
+                <div class="stat-number" id="animalCount">0</div>
+                <div class="stat-label">Animals Collected</div>
+            </div>
 
-        <h2>Today's Tasks</h2>
-
-        <div class="progress-container">
-          <div class="progress-info">
-            <span>Daily Progress</span>
-            <span id="progressText">0%</span>
-          </div>
-
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-        </div>
-
-        <div id="taskList"></div>
-
-        <div class="add-task">
-          <input
-            type="text"
-            id="taskInput"
-            placeholder="Add a task..."
-          >
-
-          <button onclick="addTask()">Add</button>
-        </div>
-
-        <div class="message" id="message"></div>
-
-      </div>
-
-
-      <div>
-
-        <div class="card">
-          <h2>🛍️ Reward Shop</h2>
-
-          <div class="reward">
-            <span class="reward-name">☕ Fancy coffee</span>
-            <button onclick="buyReward(100, 'Fancy coffee')">
-              100 ⭐
-            </button>
-          </div>
-
-          <div class="reward">
-            <span class="reward-name">📺 Watch a show</span>
-            <button onclick="buyReward(200, 'Watch a show')">
-              200 ⭐
-            </button>
-          </div>
-
-          <div class="reward">
-            <span class="reward-name">🍕 Favorite dinner</span>
-            <button onclick="buyReward(500, 'Favorite dinner')">
-              500 ⭐
-            </button>
-          </div>
-
-          <div class="reward">
-            <span class="reward-name">📚 Buy a book</span>
-            <button onclick="buyReward(750, 'Buy a book')">
-              750 ⭐
-            </button>
-          </div>
+            <div class="stat">
+                <div class="stat-number" id="levelDisplay">1</div>
+                <div class="stat-label">Ranger Level</div>
+            </div>
 
         </div>
-
-
-        <div class="card level">
-
-          <h2>🏆 Your Level</h2>
-
-          <div class="level-title">
-            <span id="levelName">Level 1</span>
-            <span id="levelPoints">0 / 500 XP</span>
-          </div>
-
-          <div class="progress-bar">
-            <div class="progress-fill" id="levelFill"></div>
-          </div>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </div>
+
+    <div class="grid grid-two">
+
+        <div class="card">
+
+            <h3>🌿 Today's Progress</h3>
+
+            <div class="progress-info">
+                <span>Tasks completed</span>
+                <span id="homeProgressText">0%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    class="progress-fill"
+                    id="homeProgressFill">
+                </div>
+            </div>
+
+            <br>
+
+            <button
+                class="primary-button"
+                onclick="showPageByName('tasks')">
+
+                Go to Today's Tasks →
+
+            </button>
+
+        </div>
+
+
+        <div class="card level-box">
+
+            <div class="level-number">
+                <span id="levelNumber">1</span>
+            </div>
+
+            <div class="level-name" id="levelName">
+                Junior Explorer
+            </div>
+
+            <div class="progress-info">
+                <span>Next level</span>
+                <span id="levelProgressText">0 / 100</span>
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="levelProgressFill">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TASKS ================= -->
+
+<section id="tasks" class="page">
+
+    <div class="page-title">
+
+        <h2>✅ Today's Tasks</h2>
+
+        <p>
+            Complete your tasks to earn Trail Points.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="progress-info">
+            <span>Daily Progress</span>
+            <span id="taskProgressText">0%</span>
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="taskProgressFill">
+            </div>
+
+        </div>
+
+
+        <div id="taskList"></div>
+
+
+        <div class="add-task">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="What do you need to do?"
+            >
+
+            <select id="difficulty">
+
+                <option value="1">
+                    1 — Very Easy
+                </option>
+
+                <option value="2">
+                    2 — Easy
+                </option>
+
+                <option value="3" selected>
+                    3 — Medium
+                </option>
+
+                <option value="4">
+                    4 — Hard
+                </option>
+
+                <option value="5">
+                    5 — Very Hard
+                </option>
+
+            </select>
+
+            <button
+                class="primary-button"
+                onclick="addTask()">
+
+                Add Task
+
+            </button>
+
+        </div>
+
+        <div class="message" id="taskMessage"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ZOO ================= -->
+
+<section id="zoo" class="page">
+
+    <div class="page-title">
+
+        <h2>🏞️ My Wisconsin Zoo</h2>
+
+        <p>
+            Your growing collection of Wisconsin wildlife.
+        </p>
+
+    </div>
+
+
+    <div id="zooHabitats"></div>
+
+</section>
+
+
+<!-- ================= SHOP ================= -->
+
+<section id="shop" class="page">
+
+    <div class="page-title">
+
+        <h2>🛒 Animal Shop</h2>
+
+        <p>
+            Spend your Trail Points to add animals to your zoo.
+        </p>
+
+    </div>
+
+
+    <div class="notice">
+
+        🐾 Animals are grouped by rarity.
+        Keep completing tasks to discover Wisconsin's wildlife!
+
+    </div>
+
+
+    <div class="animal-grid" id="animalShop"></div>
+
+</section>
+
+
+<!-- ================= COLLECTION ================= -->
+
+<section id="collection" class="page">
+
+    <div class="page-title">
+
+        <h2>📖 Wildlife Collection</h2>
+
+        <p>
+            Discover the animals of Wisconsin.
+        </p>
+
+    </div>
+
+
+    <div class="card" style="margin-bottom:25px;">
+
+        <div class="progress-info">
+
+            <span>
+                Collection Progress
+            </span>
+
+            <span id="collectionProgress">
+                0 / 0
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="collectionProgressFill">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="collection-grid"
+        id="collectionGrid">
+    </div>
+
+</section>
+
+
+</div>
 
 
 <script>
 
-  let points = 0;
-
-  let tasks = [
-    { text: "Make lesson plans", points: 20, completed: false },
-    { text: "Grade papers", points: 15, completed: false },
-    { text: "Clean classroom", points: 10, completed: false },
-    { text: "Read for 20 minutes", points: 10, completed: false }
-  ];
+/* =========================================================
+   DATA
+========================================================= */
 
 
-  function updateDate() {
+const animals = [
+
+    {
+        id: "painted-turtle",
+        name: "Eastern Painted Turtle",
+        type: "Reptile",
+        habitat: "Rivers & Lakes",
+        rarity: "Common",
+        price: 20,
+        icon: "🐢"
+    },
+
+    {
+        id: "snapping-turtle",
+        name: "Snapping Turtle",
+        type: "Reptile",
+        habitat: "Wetlands",
+        rarity: "Common",
+        price: 30,
+        icon: "🐢"
+    },
+
+    {
+        id: "woodchuck",
+        name: "Woodchuck",
+        type: "Mammal",
+        habitat: "Prairie & Meadow",
+        rarity: "Common",
+        price: 25,
+        icon: "🦫"
+    },
+
+    {
+        id: "muskrat",
+        name: "Muskrat",
+        type: "Mammal",
+        habitat: "Wetlands",
+        rarity: "Common",
+        price: 30,
+        icon: "🐀"
+    },
+
+    {
+        id: "raccoon",
+        name: "Raccoon",
+        type: "Mammal",
+        habitat: "Wisconsin Forest",
+        rarity: "Common",
+        price: 35,
+        icon: "🦝"
+    },
+
+    {
+        id: "porcupine",
+        name: "Porcupine",
+        type: "Mammal",
+        habitat: "Wisconsin Forest",
+        rarity: "Uncommon",
+        price: 50,
+        icon: "🦔"
+    },
+
+    {
+        id: "beaver",
+        name: "American Beaver",
+        type: "Mammal",
+        habitat: "Wetlands",
+        rarity: "Uncommon",
+        price: 60,
+        icon: "🦫"
+    },
+
+    {
+        id: "mink",
+        name: "American Mink",
+        type: "Mammal",
+        habitat: "Wetlands",
+        rarity: "Uncommon",
+        price: 70,
+        icon: "🦦"
+    },
+
+    {
+        id: "red-fox",
+        name: "Red Fox",
+        type: "Mammal",
+        habitat: "Wisconsin Forest",
+        rarity: "Uncommon",
+        price: 75,
+        icon: "🦊"
+    },
+
+    {
+        id: "river-otter",
+        name: "North American River Otter",
+        type: "Mammal",
+        habitat: "Rivers & Lakes",
+        rarity: "Rare",
+        price: 120,
+        icon: "🦦"
+    },
+
+    {
+        id: "white-tailed-deer",
+        name: "White-tailed Deer",
+        type: "Mammal",
+        habitat: "Wisconsin Forest",
+        rarity: "Common",
+        price: 45,
+        icon: "🦌"
+    },
+
+    {
+        id: "black-bear",
+        name: "American Black Bear",
+        type: "Mammal",
+        habitat: "Wisconsin Forest",
+        rarity: "Rare",
+        price: 180,
+        icon: "🐻"
+    },
+
+    {
+        id: "brook-trout",
+        name: "Brook Trout",
+        type: "Fish",
+        habitat: "Rivers & Lakes",
+        rarity: "Common",
+        price: 35,
+        icon: "🐟"
+    },
+
+    {
+        id: "brown-trout",
+        name: "Brown Trout",
+        type: "Fish",
+        habitat: "Rivers & Lakes",
+        rarity: "Uncommon",
+        price: 55,
+        icon: "🐟"
+    },
+
+    {
+        id: "rainbow-trout",
+        name: "Rainbow Trout",
+        type: "Fish",
+        habitat: "Rivers & Lakes",
+        rarity: "Uncommon",
+        price: 65,
+        icon: "🐟"
+    },
+
+    {
+        id: "walleye",
+        name: "Walleye",
+        type: "Fish",
+        habitat: "Rivers & Lakes",
+        rarity: "Rare",
+        price: 100,
+        icon: "🐟"
+    },
+
+    {
+        id: "northern-pike",
+        name: "Northern Pike",
+        type: "Fish",
+        habitat: "Rivers & Lakes",
+        rarity: "Rare",
+        price: 110,
+        icon: "🐟"
+    },
+
+    {
+        id: "muskellunge",
+        name: "Muskellunge",
+        type: "Fish",
+        habitat: "Rivers & Lakes",
+        rarity: "Very Rare",
+        price: 225,
+        icon: "🐟"
+    },
+
+    {
+        id: "bullfrog",
+        name: "American Bullfrog",
+        type: "Amphibian",
+        habitat: "Wetlands",
+        rarity: "Common",
+        price: 30,
+        icon: "🐸"
+    },
+
+    {
+        id: "leopard-frog",
+        name: "Northern Leopard Frog",
+        type: "Amphibian",
+        habitat: "Wetlands",
+        rarity: "Uncommon",
+        price: 55,
+        icon: "🐸"
+    },
+
+    {
+        id: "map-turtle",
+        name: "Northern Map Turtle",
+        type: "Reptile",
+        habitat: "Rivers & Lakes",
+        rarity: "Uncommon",
+        price: 65,
+        icon: "🐢"
+    },
+
+    {
+        id: "wood-turtle",
+        name: "Wood Turtle",
+        type: "Reptile",
+        habitat: "Rivers & Lakes",
+        rarity: "Very Rare",
+        price: 250,
+        icon: "🐢"
+    }
+
+];
+
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+
+let game = JSON.parse(
+    localStorage.getItem("wisconsinZooGame")
+) || {
+
+    trailPoints: 0,
+
+    tasks: [],
+
+    ownedAnimals: [],
+
+    created: new Date().toISOString()
+
+};
+
+
+/* =========================================================
+   SAVE GAME
+========================================================= */
+
+
+function saveGame() {
+
+    localStorage.setItem(
+        "wisconsinZooGame",
+        JSON.stringify(game)
+    );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+
+function showPage(pageName, button) {
+
+    document.querySelectorAll(".page").forEach(page => {
+
+        page.classList.remove("active");
+
+    });
+
+
+    document.getElementById(pageName)
+        .classList.add("active");
+
+
+    document.querySelectorAll("nav button")
+        .forEach(btn => btn.classList.remove("active"));
+
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+    updateEverything();
+
+}
+
+
+function showPageByName(pageName) {
+
+    const button = [...document.querySelectorAll("nav button")]
+        .find(btn =>
+            btn.getAttribute("onclick")
+            ?.includes("'" + pageName + "'")
+        );
+
+    showPage(pageName, button);
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+
+function updateDate() {
 
     const now = new Date();
 
-    const hour = now.getHours();
-
     let greeting = "Good morning!";
 
-    if (hour >= 12 && hour < 18) {
-      greeting = "Good afternoon!";
-    }
+    if (now.getHours() >= 12) {
 
-    if (hour >= 18) {
-      greeting = "Good evening!";
-    }
-
-    document.getElementById("greeting").textContent = greeting;
-
-    const date = now.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric"
-    });
-
-    document.getElementById("date").textContent = date;
-  }
-
-
-  function renderTasks() {
-
-    const list = document.getElementById("taskList");
-
-    list.innerHTML = "";
-
-    tasks.forEach((task, index) => {
-
-      const div = document.createElement("div");
-
-      div.className = "task" + (task.completed ? " completed" : "");
-
-      div.innerHTML = `
-        <div class="task-left">
-
-          <input
-            type="checkbox"
-            ${task.completed ? "checked" : ""}
-            onchange="toggleTask(${index})"
-          >
-
-          <span class="task-text">
-            ${task.text}
-          </span>
-
-        </div>
-
-        <span class="task-points">
-          +${task.points} ⭐
-        </span>
-      `;
-
-      list.appendChild(div);
-
-    });
-
-    updateProgress();
-  }
-
-
-  function toggleTask(index) {
-
-    tasks[index].completed = !tasks[index].completed;
-
-    if (tasks[index].completed) {
-
-      points += tasks[index].points;
-
-      showMessage("Great job! +" + tasks[index].points + " ⭐");
-
-    } else {
-
-      points -= tasks[index].points;
+        greeting = "Good afternoon!";
 
     }
 
-    updatePoints();
+    if (now.getHours() >= 18) {
 
-    renderTasks();
+        greeting = "Good evening!";
 
-  }
+    }
 
 
-  function addTask() {
+    document.getElementById("greeting")
+        .textContent = greeting + " Welcome to your zoo!";
 
-    const input = document.getElementById("taskInput");
 
-    const text = input.value.trim();
+    document.getElementById("date")
+        .textContent = now.toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            }
+        );
 
-    if (!text) return;
+}
 
-    tasks.push({
-      text: text,
-      points: 10,
-      completed: false
+
+/* =========================================================
+   TRAIL POINTS
+========================================================= */
+
+
+function updatePoints() {
+
+    document.getElementById("trailPoints")
+        .textContent = game.trailPoints;
+
+    document.getElementById("homePoints")
+        .textContent = game.trailPoints;
+
+}
+
+
+/* =========================================================
+   LEVEL SYSTEM
+========================================================= */
+
+
+function updateLevel() {
+
+    const level =
+        Math.floor(game.trailPoints / 100) + 1;
+
+
+    const current =
+        game.trailPoints % 100;
+
+
+    const names = [
+
+        "Junior Explorer",
+        "Wildlife Helper",
+        "Trail Explorer",
+        "Wildlife Ranger",
+        "Senior Ranger",
+        "Wildlife Expert",
+        "Master Naturalist"
+
+    ];
+
+
+    const name =
+        names[Math.min(level - 1, names.length - 1)];
+
+
+    document.getElementById("levelNumber")
+        .textContent = level;
+
+
+    document.getElementById("levelDisplay")
+        .textContent = level;
+
+
+    document.getElementById("levelName")
+        .textContent = name;
+
+
+    document.getElementById("levelProgressText")
+        .textContent = current + " / 100";
+
+
+    document.getElementById("levelProgressFill")
+        .style.width = current + "%";
+
+}
+
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+
+function addTask() {
+
+    const input =
+        document.getElementById("taskInput");
+
+
+    const difficulty =
+        Number(document.getElementById("difficulty").value);
+
+
+    const name = input.value.trim();
+
+
+    if (!name) {
+
+        return;
+
+    }
+
+
+    game.tasks.push({
+
+        id: Date.now(),
+
+        name: name,
+
+        difficulty: difficulty,
+
+        completed: false
+
     });
+
 
     input.value = "";
 
+
+    saveGame();
+
     renderTasks();
 
-  }
+    updateEverything();
+
+}
 
 
-  function updateProgress() {
+function toggleTask(id) {
 
-    const completed = tasks.filter(task => task.completed).length;
-
-    const total = tasks.length;
-
-    const percentage = total === 0
-      ? 0
-      : Math.round((completed / total) * 100);
-
-    document.getElementById("progressText").textContent =
-      percentage + "%";
-
-    document.getElementById("progressFill").style.width =
-      percentage + "%";
-
-  }
+    const task =
+        game.tasks.find(t => t.id === id);
 
 
-  function updatePoints() {
-
-    document.getElementById("points").textContent = points;
-
-    updateLevel();
-
-  }
+    if (!task) return;
 
 
-  function updateLevel() {
+    if (!task.completed) {
 
-    const level = Math.floor(points / 500) + 1;
+        task.completed = true;
 
-    const levelStart = (level - 1) * 500;
-
-    const current = points - levelStart;
-
-    document.getElementById("levelName").textContent =
-      "Level " + level;
-
-    document.getElementById("levelPoints").textContent =
-      current + " / 500 XP";
-
-    const percentage = (current / 500) * 100;
-
-    document.getElementById("levelFill").style.width =
-      percentage + "%";
-
-  }
+        game.trailPoints += task.difficulty;
 
 
-  function buyReward(cost, name) {
+        showTaskMessage(
+            "Great job! +" +
+            task.difficulty +
+            " Trail Points 🌲"
+        );
 
-    if (points < cost) {
+    } else {
 
-      showMessage(
-        "You need " + (cost - points) + " more ⭐."
-      );
+        task.completed = false;
 
-      return;
+        game.trailPoints -= task.difficulty;
+
+        if (game.trailPoints < 0) {
+
+            game.trailPoints = 0;
+
+        }
 
     }
 
-    points -= cost;
 
-    updatePoints();
+    saveGame();
 
-    showMessage(
-      "You purchased: " + name + " 🎉"
-    );
+    renderTasks();
 
-  }
+    updateEverything();
+
+}
 
 
-  function showMessage(text) {
+function deleteTask(id) {
 
-    const message = document.getElementById("message");
+    game.tasks =
+        game.tasks.filter(task => task.id !== id);
+
+
+    saveGame();
+
+    renderTasks();
+
+    updateEverything();
+
+}
+
+
+function renderTasks() {
+
+    const list =
+        document.getElementById("taskList");
+
+
+    list.innerHTML = "";
+
+
+    if (game.tasks.length === 0) {
+
+        list.innerHTML = `
+            <div class="notice" style="margin-top:20px;">
+                You don't have any tasks yet.
+                Add one below to start earning Trail Points! 🌲
+            </div>
+        `;
+
+        updateTaskProgress();
+
+        return;
+
+    }
+
+
+    game.tasks.forEach(task => {
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "task" +
+            (task.completed ? " completed" : "");
+
+
+        div.innerHTML = `
+
+            <input
+                type="checkbox"
+                ${task.completed ? "checked" : ""}
+                onchange="toggleTask(${task.id})"
+            >
+
+            <div class="task-info">
+
+                <div class="task-name">
+                    ${escapeHtml(task.name)}
+                </div>
+
+                <div class="difficulty">
+                    ${difficultyText(task.difficulty)}
+                </div>
+
+            </div>
+
+            <div class="task-points">
+                +${task.difficulty} 🐾
+            </div>
+
+            <button
+                class="delete-task"
+                onclick="deleteTask(${task.id})">
+
+                ×
+
+            </button>
+
+        `;
+
+
+        list.appendChild(div);
+
+    });
+
+
+    updateTaskProgress();
+
+}
+
+
+function difficultyText(number) {
+
+    const names = {
+
+        1: "Very Easy",
+        2: "Easy",
+        3: "Medium",
+        4: "Hard",
+        5: "Very Hard"
+
+    };
+
+
+    return number + " — " + names[number];
+
+}
+
+
+function updateTaskProgress() {
+
+    const total =
+        game.tasks.length;
+
+
+    const completed =
+        game.tasks.filter(t => t.completed).length;
+
+
+    const percent =
+        total === 0
+        ? 0
+        : Math.round((completed / total) * 100);
+
+
+    document.getElementById("taskProgressText")
+        .textContent = percent + "%";
+
+
+    document.getElementById("taskProgressFill")
+        .style.width = percent + "%";
+
+
+    document.getElementById("homeProgressText")
+        .textContent = percent + "%";
+
+
+    document.getElementById("homeProgressFill")
+        .style.width = percent + "%";
+
+}
+
+
+function showTaskMessage(text) {
+
+    const message =
+        document.getElementById("taskMessage");
+
 
     message.textContent = text;
 
+
     setTimeout(() => {
-      message.textContent = "";
+
+        message.textContent = "";
+
     }, 3000);
 
-  }
+}
 
 
-  updateDate();
+/* =========================================================
+   ANIMAL SHOP
+========================================================= */
 
-  renderTasks();
 
-  updatePoints();
+function renderShop() {
+
+    const shop =
+        document.getElementById("animalShop");
+
+
+    shop.innerHTML = "";
+
+
+    animals.forEach(animal => {
+
+        const owned =
+            game.ownedAnimals.includes(animal.id);
+
+
+        const canAfford =
+            game.trailPoints >= animal.price;
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className = "animal-card";
+
+
+        card.innerHTML = `
+
+            <div class="animal-icon">
+                ${animal.icon}
+            </div>
+
+            <h3>
+                ${animal.name}
+            </h3>
+
+            <div class="animal-type">
+                ${animal.type}
+            </div>
+
+            <span class="rarity ${rarityClass(animal.rarity)}">
+                ${animal.rarity}
+            </span>
+
+            <div class="animal-bottom">
+
+                <span class="price">
+                    ${animal.price} 🐾
+                </span>
+
+                <button
+                    class="buy-button"
+                    ${owned || !canAfford ? "disabled" : ""}
+                    onclick="buyAnimal('${animal.id}')">
+
+                    ${
+                        owned
+                        ? "Owned ✓"
+                        : canAfford
+                        ? "Purchase"
+                        : "Need more"
+
+                    }
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        shop.appendChild(card);
+
+    });
+
+}
+
+
+function rarityClass(rarity) {
+
+    return rarity
+        .toLowerCase()
+        .replace(" ", "-");
+
+}
+
+
+function buyAnimal(id) {
+
+    const animal =
+        animals.find(a => a.id === id);
+
+
+    if (!animal) return;
+
+
+    if (game.ownedAnimals.includes(id)) {
+
+        return;
+
+    }
+
+
+    if (game.trailPoints < animal.price) {
+
+        return;
+
+    }
+
+
+    game.trailPoints -= animal.price;
+
+
+    game.ownedAnimals.push(id);
+
+
+    saveGame();
+
+    updateEverything();
+
+}
+
+
+/* =========================================================
+   ZOO
+========================================================= */
+
+
+function renderZoo() {
+
+    const container =
+        document.getElementById("zooHabitats");
+
+
+    container.innerHTML = "";
+
+
+    const habitats = [
+
+        {
+            name: "🌲 Wisconsin Forest",
+            description: "The woodland home of Wisconsin's forest animals."
+        },
+
+        {
+            name: "💧 Rivers & Lakes",
+            description: "A habitat for Wisconsin's aquatic wildlife."
+        },
+
+        {
+            name: "🌾 Prairie & Meadow",
+            description: "Open grasslands filled with wildlife."
+        },
+
+        {
+            name: "🌿 Wetlands",
+            description: "Marshes, ponds, and other wetland habitats."
+        }
+
+    ];
+
+
+    habitats.forEach(habitat => {
+
+        const habitatAnimals =
+            game.ownedAnimals
+                .map(id => animals.find(a => a.id === id))
+                .filter(animal =>
+                    animal &&
+                    animal.habitat === habitat.name
+                        .replace("🌲 ", "")
+                        .replace("💧 ", "")
+                        .replace("🌾 ", "")
+                        .replace("🌿 ", "")
+                );
+
+
+        const section =
+            document.createElement("div");
+
+
+        section.className = "habitat";
+
+
+        section.innerHTML = `
+
+            <div class="habitat-header">
+
+                <h3>
+                    ${habitat.name}
+                </h3>
+
+                <p>
+                    ${habitat.description}
+                </p>
+
+            </div>
+
+            <div class="habitat-body">
+
+                ${
+                    habitatAnimals.length === 0
+
+                    ? `
+                        <div class="notice" style="width:100%;">
+                            This habitat is waiting for its first animal.
+                            Visit the Animal Shop to begin building it!
+                        </div>
+                    `
+
+                    : habitatAnimals.map(animal => `
+
+                        <div class="zoo-animal">
+
+                            <div class="zoo-animal-icon">
+                                ${animal.icon}
+                            </div>
+
+                            <p>
+                                ${animal.name}
+                            </p>
+
+                        </div>
+
+                    `).join("")
+
+                }
+
+            </div>
+
+        `;
+
+
+        container.appendChild(section);
+
+    });
+
+}
+
+
+/* =========================================================
+   COLLECTION
+========================================================= */
+
+
+function renderCollection() {
+
+    const grid =
+        document.getElementById("collectionGrid");
+
+
+    grid.innerHTML = "";
+
+
+    animals.forEach(animal => {
+
+        const owned =
+            game.ownedAnimals.includes(animal.id);
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "collection-card" +
+            (owned ? "" : " locked");
+
+
+        card.innerHTML = `
+
+            <div class="collection-icon">
+
+                ${
+                    owned
+                    ? animal.icon
+                    : "❔"
+                }
+
+            </div>
+
+            <h4>
+                ${
+                    owned
+                    ? animal.name
+                    : "Undiscovered"
+                }
+            </h4>
+
+            <p>
+                ${
+                    owned
+                    ? animal.type
+                    : "Keep exploring!"
+                }
+            </p>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+
+    const collected =
+        game.ownedAnimals.length;
+
+
+    const total =
+        animals.length;
+
+
+    document.getElementById("collectionProgress")
+        .textContent =
+        collected + " / " + total;
+
+
+    document.getElementById("collectionProgressFill")
+        .style.width =
+        (collected / total * 100) + "%";
+
+}
+
+
+/* =========================================================
+   GENERAL UPDATES
+========================================================= */
+
+
+function updateEverything() {
+
+    updatePoints();
+
+    updateLevel();
+
+    updateTaskProgress();
+
+    renderTasks();
+
+    renderShop();
+
+    renderZoo();
+
+    renderCollection();
+
+
+    document.getElementById("animalCount")
+        .textContent =
+        game.ownedAnimals.length;
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+
+updateDate();
+
+updateEverything();
 
 </script>
 
