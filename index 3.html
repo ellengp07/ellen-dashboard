@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wisconsin Wildlife Zoo</title>
+<meta name="dashboard-version" content="11.1-routine-repair">
+<style>
+*{box-sizing:border-box}
+:root{
+  --forest:#304b3b;--forest2:#263d30;--sage:#8da48d;--cream:#f4f1e8;--paper:#fff;
+  --line:#e7e2d7;--text:#344238;--muted:#72786f;--gold:#9a7a2d;--soft:#edf0e8;
+  --blue:#e8f0f4;--lav:#eee8f2;--peach:#f5eadf;--rose:#f4e7e4;--accent:#304b3b;
+  --bgImage:none;--font:Georgia,"Times New Roman",serif
+}
+body{margin:0;background:var(--cream);background-image:var(--bgImage);background-size:cover;background-attachment:fixed;color:var(--text);font-family:var(--font)}
+body:before{content:"";position:fixed;inset:0;background:rgba(244,241,232,.92);z-index:-1}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+header{background:linear-gradient(135deg,var(--forest),#3c5e48);color:#fff;padding:24px 34px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.logo h1{margin:0;font-size:29px;font-weight:normal}.logo p{margin:5px 0 0;font:13px Arial;color:#dce5dc}
+.points{background:#ffffff14;border:1px solid #ffffff30;border-radius:16px;padding:10px 18px;text-align:center;min-width:130px}
+.points b{font-size:25px}.points small{display:block;font:11px Arial;text-transform:uppercase;letter-spacing:1px}
+nav{background:var(--forest2);display:flex;padding:0 22px;overflow:auto}
+nav button{background:none;border:0;color:#cbd5cc;padding:14px 16px;white-space:nowrap}
+nav button.active,nav button:hover{background:#ffffff12;color:white}
+main{max-width:1240px;margin:auto;padding:30px 22px 70px}.page{display:none}.page.active{display:block}
+.title{margin-bottom:20px}.title h2{margin:0;font-size:29px;font-weight:normal}.title p{font:14px Arial;color:var(--muted)}
+.card{background:rgba(255,255,255,.96);border-radius:20px;padding:22px;box-shadow:0 5px 22px rgba(47,59,49,.07);margin-bottom:20px}
+.grid{display:grid;gap:20px}.two{grid-template-columns:1.25fr 1fr}.three{grid-template-columns:repeat(3,1fr)}
+.homegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.wide{grid-column:1/-1}
+.welcome{background:linear-gradient(135deg,#304b3b,#446650);color:#fff;border-radius:23px;padding:30px;margin-bottom:22px}
+.welcome h2{margin:0;font-size:32px;font-weight:normal}.welcome p{font:14px Arial;color:#dce5dc}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}.stat{background:#ffffff13;border-radius:14px;padding:16px}
+.stat b{font-size:23px}.stat span{display:block;font:11px Arial;color:#dce5dc;margin-top:3px}
+.progress{height:10px;background:#e8e5dc;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:var(--sage);transition:.3s}
+.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}.muted{color:#777;font:12px Arial}
+.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--accent);color:white}.btn.secondary{background:#ece9df;color:#435047}.btn.danger{background:#ead8d5;color:#7b3e35}
+.btn:disabled{opacity:.45;cursor:not-allowed}.tiny{font-size:11px;padding:7px 9px}
+.section-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}.section-title h3{margin:0;font-weight:normal}
+.task{border-top:1px solid #eeeae1;padding:14px 0}.task:first-child{border-top:0}.task-main{display:flex;align-items:center;gap:10px}
+.task-main input[type=checkbox]{width:19px;height:19px;accent-color:var(--accent)}.task-name{flex:1;font:14px Arial}.done .task-name{text-decoration:line-through;color:#999}
+.pts{color:var(--gold);font:bold 12px Arial}.badge{display:inline-block;padding:4px 7px;border-radius:7px;background:#edf0e8;font:10px Arial;text-transform:uppercase}
+.badge.daily{background:var(--blue)}.badge.weekly{background:var(--lav)}.badge.bonus{background:var(--peach)}.badge.event{background:var(--rose)}
+.subtasks{margin:9px 0 0 31px;padding-left:13px;border-left:2px solid #e6e2d8}.sub{display:flex;gap:8px;align-items:center;padding:5px 0;font:12px Arial}
+.smallbtn{border:0;background:none;color:#8b8d88;font-size:16px;padding:5px}
+.info-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.mini{background:#f4f2eb;border-radius:12px;padding:12px}.mini b{display:block;font-size:18px}.mini span{font:11px Arial;color:#777}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.filters input,.filters select,.modalbox input,.modalbox select,.modalbox textarea,.settings-grid input,.settings-grid select{
+  padding:9px;border:1px solid #ddd8cc;border-radius:9px;background:white;width:100%
+}
+.formrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;gap:12px;flex-wrap:wrap}.calendar-head h3{margin:0;font-size:22px;font-weight:normal}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid #ddd8cc;border-left:1px solid #ddd8cc}
+.dow{padding:9px;background:#edf0e8;border-right:1px solid #ddd8cc;border-bottom:1px solid #ddd8cc;text-align:center;font:11px Arial}
+.day{min-height:115px;background:white;padding:7px;border-right:1px solid #ddd8cc;border-bottom:1px solid #ddd8cc;cursor:pointer}
+.day:hover{background:#faf9f5}.day.other{background:#f5f3ed;color:#aaa}.daynum{font:bold 11px Arial}.today{outline:2px solid var(--sage);outline-offset:-2px}
+.calitem{margin-top:5px;padding:4px;border-radius:5px;overflow:hidden;font:10px Arial;background:#edf0e8}.calitem.done{opacity:.55;text-decoration:line-through}.calitem.event{background:#f4e9e6}
+.day-modal-grid{display:grid;gap:16px}.day-section{border:1px solid var(--line);border-radius:14px;padding:14px}.day-section h4{margin:0 0 6px;font-weight:normal}
+.animal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.animal{background:white;border-radius:18px;padding:16px;box-shadow:0 4px 15px rgba(0,0,0,.04)}
+.animalpic{height:155px;border-radius:13px;background:#edf0e8;overflow:hidden;display:grid;place-items:center;margin-bottom:12px}.animalpic img{width:100%;height:100%;object-fit:cover}
+.animal h3{margin:0;font-size:17px;font-weight:normal}.animal p{font:11px Arial;color:#777}.animal .bottom{display:flex;justify-content:space-between;align-items:center}.owned-count{font:10px Arial;color:#667;margin-top:7px}
+.photo-credit{font:9px Arial;color:#8a8a8a;margin-top:4px;line-height:1.3}
+.zoohab{background:white;border-radius:20px;margin-bottom:18px;overflow:hidden}.zoohead{background:#edf0e8;padding:18px 22px}.zoohead h3{margin:0;font-weight:normal}
+.zoobody{padding:20px;display:flex;gap:18px;flex-wrap:wrap}.zooanimal{width:145px;text-align:center;font:11px Arial}
+.zooicon{width:130px;height:95px;margin:auto;border-radius:12px;background:#f3f0e7;overflow:hidden;display:grid;place-items:center}.zooicon img{width:100%;height:100%;object-fit:cover}
+.petname{font-weight:bold;margin-top:7px}.collection{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}.collect{background:white;border-radius:15px;padding:13px;text-align:center}.collect.lock{opacity:.42}
+.collect .icon{height:100px;border-radius:10px;background:#edf0e8;overflow:hidden;display:grid;place-items:center}.collect .icon img{width:100%;height:100%;object-fit:cover}.collect h4{margin:6px 0;font-size:13px;font-weight:normal}
+.hero-photo{height:230px;border-radius:18px;overflow:hidden;background:#e8ece6;display:grid;place-items:center}.hero-photo img{width:100%;height:100%;object-fit:cover}
+.discovery{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;align-items:center}
+.weather-big{font-size:42px}.weather-row{display:flex;gap:18px;align-items:center}
+.meme{background:#1f2f26;color:white;border-radius:16px;padding:24px;text-align:center;font:bold 22px/1.35 Arial;min-height:170px;display:grid;place-items:center}
+.quote{font-size:19px;line-height:1.5}.source{font:11px Arial;color:#777;margin-top:8px}
+.quiz-q{border-top:1px solid var(--line);padding:14px 0}.quiz-q:first-child{border-top:0}.quiz-img{width:140px;height:100px;border-radius:10px;object-fit:cover;background:#eee}
+.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.setting-block{border:1px solid var(--line);border-radius:14px;padding:15px}.setting-block h4{margin:0 0 10px;font-weight:normal}
+.toggle-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font:12px Arial}.toggle-grid label{background:#f4f2eb;border-radius:9px;padding:8px}
+.spotify-card{background:linear-gradient(135deg,#e9f3e9,#f7f3e8)}.spotify-now{display:flex;gap:12px;align-items:center}.spotify-art{width:72px;height:72px;border-radius:10px;background:#ddd;object-fit:cover}
+.modal{position:fixed;inset:0;background:#0007;display:none;place-items:center;padding:20px;z-index:20}.modal.show{display:grid}.modalbox{width:100%;max-width:720px;max-height:92vh;overflow:auto;background:white;border-radius:20px;padding:25px}
+.modalbox h3{margin-top:0;font-weight:normal}.day-picker{display:flex;gap:6px;flex-wrap:wrap}.day-picker label{font:12px Arial;background:#f1efe8;border-radius:8px;padding:7px 9px}.sub-input{display:flex;gap:8px;margin-top:8px}
+.hidden-card{display:none!important}
+
+.layout-with-sidebar{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:20px;align-items:start}
+.todo-sidebar{position:sticky;top:18px}
+.todo-sidebar h3{margin-top:0;font-weight:normal}
+.todo-list{display:grid;gap:10px}
+.todo-item{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff}
+.todo-item.overdue{border-color:#d6a39b;background:#fff8f6}
+.todo-item .name{font:13px Arial;font-weight:bold}
+.todo-item .meta{font:11px Arial;color:#777;margin-top:4px}
+.todo-empty{font:12px Arial;color:#777}
+.collapse-card{padding:0;overflow:hidden}
+.collapse-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 22px;cursor:pointer;background:#fff}
+.collapse-head:hover{background:#faf9f5}
+.collapse-body{padding:0 22px 18px;display:none}
+.collapse-card.open .collapse-body{display:block}
+.collapse-arrow{font:16px Arial;transition:.2s}
+.collapse-card.open .collapse-arrow{transform:rotate(90deg)}
+.due-label{display:inline-block;font:10px Arial;padding:3px 6px;border-radius:6px;background:#f0eee7;color:#666}
+.due-label.overdue{background:#f5dfda;color:#8a463c}
+.due-label.today{background:#e6efe7;color:#35533f}
+
+#ambientMedia{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-4;display:none;background:#24392d}
+#ambientImage{position:fixed;inset:0;z-index:-4;background-size:cover;background-position:center;background-repeat:no-repeat;display:none}
+#ambientFallback{position:fixed;inset:0;z-index:-5;background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.13),transparent 28%),linear-gradient(135deg,#193c4c 0%,#325a52 42%,#684c2d 100%)}
+#ambientOverlay{position:fixed;inset:0;z-index:-3;pointer-events:none;background:rgba(12,22,18,.42);backdrop-filter:blur(0)}
+body.home-immersive{background:transparent;color:white}
+body.home-immersive:before{display:none}
+body.home-immersive header{background:transparent}
+body.home-immersive nav{background:rgba(45,23,8,.78);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.16)}
+body.home-immersive main{max-width:none;padding:0 0 80px}
+body.home-immersive #home{padding:0}
+body.home-immersive #home .welcome{min-height:610px;border-radius:0;background:transparent;padding:70px max(38px,calc((100vw - 1240px)/2 + 22px)) 50px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-content:center;box-shadow:none}
+body.home-immersive #home .welcome h2{font-size:clamp(54px,8vw,108px);line-height:.92;max-width:900px;text-shadow:0 3px 22px rgba(0,0,0,.28)}
+body.home-immersive #home .welcome p{font-size:clamp(18px,2.1vw,31px);color:white;max-width:800px;text-shadow:0 2px 15px rgba(0,0,0,.3)}
+body.home-immersive #home .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:32px;padding:18px;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border-radius:24px}
+body.home-immersive #home .stat{background:rgba(15,24,20,.18);border:1px solid rgba(255,255,255,.42);backdrop-filter:blur(10px)}
+body.home-immersive #home .stat b{font-size:30px}
+body.home-immersive #home .stat span{color:white;font-size:12px}
+body.home-immersive #home .layout-with-sidebar{max-width:1240px;margin:0 auto;padding:34px 22px 70px;grid-template-columns:minmax(0,1fr) 310px}
+body.home-immersive #home .card{color:white;background:rgba(20,30,25,var(--glassAlpha,.42));border:1px solid rgba(255,255,255,.24);box-shadow:0 12px 35px rgba(0,0,0,.18);backdrop-filter:blur(var(--glassBlur,14px))}
+body.home-immersive #home .card .muted,body.home-immersive #home .source,body.home-immersive #home .photo-credit{color:rgba(255,255,255,.77)}
+body.home-immersive #home .mini{background:rgba(255,255,255,.10)}
+body.home-immersive #home .mini span{color:rgba(255,255,255,.78)}
+body.home-immersive #home .progress{background:rgba(255,255,255,.18)}
+body.home-immersive #home .btn.secondary{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.2)}
+body.home-immersive #home .todo-item{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+body.home-immersive #home .todo-item .meta{color:rgba(255,255,255,.72)}
+body.home-immersive #home .due-label{background:rgba(255,255,255,.14);color:white}
+body.home-immersive #home .hero-photo{background:rgba(255,255,255,.08)}
+body.home-immersive #home .spotify-card{background:rgba(20,30,25,var(--glassAlpha,.42))}
+#homeHeroAside{align-self:center;min-height:220px;border:1px solid rgba(255,255,255,.55);border-radius:28px;background:rgba(10,18,14,.16);backdrop-filter:blur(10px);padding:20px}
+#homeHeroAside h3{margin:0 0 12px;font-weight:normal;font-size:25px}
+#homeHeroAside .todo-list{max-height:260px;overflow:auto}
+.home-layout-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 auto;max-width:1240px;padding:18px 22px 0}
+#homeModules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.home-module{position:relative}
+.home-module.span-2{grid-column:span 2}
+.home-module.tall{min-height:520px}
+.home-module.compact{min-height:unset}
+.layout-edit-active .home-module{outline:2px dashed rgba(255,255,255,.55);outline-offset:4px}
+.module-controls{display:none;gap:5px;position:absolute;top:8px;right:8px;z-index:3;padding:5px;border-radius:10px;background:rgba(15,20,18,.78);backdrop-filter:blur(8px)}
+.layout-edit-active .module-controls{display:flex}
+.module-controls button{border:0;border-radius:7px;padding:5px 7px;background:#ffffff18;color:white;font:11px Arial}
+.module-controls button:hover{background:#ffffff2b}
+.module-drag{cursor:grab}
+.home-module.dragging{opacity:.45}
+.media-help{font:11px Arial;color:#777;line-height:1.45}
+
+.hourly-strip{display:flex;gap:10px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:thin}
+.hour-card{min-width:76px;text-align:center;padding:10px 8px;border-radius:14px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.12)}
+.hour-time{font:11px Arial;color:rgba(255,255,255,.80);margin-bottom:7px}
+.hour-icon{font-size:27px;line-height:1}
+.hour-temp{font:17px Arial;font-weight:bold;margin-top:7px}
+.weather-summary{display:flex;gap:18px;align-items:center;margin-bottom:4px}
+.saint-feature{display:grid;grid-template-columns:100px 1fr;gap:14px;align-items:start}
+.saint-photo{width:100px;height:100px;border-radius:14px;object-fit:cover;background:rgba(255,255,255,.10)}
+.saint-photo-placeholder{width:100px;height:100px;border-radius:14px;background:rgba(255,255,255,.10);display:grid;place-items:center;font-size:35px}
+@media(max-width:650px){.saint-feature{grid-template-columns:78px 1fr}.saint-photo,.saint-photo-placeholder{width:78px;height:78px}}
+
+@media(max-width:950px){
+ body.home-immersive #home .welcome{grid-template-columns:1fr;min-height:auto;padding-top:55px}
+ body.home-immersive #home .layout-with-sidebar{grid-template-columns:1fr}
+ #homeModules{grid-template-columns:1fr}
+ .home-module.span-2{grid-column:auto}
+}
+@media(max-width:650px){
+ body.home-immersive #home .stats{grid-template-columns:repeat(2,1fr)}
+ body.home-immersive #home .welcome{padding-left:20px;padding-right:20px}
+}
+
+@media(max-width:950px){.layout-with-sidebar{grid-template-columns:1fr}.todo-sidebar{position:static}}
+
+@media(max-width:950px){.animal-grid{grid-template-columns:repeat(2,1fr)}.two,.homegrid,.discovery{grid-template-columns:1fr}.wide{grid-column:auto}.collection{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){header{flex-direction:column;align-items:flex-start;padding:20px}.stats,.info-strip,.settings-grid{grid-template-columns:1fr}.animal-grid{grid-template-columns:1fr 1fr}.collection{grid-template-columns:repeat(2,1fr)}.formrow{grid-template-columns:1fr}.day{min-height:92px}.toggle-grid{grid-template-columns:1fr}}
+
+/* ===== Cloud sync / login ===== */
+#cloudLogin{
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:22px;
+  background:linear-gradient(rgba(11,22,17,.74),rgba(11,22,17,.82));
+  backdrop-filter:blur(12px)
+}
+#cloudLogin.hidden{display:none}
+.cloud-login-card{
+  width:min(440px,100%);background:rgba(255,255,255,.96);color:#344238;
+  border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.28)
+}
+.cloud-login-card h2{margin:0 0 6px;font-weight:normal;font-size:30px}
+.cloud-login-card p{font:13px Arial;color:#6f756f;line-height:1.45}
+.cloud-login-card label{display:block;margin-top:14px;font:12px Arial;color:#596159}
+.cloud-login-card input{width:100%;padding:11px;border:1px solid #d9d5ca;border-radius:10px;margin-top:5px}
+.cloud-login-actions{display:flex;gap:9px;align-items:center;margin-top:18px;flex-wrap:wrap}
+#cloudLoginMessage{font:12px Arial;margin-top:12px;min-height:18px;color:#7b4d43}
+#cloudAccount{font:11px Arial;color:#dce5dc;text-align:right}
+#cloudAccount button{margin-top:5px;border:1px solid #ffffff35;background:#ffffff10;color:white;border-radius:8px;padding:5px 8px}
+.cloud-status{display:inline-flex;align-items:center;gap:6px;font:11px Arial;padding:5px 8px;border-radius:8px;background:#edf0e8}
+.cloud-dot{width:8px;height:8px;border-radius:50%;background:#929892}
+.cloud-dot.on{background:#4f8a5b}
+.cloud-dot.busy{background:#b58b3c}
+
+</style>
+</head>
+<body>
+<div id="ambientFallback"></div>
+<div id="ambientImage"></div>
+<video id="ambientMedia" autoplay muted loop playsinline></video>
+<div id="ambientOverlay"></div>
+<header>
+  <div class="logo"><h1>🌲 Wisconsin Wildlife Zoo</h1><p>Plan your days. Earn Trail Points. Build your zoo.</p></div>
+  <div class="points"><b>🐾 <span id="points">0</span></b><small>Trail Points</small></div>
+<div id="cloudAccount" style="display:none"><div id="cloudAccountEmail"></div><button onclick="cloudSignOut()">Sign out</button></div>
+</header>
+<nav>
+  <button class="active" onclick="showPage('home',this)">Home</button>
+  <button onclick="showPage('tasks',this)">Tasks</button>
+  <button onclick="showPage('calendar',this)">Calendar</button>
+  <button onclick="showPage('history',this)">History</button>
+  <button onclick="showPage('routines',this)">Routines</button>
+  <button onclick="showPage('zoo',this)">My Zoo</button>
+  <button onclick="showPage('shop',this)">Animal Shop</button>
+  <button onclick="showPage('collection',this)">Collection</button>
+  <button aria-label="Settings" title="Settings" onclick="showPage('settings',this)">⚙️</button>
+</nav>
+
+<main>
+<section id="home" class="page active">
+  <div class="welcome">
+    <div>
+      <h2>Welcome to the Zoo</h2>
+      <p>Plan your days. Earn Trail Points. Build your zoo.</p>
+      <div style="margin-top:56px;font-size:22px" id="homeGreetingLine"></div>
+      <div class="stats">
+        <div class="stat"><b id="homePoints">0</b><span>Trail Points</span></div>
+        <div class="stat"><b id="earnedToday">0</b><span>Points Earned Today</span></div>
+        <div class="stat"><b id="tasksDueToday">0</b><span>Tasks Due Today</span></div>
+        <div class="stat"><b id="homeLevel">1</b><span>Ranger Level</span></div>
+      </div>
+    </div>
+    <aside id="homeHeroAside">
+      <div class="row between"><h3>📌 Still To Do</h3><button class="btn secondary tiny" onclick="showPage('tasks')">↗</button></div>
+      <div id="heroTodoList" class="todo-list"></div>
+    </aside>
+  </div>
+
+  <div class="layout-with-sidebar">
+    <div id="homeModules">
+      <div class="card home-module span-2" data-key="today" data-homecard="today"><div class="module-controls"></div><div class="card-inner"><div class="section-title"><div><h3>🌿 Today</h3><p class="muted">Daily work and bonus goals.</p></div><button class="btn tiny" onclick="showPage('tasks')">Open Tasks</button></div><div class="row between muted"><span id="todayProgressText"></span><span id="todayPercent"></span></div><div class="progress"><div class="fill" id="todayProgressFill"></div></div></div></div>
+      <div class="card home-module" data-key="week" data-homecard="week"><div class="module-controls"></div><div class="card-inner"><div class="section-title"><div><h3>🌲 This Week</h3><p class="muted" id="weekRange"></p></div></div><div class="row between muted"><span id="weekProgressText"></span><span id="weekPercent"></span></div><div class="progress"><div class="fill" id="weekProgressFill"></div></div><div class="info-strip"><div class="mini"><b id="weekRemaining"></b><span>Goals left</span></div><div class="mini"><b id="weekPointsLeft"></b><span>Points available</span></div><div class="mini"><b id="bonusWeekEarned"></b><span>Bonus earned</span></div></div></div></div>
+      <div class="card home-module" data-key="weather" data-homecard="weather"><div class="module-controls"></div><div class="card-inner"><h3>🌦️ Today's Weather</h3><div id="weatherBox"><p class="muted">Loading weather…</p></div></div></div>
+      <div class="card home-module" data-key="faith" data-homecard="faith"><div class="module-controls"></div><div class="card-inner"><h3>✝️ Faith Today</h3><div id="saintBox"><p class="muted">Loading today's feast…</p></div><hr style="border:0;border-top:1px solid rgba(255,255,255,.16);margin:16px 0"><div style="margin-top:4px"><span class="badge">Saint Quote of the Day</span></div><div id="saintQuote" class="quote" style="margin-top:9px"></div><div class="row" style="margin-top:14px;flex-wrap:wrap"><a class="btn tiny" href="https://bible.usccb.org/daily-bible-reading" target="_blank" rel="noopener">USCCB Readings</a><a class="btn secondary tiny" href="https://bible.usccb.org/podcasts/audio" target="_blank" rel="noopener">Listen 🎧</a></div></div></div>
+      <div class="card home-module span-2" data-key="reward" data-homecard="reward"><div class="module-controls"></div><div class="card-inner"><h3>🐾 Wildlife Reward of the Day</h3><div class="discovery"><div class="hero-photo" id="rewardPhoto"></div><div><h2 id="rewardName" style="font-weight:normal;margin-top:0"></h2><p class="muted">Earn 20 Trail Points today to welcome this individual animal into your zoo automatically—even if you already have the same species.</p><div class="row between muted"><span id="rewardProgressText"></span><span>20 needed</span></div><div class="progress"><div class="fill" id="rewardProgressFill"></div></div><p id="rewardStatus" class="muted"></p></div></div></div></div>
+      <div class="card home-module" data-key="discovery" data-homecard="discovery"><div class="module-controls"></div><div class="card-inner"><h3>🌿 Wisconsin Discovery</h3><div class="discovery"><div class="hero-photo" id="discoveryPhoto"></div><div><span class="badge" id="discoveryType"></span><h2 id="discoveryName" style="font-weight:normal"></h2><p class="muted">Remember this species—you may see it on your weekly quiz.</p><div class="photo-credit" id="discoveryCredit"></div></div></div></div></div>
+      <div class="card home-module" data-key="historytoday" data-homecard="historytoday"><div class="module-controls"></div><div class="card-inner"><h3>📜 On This Day in History</h3><div id="historyToday"><p class="muted">Loading a historical event…</p></div></div></div>
+      <div class="card home-module" data-key="joke" data-homecard="joke"><div class="module-controls"></div><div class="card-inner"><h3>😄 Joke of the Day</h3><p id="jokeText" style="font-size:18px;line-height:1.5"></p></div></div>
+      <div class="card home-module" data-key="spotify" data-homecard="spotify"><div class="module-controls"></div><div class="card-inner"><div class="section-title"><div><h3>🎵 Spotify</h3><p class="muted">Your connected music.</p></div></div><div id="spotifyBox"></div></div></div>
+      <div class="card home-module span-2" data-key="quiz" data-homecard="quiz"><div class="module-controls"></div><div class="card-inner"><h3>🧠 Weekly Wisconsin Quiz</h3><div id="quizBox"></div></div></div>
+    </div>
+
+    <aside class="card todo-sidebar">
+      <div class="section-title"><div><h3>📌 Still To Do</h3><p class="muted">Your next incomplete tasks.</p></div></div>
+      <div class="info-strip"><div class="mini"><b id="sideOverdueHome">0</b><span>Overdue</span></div><div class="mini"><b id="sideTodayHome">0</b><span>Due today</span></div><div class="mini"><b id="sideWeekHome">0</b><span>Due this week</span></div></div>
+      <div id="todoSidebarHome" class="todo-list"></div>
+    </aside>
+  </div>
+
+  <div class="home-layout-toolbar" style="padding-top:0;padding-bottom:10px">
+    <button class="btn secondary tiny" id="layoutEditBtn" onclick="toggleLayoutEdit()">✥ Edit Home Layout</button>
+    <span class="muted">Customize this page: drag modules to reorder and use S / M / Wide / Tall / XL to resize them.</span>
+  </div>
+</section>
+
+<section id="tasks" class="page">
+  <div class="title"><h2>✅ Tasks</h2><p>Incomplete work stays visible until you finish it, and everything is sorted by due date.</p></div>
+
+  <div class="layout-with-sidebar">
+    <div>
+      <div class="card">
+        <div class="section-title">
+          <div><h3>📌 Incomplete Tasks</h3><p class="muted">Soonest due dates appear first. Overdue tasks stay here until completed.</p></div>
+          <button class="btn" onclick="openNewTaskModal()">＋ New Task</button>
+        </div>
+        <div id="incompleteTasks"></div>
+      </div>
+
+      <div class="card collapse-card" id="dailyCollapse">
+        <div class="collapse-head" onclick="toggleCollapse('dailyCollapse')">
+          <div><h3 style="margin:0">☀️ Daily Tasks</h3><p class="muted" id="dailySummary" style="margin:4px 0 0"></p></div>
+          <span class="collapse-arrow">▶</span>
+        </div>
+        <div class="collapse-body"><div id="dailyTasks"></div></div>
+      </div>
+
+      <div class="card collapse-card" id="weeklyCollapse">
+        <div class="collapse-head" onclick="toggleCollapse('weeklyCollapse')">
+          <div><h3 style="margin:0">🌲 Weekly Tasks</h3><p class="muted" id="weeklySummary" style="margin:4px 0 0"></p></div>
+          <span class="collapse-arrow">▶</span>
+        </div>
+        <div class="collapse-body">
+          <div class="row between muted"><span id="weekTaskText"></span><span id="weekTaskPercent"></span></div>
+          <div class="progress"><div class="fill" id="weekTaskFill"></div></div>
+          <div id="weeklyTasks" style="margin-top:10px"></div>
+        </div>
+      </div>
+
+      <div class="card collapse-card" id="bonusCollapse">
+        <div class="collapse-head" onclick="toggleCollapse('bonusCollapse')">
+          <div><h3 style="margin:0">✨ Bonus Goals</h3><p class="muted" id="bonusSummary" style="margin:4px 0 0"></p></div>
+          <span class="collapse-arrow">▶</span>
+        </div>
+        <div class="collapse-body"><div id="bonusGoals"></div></div>
+      </div>
+    </div>
+
+    <aside class="card todo-sidebar">
+      <div class="section-title"><div><h3>📌 Still To Do</h3><p class="muted">Quick view of what is coming next.</p></div></div>
+      <div class="info-strip">
+        <div class="mini"><b id="sideOverdueTasks">0</b><span>Overdue</span></div>
+        <div class="mini"><b id="sideTodayTasks">0</b><span>Due today</span></div>
+        <div class="mini"><b id="sideWeekTasks">0</b><span>Due this week</span></div>
+      </div>
+      <div id="todoSidebarTasks" class="todo-list"></div>
+    </aside>
+  </div>
+</section>
+
+<section id="calendar" class="page">
+  <div class="title"><h2>📅 My Calendar</h2><p>The month stays clean: only dated tasks and events appear. Click any date for the full day view.</p></div>
+  <div class="card">
+    <div class="calendar-head"><button class="btn secondary" onclick="changeMonth(-1)">←</button><h3 id="calendarMonth"></h3><div><button class="btn" onclick="openEventModal()">＋ Add Event</button> <button class="btn secondary" onclick="goToToday()">Today</button> <button class="btn secondary" onclick="changeMonth(1)">→</button></div></div>
+    <div class="calgrid" id="calendarGrid"></div>
+  </div>
+</section>
+
+<section id="history" class="page">
+  <div class="title"><h2>🔎 Task History</h2><p>Completed tasks and habits stay searchable.</p></div>
+  <div class="card"><div class="filters"><input id="historySearch" placeholder="Search previous tasks…" oninput="renderHistory()"><select id="historyFilter" onchange="renderHistory()"><option value="all">All completed items</option><option value="recurring">Recurring</option><option value="bonus">Bonus goals</option><option value="projects">Projects</option></select></div><div id="historyList"></div></div>
+</section>
+
+<section id="routines" class="page">
+  <div class="title"><h2>⚙️ Manage Routines</h2><p>Edit daily tasks, weekly tasks, and bonus goals without touching code.</p></div>
+  <div class="card"><div class="section-title"><div><h3>☀️ Daily Recurring Tasks</h3><p class="muted">Reset each new day.</p></div><button class="btn" onclick="openRoutineModal('daily')">＋ Add Daily</button></div><div id="manageDaily"></div></div>
+  <div class="card"><div class="section-title"><div><h3>🌲 Weekly Recurring Tasks</h3><p class="muted">Available all week; reset Sunday.</p></div><button class="btn" onclick="openRoutineModal('weekly')">＋ Add Weekly</button></div><div id="manageWeekly"></div></div>
+  <div class="card"><div class="section-title"><div><h3>✨ Bonus Goals</h3><p class="muted">Choose points, days, and optional streak bonuses.</p></div><button class="btn" onclick="openBonusModal()">＋ Add Bonus Goal</button></div><div id="manageBonus"></div></div>
+</section>
+
+<section id="zoo" class="page"><div class="title"><h2>🏞️ My Wisconsin Zoo</h2><p>Each animal is an individual: you can have multiple of the same species, with different names and photos.</p></div><div id="habitats"></div></section>
+<section id="shop" class="page">
+  <div class="title"><h2>🛒 Animal Shop</h2><p>Choose from 200 Wisconsin-native wildlife species. You can welcome more than one individual of the same species.</p></div>
+  <div class="card">
+    <div class="filters">
+      <input id="shopSearch" placeholder="Search 200 animals…" oninput="renderShop()">
+      <select id="shopType" onchange="renderShop()">
+        <option value="all">All animal groups</option>
+        <option value="Mammal">Mammals</option><option value="Bird">Birds</option><option value="Fish">Fish</option>
+        <option value="Reptile">Reptiles</option><option value="Amphibian">Amphibians</option>
+      </select>
+      <select id="shopRarity" onchange="renderShop()">
+        <option value="all">All rarities</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Very Rare</option>
+      </select>
+    </div>
+    <div class="row between muted"><span id="shopCount">200 animals</span><span>Buying the same species again creates a new, separately named zoo animal.</span></div>
+  </div>
+  <div class="animal-grid" id="shopGrid"></div>
+</section>
+<section id="collection" class="page"><div class="title"><h2>📖 Wildlife Collection</h2><p>Track the Wisconsin species you have discovered.</p></div><div class="card"><div class="row between muted"><span>Collection Progress</span><span id="collectionText"></span></div><div class="progress"><div class="fill" id="collectionFill"></div></div></div><div class="collection" id="collectionGrid"></div></section>
+
+<section id="settings" class="page">
+  <div class="title"><h2>🎨 Settings</h2><p>Personalize your dashboard and connect live features.</p></div>
+  <div class="settings-grid">
+    <div class="setting-block"><h4>Appearance</h4>
+      <label>Font<select id="setFont"><option value='Georgia,"Times New Roman",serif'>Classic Georgia</option><option value='Arial,sans-serif'>Clean Arial</option><option value='"Trebuchet MS",sans-serif'>Friendly Trebuchet</option><option value='"Courier New",monospace'>Typewriter</option></select></label><br><br>
+      <label>Theme<select id="setTheme"><option value="forest">Wisconsin Forest</option><option value="lake">Northwoods Lake</option><option value="autumn">Autumn Trail</option><option value="soft">Soft Neutral</option></select></label><br><br>
+      <button class="btn" onclick="saveAppearance()">Save Appearance</button>
+    </div>
+    <div class="setting-block"><h4>Home Background</h4>
+      <label>Background type<select id="bgType"><option value="none">Scenic gradient</option><option value="image">Image</option><option value="video">Looping video</option></select></label><br><br>
+      <label>Image or direct video URL<input id="setBg" placeholder="https://…/background.jpg or .mp4"></label>
+      <p class="media-help">For video, use a direct MP4/WebM file URL—not a YouTube page. You can also later upload a video to your GitHub repo and use a path such as <code>media/wisconsin-lake.mp4</code>.</p>
+      <div class="formrow"><label>Dark overlay<input type="range" id="bgOverlay" min="0" max="80" step="5"></label><label>Glass transparency<input type="range" id="glassOpacity" min="15" max="85" step="5"></label></div><br>
+      <div class="formrow"><label>Card blur<input type="range" id="glassBlur" min="0" max="30" step="2"></label><label>Video playback<select id="videoPlay"><option value="on">Autoplay loop</option><option value="off">Paused</option></select></label></div><br>
+      <button class="btn" onclick="saveHomeMedia()">Save Home Background</button>
+    </div>
+    <div class="setting-block"><h4>Weather</h4><label>Location<input id="setLocation" placeholder="City, State"></label><p class="muted">Weather uses Open-Meteo. No API key needed.</p><button class="btn" onclick="saveLocation()">Save Location</button></div>
+    <div class="setting-block"><h4>Home Page Cards</h4><div class="toggle-grid" id="homeToggles"></div><br><button class="btn" onclick="saveHomeCards()">Save Home Layout</button></div>
+
+    <div class="setting-block"><h4>Cloud Sync</h4>
+      <div id="cloudSettingsStatus" class="cloud-status"><span class="cloud-dot" id="cloudSettingsDot"></span><span id="cloudSettingsText">Checking…</span></div>
+      <p class="muted">Your dashboard data is saved to your Supabase account so it can follow you between computers.</p>
+      <button class="btn" onclick="syncCloudNow()">Sync Now</button>
+      <button class="btn secondary" onclick="cloudSignOut()">Sign Out</button>
+    </div>
+    <div class="setting-block"><h4>Spotify</h4>
+      <p class="muted">Create a Spotify developer app, then paste its Client ID here. This site uses PKCE, so no client secret is stored.</p>
+      <label>Spotify Client ID<input id="spotifyClientId"></label><br><br>
+      <label>Redirect URI<input id="spotifyRedirect" readonly></label><br><br>
+      <button class="btn" onclick="saveSpotifySettings()">Save</button> <button class="btn secondary" onclick="connectSpotify()">Connect Spotify</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="modal" id="modal"><div class="modalbox" id="modalBox"></div></div>
+
+<div id="cloudLogin">
+  <div class="cloud-login-card">
+    <h2>🌲 Wisconsin Wildlife Zoo</h2>
+    <p>Sign in to load your dashboard and keep your tasks, Trail Points, calendar, zoo, and settings synced between computers.</p>
+    <label>Email<input id="cloudEmail" type="email" autocomplete="email" placeholder="Your email"></label>
+    <label>Password<input id="cloudPassword" type="password" autocomplete="current-password" placeholder="Your password"></label>
+    <div class="cloud-login-actions">
+      <button class="btn" onclick="cloudSignIn()">Sign In</button>
+      <span class="muted">Uses your private Supabase account.</span>
+    </div>
+    <div id="cloudLoginMessage"></div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://mdstbmcfkuuyidhxgjrw.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+const animals=[{"id":"white-tailed-deer","name":"White-tailed Deer","scientific":"Odocoileus virginianus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"american-black-bear","name":"American Black Bear","scientific":"Ursus americanus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"gray-wolf","name":"Gray Wolf","scientific":"Canis lupus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Very Rare","price":165},{"id":"coyote","name":"Coyote","scientific":"Canis latrans","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"red-fox","name":"Red Fox","scientific":"Vulpes vulpes","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"gray-fox","name":"Gray Fox","scientific":"Urocyon cinereoargenteus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Uncommon","price":60},{"id":"bobcat","name":"Bobcat","scientific":"Lynx rufus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"canada-lynx","name":"Canada Lynx","scientific":"Lynx canadensis","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Very Rare","price":165},{"id":"american-badger","name":"American Badger","scientific":"Taxidea taxus","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Rare","price":100},{"id":"north-american-river-otter","name":"North American River Otter","scientific":"Lontra canadensis","type":"Mammal","habitat":"Rivers & Lakes","rarity":"Rare","price":100},{"id":"fisher","name":"Fisher","scientific":"Pekania pennanti","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"american-marten","name":"American Marten","scientific":"Martes americana","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Very Rare","price":165},{"id":"american-mink","name":"American Mink","scientific":"Neogale vison","type":"Mammal","habitat":"Wetlands","rarity":"Uncommon","price":60},{"id":"long-tailed-weasel","name":"Long-tailed Weasel","scientific":"Neogale frenata","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Uncommon","price":60},{"id":"least-weasel","name":"Least Weasel","scientific":"Mustela nivalis","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Rare","price":100},{"id":"american-ermine","name":"American Ermine","scientific":"Mustela richardsonii","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"raccoon","name":"Raccoon","scientific":"Procyon lotor","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"striped-skunk","name":"Striped Skunk","scientific":"Mephitis mephitis","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"virginia-opossum","name":"Virginia Opossum","scientific":"Didelphis virginiana","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"american-beaver","name":"American Beaver","scientific":"Castor canadensis","type":"Mammal","habitat":"Wetlands","rarity":"Common","price":35},{"id":"muskrat","name":"Muskrat","scientific":"Ondatra zibethicus","type":"Mammal","habitat":"Wetlands","rarity":"Common","price":35},{"id":"woodchuck","name":"Woodchuck","scientific":"Marmota monax","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"north-american-porcupine","name":"North American Porcupine","scientific":"Erethizon dorsatum","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Uncommon","price":60},{"id":"fox-squirrel","name":"Fox Squirrel","scientific":"Sciurus niger","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"eastern-gray-squirrel","name":"Eastern Gray Squirrel","scientific":"Sciurus carolinensis","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"american-red-squirrel","name":"American Red Squirrel","scientific":"Tamiasciurus hudsonicus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"southern-flying-squirrel","name":"Southern Flying Squirrel","scientific":"Glaucomys volans","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Uncommon","price":60},{"id":"northern-flying-squirrel","name":"Northern Flying Squirrel","scientific":"Glaucomys sabrinus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"eastern-chipmunk","name":"Eastern Chipmunk","scientific":"Tamias striatus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"thirteen-lined-ground-squirrel","name":"Thirteen-lined Ground Squirrel","scientific":"Ictidomys tridecemlineatus","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"franklin-s-ground-squirrel","name":"Franklin's Ground Squirrel","scientific":"Poliocitellus franklinii","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Rare","price":100},{"id":"meadow-vole","name":"Meadow Vole","scientific":"Microtus pennsylvanicus","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"prairie-vole","name":"Prairie Vole","scientific":"Microtus ochrogaster","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Uncommon","price":60},{"id":"woodland-vole","name":"Woodland Vole","scientific":"Microtus pinetorum","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"southern-bog-lemming","name":"Southern Bog Lemming","scientific":"Synaptomys cooperi","type":"Mammal","habitat":"Wetlands","rarity":"Rare","price":100},{"id":"white-footed-mouse","name":"White-footed Mouse","scientific":"Peromyscus leucopus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"north-american-deer-mouse","name":"North American Deer Mouse","scientific":"Peromyscus maniculatus","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"meadow-jumping-mouse","name":"Meadow Jumping Mouse","scientific":"Zapus hudsonius","type":"Mammal","habitat":"Wetlands","rarity":"Uncommon","price":60},{"id":"woodland-jumping-mouse","name":"Woodland Jumping Mouse","scientific":"Napaeozapus insignis","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"northern-short-tailed-shrew","name":"Northern Short-tailed Shrew","scientific":"Blarina brevicauda","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"masked-shrew","name":"Masked Shrew","scientific":"Sorex cinereus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"star-nosed-mole","name":"Star-nosed Mole","scientific":"Condylura cristata","type":"Mammal","habitat":"Wetlands","rarity":"Uncommon","price":60},{"id":"eastern-mole","name":"Eastern Mole","scientific":"Scalopus aquaticus","type":"Mammal","habitat":"Prairie & Meadow","rarity":"Common","price":35},{"id":"little-brown-bat","name":"Little Brown Bat","scientific":"Myotis lucifugus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Rare","price":100},{"id":"big-brown-bat","name":"Big Brown Bat","scientific":"Eptesicus fuscus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Common","price":35},{"id":"hoary-bat","name":"Hoary Bat","scientific":"Lasiurus cinereus","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Uncommon","price":60},{"id":"eastern-red-bat","name":"Eastern Red Bat","scientific":"Lasiurus borealis","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Uncommon","price":60},{"id":"silver-haired-bat","name":"Silver-haired Bat","scientific":"Lasionycteris noctivagans","type":"Mammal","habitat":"Wisconsin Forest","rarity":"Uncommon","price":60},{"id":"bald-eagle","name":"Bald Eagle","scientific":"Haliaeetus leucocephalus","type":"Bird","habitat":"Rivers & Lakes","rarity":"Rare","price":85},{"id":"golden-eagle","name":"Golden Eagle","scientific":"Aquila chrysaetos","type":"Bird","habitat":"Prairie & Meadow","rarity":"Very Rare","price":150},{"id":"osprey","name":"Osprey","scientific":"Pandion haliaetus","type":"Bird","habitat":"Rivers & Lakes","rarity":"Rare","price":85},{"id":"red-tailed-hawk","name":"Red-tailed Hawk","scientific":"Buteo jamaicensis","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"red-shouldered-hawk","name":"Red-shouldered Hawk","scientific":"Buteo lineatus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Rare","price":85},{"id":"broad-winged-hawk","name":"Broad-winged Hawk","scientific":"Buteo platypterus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"cooper-s-hawk","name":"Cooper's Hawk","scientific":"Accipiter cooperii","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"sharp-shinned-hawk","name":"Sharp-shinned Hawk","scientific":"Accipiter striatus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"northern-harrier","name":"Northern Harrier","scientific":"Circus hudsonius","type":"Bird","habitat":"Prairie & Meadow","rarity":"Uncommon","price":45},{"id":"american-kestrel","name":"American Kestrel","scientific":"Falco sparverius","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"peregrine-falcon","name":"Peregrine Falcon","scientific":"Falco peregrinus","type":"Bird","habitat":"Cliffs & Cities","rarity":"Rare","price":85},{"id":"great-horned-owl","name":"Great Horned Owl","scientific":"Bubo virginianus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"barred-owl","name":"Barred Owl","scientific":"Strix varia","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"eastern-screech-owl","name":"Eastern Screech-Owl","scientific":"Megascops asio","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"northern-saw-whet-owl","name":"Northern Saw-whet Owl","scientific":"Aegolius acadicus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"snowy-owl","name":"Snowy Owl","scientific":"Bubo scandiacus","type":"Bird","habitat":"Prairie & Meadow","rarity":"Rare","price":85},{"id":"common-loon","name":"Common Loon","scientific":"Gavia immer","type":"Bird","habitat":"Rivers & Lakes","rarity":"Rare","price":85},{"id":"pied-billed-grebe","name":"Pied-billed Grebe","scientific":"Podilymbus podiceps","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"horned-grebe","name":"Horned Grebe","scientific":"Podiceps auritus","type":"Bird","habitat":"Rivers & Lakes","rarity":"Rare","price":85},{"id":"american-white-pelican","name":"American White Pelican","scientific":"Pelecanus erythrorhynchos","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"double-crested-cormorant","name":"Double-crested Cormorant","scientific":"Nannopterum auritum","type":"Bird","habitat":"Rivers & Lakes","rarity":"Common","price":20},{"id":"great-blue-heron","name":"Great Blue Heron","scientific":"Ardea herodias","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"great-egret","name":"Great Egret","scientific":"Ardea alba","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"green-heron","name":"Green Heron","scientific":"Butorides virescens","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"black-crowned-night-heron","name":"Black-crowned Night-Heron","scientific":"Nycticorax nycticorax","type":"Bird","habitat":"Wetlands","rarity":"Rare","price":85},{"id":"american-bittern","name":"American Bittern","scientific":"Botaurus lentiginosus","type":"Bird","habitat":"Wetlands","rarity":"Rare","price":85},{"id":"sandhill-crane","name":"Sandhill Crane","scientific":"Antigone canadensis","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"whooping-crane","name":"Whooping Crane","scientific":"Grus americana","type":"Bird","habitat":"Wetlands","rarity":"Very Rare","price":150},{"id":"canada-goose","name":"Canada Goose","scientific":"Branta canadensis","type":"Bird","habitat":"Rivers & Lakes","rarity":"Common","price":20},{"id":"trumpeter-swan","name":"Trumpeter Swan","scientific":"Cygnus buccinator","type":"Bird","habitat":"Wetlands","rarity":"Rare","price":85},{"id":"tundra-swan","name":"Tundra Swan","scientific":"Cygnus columbianus","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"wood-duck","name":"Wood Duck","scientific":"Aix sponsa","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"mallard","name":"Mallard","scientific":"Anas platyrhynchos","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"blue-winged-teal","name":"Blue-winged Teal","scientific":"Spatula discors","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"green-winged-teal","name":"Green-winged Teal","scientific":"Anas crecca","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"northern-shoveler","name":"Northern Shoveler","scientific":"Spatula clypeata","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"gadwall","name":"Gadwall","scientific":"Mareca strepera","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"american-wigeon","name":"American Wigeon","scientific":"Mareca americana","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"canvasback","name":"Canvasback","scientific":"Aythya valisineria","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"redhead","name":"Redhead","scientific":"Aythya americana","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"ring-necked-duck","name":"Ring-necked Duck","scientific":"Aythya collaris","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"lesser-scaup","name":"Lesser Scaup","scientific":"Aythya affinis","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"hooded-merganser","name":"Hooded Merganser","scientific":"Lophodytes cucullatus","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"common-merganser","name":"Common Merganser","scientific":"Mergus merganser","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"ruddy-duck","name":"Ruddy Duck","scientific":"Oxyura jamaicensis","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"wild-turkey","name":"Wild Turkey","scientific":"Meleagris gallopavo","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"ruffed-grouse","name":"Ruffed Grouse","scientific":"Bonasa umbellus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"spruce-grouse","name":"Spruce Grouse","scientific":"Canachites canadensis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Rare","price":85},{"id":"greater-prairie-chicken","name":"Greater Prairie-Chicken","scientific":"Tympanuchus cupido","type":"Bird","habitat":"Prairie & Meadow","rarity":"Very Rare","price":150},{"id":"northern-bobwhite","name":"Northern Bobwhite","scientific":"Colinus virginianus","type":"Bird","habitat":"Prairie & Meadow","rarity":"Rare","price":85},{"id":"killdeer","name":"Killdeer","scientific":"Charadrius vociferus","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"spotted-sandpiper","name":"Spotted Sandpiper","scientific":"Actitis macularius","type":"Bird","habitat":"Rivers & Lakes","rarity":"Common","price":20},{"id":"american-woodcock","name":"American Woodcock","scientific":"Scolopax minor","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"wilson-s-snipe","name":"Wilson's Snipe","scientific":"Gallinago delicata","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"upland-sandpiper","name":"Upland Sandpiper","scientific":"Bartramia longicauda","type":"Bird","habitat":"Prairie & Meadow","rarity":"Rare","price":85},{"id":"american-avocet","name":"American Avocet","scientific":"Recurvirostra americana","type":"Bird","habitat":"Wetlands","rarity":"Rare","price":85},{"id":"ring-billed-gull","name":"Ring-billed Gull","scientific":"Larus delawarensis","type":"Bird","habitat":"Rivers & Lakes","rarity":"Common","price":20},{"id":"herring-gull","name":"Herring Gull","scientific":"Larus argentatus","type":"Bird","habitat":"Rivers & Lakes","rarity":"Common","price":20},{"id":"caspian-tern","name":"Caspian Tern","scientific":"Hydroprogne caspia","type":"Bird","habitat":"Rivers & Lakes","rarity":"Uncommon","price":45},{"id":"forster-s-tern","name":"Forster's Tern","scientific":"Sterna forsteri","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"black-tern","name":"Black Tern","scientific":"Chlidonias niger","type":"Bird","habitat":"Wetlands","rarity":"Rare","price":85},{"id":"mourning-dove","name":"Mourning Dove","scientific":"Zenaida macroura","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"yellow-billed-cuckoo","name":"Yellow-billed Cuckoo","scientific":"Coccyzus americanus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"black-billed-cuckoo","name":"Black-billed Cuckoo","scientific":"Coccyzus erythropthalmus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"common-nighthawk","name":"Common Nighthawk","scientific":"Chordeiles minor","type":"Bird","habitat":"Prairie & Meadow","rarity":"Uncommon","price":45},{"id":"eastern-whip-poor-will","name":"Eastern Whip-poor-will","scientific":"Antrostomus vociferus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Rare","price":85},{"id":"chimney-swift","name":"Chimney Swift","scientific":"Chaetura pelagica","type":"Bird","habitat":"Cliffs & Cities","rarity":"Uncommon","price":45},{"id":"ruby-throated-hummingbird","name":"Ruby-throated Hummingbird","scientific":"Archilochus colubris","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"belted-kingfisher","name":"Belted Kingfisher","scientific":"Megaceryle alcyon","type":"Bird","habitat":"Rivers & Lakes","rarity":"Common","price":20},{"id":"pileated-woodpecker","name":"Pileated Woodpecker","scientific":"Dryocopus pileatus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"red-bellied-woodpecker","name":"Red-bellied Woodpecker","scientific":"Melanerpes carolinus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"red-headed-woodpecker","name":"Red-headed Woodpecker","scientific":"Melanerpes erythrocephalus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Rare","price":85},{"id":"yellow-bellied-sapsucker","name":"Yellow-bellied Sapsucker","scientific":"Sphyrapicus varius","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"downy-woodpecker","name":"Downy Woodpecker","scientific":"Dryobates pubescens","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"hairy-woodpecker","name":"Hairy Woodpecker","scientific":"Leuconotopicus villosus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"northern-flicker","name":"Northern Flicker","scientific":"Colaptes auratus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"eastern-wood-pewee","name":"Eastern Wood-Pewee","scientific":"Contopus virens","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"eastern-phoebe","name":"Eastern Phoebe","scientific":"Sayornis phoebe","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"great-crested-flycatcher","name":"Great Crested Flycatcher","scientific":"Myiarchus crinitus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"eastern-kingbird","name":"Eastern Kingbird","scientific":"Tyrannus tyrannus","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"blue-jay","name":"Blue Jay","scientific":"Cyanocitta cristata","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"canada-jay","name":"Canada Jay","scientific":"Perisoreus canadensis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Rare","price":85},{"id":"american-crow","name":"American Crow","scientific":"Corvus brachyrhynchos","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"common-raven","name":"Common Raven","scientific":"Corvus corax","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"black-capped-chickadee","name":"Black-capped Chickadee","scientific":"Poecile atricapillus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"tufted-titmouse","name":"Tufted Titmouse","scientific":"Baeolophus bicolor","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"white-breasted-nuthatch","name":"White-breasted Nuthatch","scientific":"Sitta carolinensis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"red-breasted-nuthatch","name":"Red-breasted Nuthatch","scientific":"Sitta canadensis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"brown-creeper","name":"Brown Creeper","scientific":"Certhia americana","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"house-wren","name":"House Wren","scientific":"Troglodytes aedon","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"winter-wren","name":"Winter Wren","scientific":"Troglodytes hiemalis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"marsh-wren","name":"Marsh Wren","scientific":"Cistothorus palustris","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"sedge-wren","name":"Sedge Wren","scientific":"Cistothorus stellaris","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"eastern-bluebird","name":"Eastern Bluebird","scientific":"Sialia sialis","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"veery","name":"Veery","scientific":"Catharus fuscescens","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"wood-thrush","name":"Wood Thrush","scientific":"Hylocichla mustelina","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"american-robin","name":"American Robin","scientific":"Turdus migratorius","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"gray-catbird","name":"Gray Catbird","scientific":"Dumetella carolinensis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"brown-thrasher","name":"Brown Thrasher","scientific":"Toxostoma rufum","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"cedar-waxwing","name":"Cedar Waxwing","scientific":"Bombycilla cedrorum","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"american-redstart","name":"American Redstart","scientific":"Setophaga ruticilla","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"yellow-warbler","name":"Yellow Warbler","scientific":"Setophaga petechia","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"black-throated-green-warbler","name":"Black-throated Green Warbler","scientific":"Setophaga virens","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"blackburnian-warbler","name":"Blackburnian Warbler","scientific":"Setophaga fusca","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"ovenbird","name":"Ovenbird","scientific":"Seiurus aurocapilla","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"common-yellowthroat","name":"Common Yellowthroat","scientific":"Geothlypis trichas","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"scarlet-tanager","name":"Scarlet Tanager","scientific":"Piranga olivacea","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"northern-cardinal","name":"Northern Cardinal","scientific":"Cardinalis cardinalis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"rose-breasted-grosbeak","name":"Rose-breasted Grosbeak","scientific":"Pheucticus ludovicianus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"indigo-bunting","name":"Indigo Bunting","scientific":"Passerina cyanea","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"eastern-towhee","name":"Eastern Towhee","scientific":"Pipilo erythrophthalmus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"chipping-sparrow","name":"Chipping Sparrow","scientific":"Spizella passerina","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"field-sparrow","name":"Field Sparrow","scientific":"Spizella pusilla","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"song-sparrow","name":"Song Sparrow","scientific":"Melospiza melodia","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"swamp-sparrow","name":"Swamp Sparrow","scientific":"Melospiza georgiana","type":"Bird","habitat":"Wetlands","rarity":"Uncommon","price":45},{"id":"dark-eyed-junco","name":"Dark-eyed Junco","scientific":"Junco hyemalis","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"baltimore-oriole","name":"Baltimore Oriole","scientific":"Icterus galbula","type":"Bird","habitat":"Wisconsin Forest","rarity":"Common","price":20},{"id":"red-winged-blackbird","name":"Red-winged Blackbird","scientific":"Agelaius phoeniceus","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"eastern-meadowlark","name":"Eastern Meadowlark","scientific":"Sturnella magna","type":"Bird","habitat":"Prairie & Meadow","rarity":"Uncommon","price":45},{"id":"bobolink","name":"Bobolink","scientific":"Dolichonyx oryzivorus","type":"Bird","habitat":"Prairie & Meadow","rarity":"Uncommon","price":45},{"id":"common-grackle","name":"Common Grackle","scientific":"Quiscalus quiscula","type":"Bird","habitat":"Wetlands","rarity":"Common","price":20},{"id":"brown-headed-cowbird","name":"Brown-headed Cowbird","scientific":"Molothrus ater","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"american-goldfinch","name":"American Goldfinch","scientific":"Spinus tristis","type":"Bird","habitat":"Prairie & Meadow","rarity":"Common","price":20},{"id":"purple-finch","name":"Purple Finch","scientific":"Haemorhous purpureus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"pine-siskin","name":"Pine Siskin","scientific":"Spinus pinus","type":"Bird","habitat":"Wisconsin Forest","rarity":"Uncommon","price":45},{"id":"brook-trout","name":"Brook Trout","scientific":"Salvelinus fontinalis","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"lake-trout","name":"Lake Trout","scientific":"Salvelinus namaycush","type":"Fish","habitat":"Rivers & Lakes","rarity":"Uncommon","price":50},{"id":"walleye","name":"Walleye","scientific":"Sander vitreus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Rare","price":90},{"id":"sauger","name":"Sauger","scientific":"Sander canadensis","type":"Fish","habitat":"Rivers & Lakes","rarity":"Uncommon","price":50},{"id":"yellow-perch","name":"Yellow Perch","scientific":"Perca flavescens","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"bluegill","name":"Bluegill","scientific":"Lepomis macrochirus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"pumpkinseed","name":"Pumpkinseed","scientific":"Lepomis gibbosus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"green-sunfish","name":"Green Sunfish","scientific":"Lepomis cyanellus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"largemouth-bass","name":"Largemouth Bass","scientific":"Micropterus salmoides","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"smallmouth-bass","name":"Smallmouth Bass","scientific":"Micropterus dolomieu","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"rock-bass","name":"Rock Bass","scientific":"Ambloplites rupestris","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"black-crappie","name":"Black Crappie","scientific":"Pomoxis nigromaculatus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"northern-pike","name":"Northern Pike","scientific":"Esox lucius","type":"Fish","habitat":"Rivers & Lakes","rarity":"Rare","price":90},{"id":"muskellunge","name":"Muskellunge","scientific":"Esox masquinongy","type":"Fish","habitat":"Rivers & Lakes","rarity":"Very Rare","price":155},{"id":"lake-sturgeon","name":"Lake Sturgeon","scientific":"Acipenser fulvescens","type":"Fish","habitat":"Rivers & Lakes","rarity":"Very Rare","price":155},{"id":"burbot","name":"Burbot","scientific":"Lota lota","type":"Fish","habitat":"Rivers & Lakes","rarity":"Uncommon","price":50},{"id":"longnose-gar","name":"Longnose Gar","scientific":"Lepisosteus osseus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Rare","price":90},{"id":"bowfin","name":"Bowfin","scientific":"Amia calva","type":"Fish","habitat":"Wetlands","rarity":"Rare","price":90},{"id":"channel-catfish","name":"Channel Catfish","scientific":"Ictalurus punctatus","type":"Fish","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"flathead-catfish","name":"Flathead Catfish","scientific":"Pylodictis olivaris","type":"Fish","habitat":"Rivers & Lakes","rarity":"Rare","price":90},{"id":"eastern-painted-turtle","name":"Eastern Painted Turtle","scientific":"Chrysemys picta","type":"Reptile","habitat":"Rivers & Lakes","rarity":"Common","price":25},{"id":"common-snapping-turtle","name":"Common Snapping Turtle","scientific":"Chelydra serpentina","type":"Reptile","habitat":"Wetlands","rarity":"Common","price":25},{"id":"northern-map-turtle","name":"Northern Map Turtle","scientific":"Graptemys geographica","type":"Reptile","habitat":"Rivers & Lakes","rarity":"Uncommon","price":50},{"id":"blanding-s-turtle","name":"Blanding's Turtle","scientific":"Emydoidea blandingii","type":"Reptile","habitat":"Wetlands","rarity":"Very Rare","price":155},{"id":"common-gartersnake","name":"Common Gartersnake","scientific":"Thamnophis sirtalis","type":"Reptile","habitat":"Prairie & Meadow","rarity":"Common","price":25},{"id":"northern-leopard-frog","name":"Northern Leopard Frog","scientific":"Lithobates pipiens","type":"Amphibian","habitat":"Wetlands","rarity":"Common","price":20},{"id":"eastern-tiger-salamander","name":"Eastern Tiger Salamander","scientific":"Ambystoma tigrinum","type":"Amphibian","habitat":"Wetlands","rarity":"Uncommon","price":45}];
+
+const discoveries=[
+["Sugar Maple","Acer saccharum","Plant"],["Eastern White Pine","Pinus strobus","Plant"],["Common Milkweed","Asclepias syriaca","Plant"],
+["Wild Bergamot","Monarda fistulosa","Plant"],["Jack-in-the-pulpit","Arisaema triphyllum","Plant"],["Wild Columbine","Aquilegia canadensis","Plant"],
+["Prairie Smoke","Geum triflorum","Plant"],["New England Aster","Symphyotrichum novae-angliae","Plant"],["Black-eyed Susan","Rudbeckia hirta","Plant"],
+["North American River Otter","Lontra canadensis","Animal"],["American Beaver","Castor canadensis","Animal"],["White-tailed Deer","Odocoileus virginianus","Animal"],
+["American Black Bear","Ursus americanus","Animal"],["Eastern Painted Turtle","Chrysemys picta","Animal"],["Common Snapping Turtle","Chelydra serpentina","Animal"],
+["Brook Trout","Salvelinus fontinalis","Animal"],["Walleye","Sander vitreus","Animal"],["Muskellunge","Esox masquinongy","Animal"],
+["Ruffed Grouse","Bonasa umbellus","Animal"],["Common Loon","Gavia immer","Animal"],["Sandhill Crane","Antigone canadensis","Animal"],
+["American Badger","Taxidea taxus","Animal"],["Woodchuck","Marmota monax","Animal"],["American Mink","Neogale vison","Animal"],
+["Northern Leopard Frog","Lithobates pipiens","Animal"],["Eastern Tiger Salamander","Ambystoma tigrinum","Animal"],["Monarch","Danaus plexippus","Animal"],
+["Luna Moth","Actias luna","Animal"],["Baltimore Oriole","Icterus galbula","Animal"],["Pileated Woodpecker","Dryocopus pileatus","Animal"]
+].map(x=>({name:x[0],scientific:x[1],type:x[2]}));
+
+const defaultRoutines=[
+{id:"daily-readings",name:"Read daily readings",points:1,type:"daily",dueTime:"",category:"Faith",active:true},
+{id:"morning-emails",name:"Answer emails before 10 AM",points:2,type:"daily",dueTime:"10:00",category:"Work",active:true},
+{id:"walk-butter",name:"Walk Butter",points:2,type:"daily",dueTime:"",category:"Personal",active:true},
+{id:"workout",name:"Workout",points:3,type:"daily",dueTime:"",category:"Personal",active:true},
+{id:"day-prepped",name:"Have the day fully prepped",points:5,type:"daily",dueTime:"",category:"Work",active:true},
+{id:"meal-prep",name:"Meal prep",points:3,type:"weekly",category:"Personal",active:true},
+{id:"grocery-store",name:"Grocery store",points:3,type:"weekly",category:"Personal",active:true},
+{id:"laundry",name:"Wash and put away laundry",points:3,type:"weekly",category:"Home",active:true},
+{id:"clean-floors",name:"Clean floors",points:3,type:"weekly",category:"Home",active:true},
+{id:"next-week-prep",name:"Have everything prepped for the following week",points:3,type:"weekly",category:"Work",active:true}
+];
+const defaultBonus=[{id:"on-time",name:"Arrive at work on time",points:1,days:[1,2,3,4,5],streakBonus:5,category:"Work",active:true}];
+const jokes=[
+"Why did the calendar get promoted? It had a lot of dates.",
+"What do you call a bear with no teeth? A gummy bear.",
+"Why did the turtle cross the road? To get to the shell station.",
+"What kind of music do planets like? Neptunes.",
+"Why are frogs so happy? They eat whatever bugs them.",
+"What did the tree say after a long week? I'm ready to leaf work.",
+"Why did the fish blush? It saw the lake's bottom."
+];
+const memes=[
+"ME: I’ll just do one quick task.\nALSO ME: reorganizes the entire week.",
+"WHEN YOU CHECK OFF THE LAST SUBTASK:\n✨ RANGER ENERGY ✨",
+"MY TO-DO LIST: 14 ITEMS\nME: buys an otter first.",
+"WHEN THE WEEKLY TASKS RESET SUNDAY:\nnew week, same laundry.",
+"20 TRAIL POINTS IN ONE DAY?\nTHE ZOO EXPANSION COMMITTEE APPROVES.",
+"ME AT 9:59 AM:\nANSWER EMAILS. ANSWER EMAILS. ANSWER EMAILS.",
+"PRODUCTIVITY LEVEL:\nblack bear preparing for winter."
+];
+const saintQuotes=[
+["St. Thérèse of Lisieux","Miss no single opportunity of making some small sacrifice."],
+["St. Augustine","Our hearts are restless until they rest in you."],
+["St. Francis de Sales","Be who you are and be that well."],
+["St. Teresa of Calcutta","Not all of us can do great things, but we can do small things with great love."],
+["St. John Paul II","The future starts today, not tomorrow."],
+["St. Catherine of Siena","Be who God meant you to be and you will set the world on fire."],
+["St. Francis of Assisi","Start by doing what's necessary; then what's possible."]
+];
+const petNames=["Maple","Juniper","Cedar","Birch","Clover","Fern","Willow","Aspen","Pebble","Spruce","Poppy","Moss","Hazel","Scout","River","Sunny","Acorn","Tilly","Winnie","Mabel","Otis","Louie","Rosie","Theo","Millie","Bear","Pip","Nora","Finn","Biscuit"];
+
+let state=JSON.parse(localStorage.getItem("wisconsinZooGameV5")||"null");
+if(!state){
+  const v4=JSON.parse(localStorage.getItem("wisconsinZooGameV4")||"null");
+  const v3=JSON.parse(localStorage.getItem("wisconsinZooGameV3")||"null");
+  const v2=JSON.parse(localStorage.getItem("wisconsinZooGameV2")||"null");
+  const v1=JSON.parse(localStorage.getItem("wisconsinZooGame")||"null");
+  const oldOwned=v4?.owned??v3?.owned??v2?.owned??v1?.ownedAnimals??[];
+  state={
+    points:v4?.points??v3?.points??v2?.points??v1?.trailPoints??0,
+    tasks:v4?.tasks??v3?.tasks??v2?.tasks??[],
+    routines:v4?.routines??defaultRoutines,
+    bonus:v4?.bonus??defaultBonus,
+    history:v4?.history??v3?.history??v2?.history??[],
+    events:v4?.events??[],
+    zooAnimals:oldOwned.map((id,i)=>({uid:"migrated-"+i+"-"+id,speciesId:id,name:""})),
+    awardedStreaks:v4?.awardedStreaks??[],
+    rewardClaims:[],
+    quizClaims:[],
+    photoCache:{},
+    settings:{
+      font:'Georgia,"Times New Roman",serif',theme:"forest",bg:"",location:"Waunakee, Wisconsin",bgType:"none",bgOverlay:42,glassOpacity:42,glassBlur:14,videoPlay:"on",homeLayout:{order:["today","week","weather","faith","reward","discovery","historytoday","joke","spotify","quiz"],sizes:{today:"span-2",week:"",weather:"",faith:"",reward:"span-2",discovery:"",historytoday:"",joke:"",spotify:"",quiz:"span-2"}},
+      homeCards:{today:true,week:true,weather:true,faith:true,reward:true,discovery:true,historytoday:true,joke:true,spotify:true,quiz:true},
+      spotifyClientId:""
+    }
+  };
+}
+normalizeState();
+
+
+let supabaseClient=null;
+let currentCloudUser=null;
+let cloudReady=false;
+let cloudRowId=null;
+let cloudSyncTimer=null;
+let cloudSyncBusy=false;
+
+function normalizeState(){
+  let repairedDefaults=false;
+  state=state||{};
+  state.tasks=Array.isArray(state.tasks)?state.tasks:[];
+  state.history=Array.isArray(state.history)?state.history:[];
+  state.events=Array.isArray(state.events)?state.events:[];
+  state.zooAnimals=Array.isArray(state.zooAnimals)?state.zooAnimals:[];
+  state.awardedStreaks=Array.isArray(state.awardedStreaks)?state.awardedStreaks:[];
+  state.rewardClaims=Array.isArray(state.rewardClaims)?state.rewardClaims:[];
+  state.quizClaims=Array.isArray(state.quizClaims)?state.quizClaims:[];
+  state.photoCache=state.photoCache||{};
+  state.settings=state.settings||{};
+  state.settings.migrations=state.settings.migrations||{};
+
+  // One-time repair for the first cloud-sync version, which could save empty
+  // routine/bonus arrays. After this migration runs once, intentionally
+  // deleting every routine later will stay deleted.
+  if(!state.settings.migrations.restoreRoutineDefaultsV11_1){
+    if(!Array.isArray(state.routines)||state.routines.length===0){
+      state.routines=defaultRoutines.map(r=>({...r}));
+      repairedDefaults=true;
+    }
+    if(!Array.isArray(state.bonus)||state.bonus.length===0){
+      state.bonus=defaultBonus.map(b=>({...b,days:[...(b.days||[])]}));
+      repairedDefaults=true;
+    }
+    state.settings.migrations.restoreRoutineDefaultsV11_1=true;
+  }else{
+    state.routines=Array.isArray(state.routines)?state.routines:[];
+    state.bonus=Array.isArray(state.bonus)?state.bonus:[];
+  }
+
+  state.settings.homeCards=state.settings.homeCards||{today:true,week:true,weather:true,faith:true,reward:true,discovery:true,historytoday:true,joke:true,spotify:true,quiz:true};
+  delete state.settings.homeCards.meme;
+  state.settings.bgType=state.settings.bgType||"none";
+  state.settings.bgOverlay=Number(state.settings.bgOverlay??42);
+  state.settings.glassOpacity=Number(state.settings.glassOpacity??42);
+  state.settings.glassBlur=Number(state.settings.glassBlur??14);
+  state.settings.videoPlay=state.settings.videoPlay||"on";
+  state.settings.homeLayout=state.settings.homeLayout||{order:["today","week","weather","faith","reward","discovery","historytoday","joke","spotify","quiz"],sizes:{today:"span-2",week:"",weather:"",faith:"",reward:"span-2",discovery:"",historytoday:"",joke:"",spotify:"",quiz:"span-2"}};
+  state.points=Number(state.points||0);
+  state.zooAnimals.forEach(z=>{if(z.photoUrl===undefined)z.photoUrl="";if(z.photoCredit===undefined)z.photoCredit="";if(z.photoLicense===undefined)z.photoLicense=""});
+  return repairedDefaults;
+}
+
+function saveState(){
+  localStorage.setItem("wisconsinZooGameV5",JSON.stringify(state));
+  if(cloudReady&&currentCloudUser)scheduleCloudSave();
+}
+
+function scheduleCloudSave(){
+  clearTimeout(cloudSyncTimer);
+  setCloudStatus("busy","Saving…");
+  cloudSyncTimer=setTimeout(()=>saveCloudState(false),900);
+}
+
+function setCloudStatus(mode,text){
+  const dot=document.getElementById("cloudSettingsDot"),label=document.getElementById("cloudSettingsText");
+  if(dot){dot.className="cloud-dot"+(mode==="on"?" on":mode==="busy"?" busy":"")}
+  if(label)label.textContent=text;
+}
+
+function showCloudLogin(message=""){
+  document.getElementById("cloudLogin")?.classList.remove("hidden");
+  const m=document.getElementById("cloudLoginMessage"); if(m)m.textContent=message;
+  document.getElementById("cloudAccount")?.style.setProperty("display","none");
+  setCloudStatus("off","Signed out");
+}
+
+function hideCloudLogin(){
+  document.getElementById("cloudLogin")?.classList.add("hidden");
+  const acct=document.getElementById("cloudAccount"); if(acct)acct.style.display="block";
+  const email=document.getElementById("cloudAccountEmail"); if(email)email.textContent=currentCloudUser?.email||"Cloud connected";
+  setCloudStatus("on","Synced");
+}
+
+function initSupabase(){
+  if(!window.supabase)throw new Error("Supabase library did not load.");
+  if(SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")){
+    showCloudLogin("Setup needed: add your Supabase publishable key to index.html first.");
+    return false;
+  }
+  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  return true;
+}
+
+async function cloudSignIn(){
+  const email=document.getElementById("cloudEmail").value.trim();
+  const password=document.getElementById("cloudPassword").value;
+  const msg=document.getElementById("cloudLoginMessage");
+  if(!supabaseClient){
+    if(!initSupabase())return;
+  }
+  if(!email||!password){msg.textContent="Enter your email and password.";return}
+  msg.textContent="Signing in…";
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){msg.textContent=error.message;return}
+  await finishCloudLogin(data.user);
+}
+
+async function finishCloudLogin(user){
+  currentCloudUser=user;
+  setCloudStatus("busy","Loading cloud data…");
+  const {data,error}=await supabaseClient.from("dashboard_data").select("id,data").eq("user_id",user.id).maybeSingle();
+  if(error){
+    showCloudLogin("Signed in, but cloud data could not load: "+error.message);
+    return;
+  }
+
+  if(data?.data){
+    cloudRowId=data.id;
+    state=data.data;
+    const repairedRoutineDefaults=normalizeState();
+    localStorage.setItem("wisconsinZooGameV5",JSON.stringify(state));
+  }else{
+    normalizeState();
+    const inserted=await supabaseClient.from("dashboard_data").insert({user_id:user.id,data:state}).select("id").single();
+    if(inserted.error){
+      showCloudLogin("Signed in, but the first cloud save failed: "+inserted.error.message);
+      return;
+    }
+    cloudRowId=inserted.data.id;
+  }
+
+  cloudReady=true;
+  hideCloudLogin();
+  renderAll();
+  if(typeof repairedRoutineDefaults!=="undefined"&&repairedRoutineDefaults){
+    await saveCloudState(false);
+  }
+  fetchWeather();fetchSaint();fetchHistoryToday();
+}
+
+async function saveCloudState(showMessage=false){
+  if(!cloudReady||!currentCloudUser||!supabaseClient||cloudSyncBusy)return;
+  cloudSyncBusy=true;
+  setCloudStatus("busy","Saving…");
+  try{
+    let result;
+    if(cloudRowId){
+      result=await supabaseClient.from("dashboard_data").update({data:state}).eq("user_id",currentCloudUser.id);
+    }else{
+      result=await supabaseClient.from("dashboard_data").insert({user_id:currentCloudUser.id,data:state}).select("id").single();
+      if(!result.error&&result.data)cloudRowId=result.data.id;
+    }
+    if(result.error)throw result.error;
+    setCloudStatus("on","Synced");
+    if(showMessage)alert("Cloud sync complete.");
+  }catch(e){
+    setCloudStatus("off","Sync error");
+    if(showMessage)alert("Cloud sync failed: "+e.message);
+    console.error("Cloud sync failed",e);
+  }finally{
+    cloudSyncBusy=false;
+  }
+}
+
+async function syncCloudNow(){
+  localStorage.setItem("wisconsinZooGameV5",JSON.stringify(state));
+  await saveCloudState(true);
+}
+
+async function cloudSignOut(){
+  if(supabaseClient)await supabaseClient.auth.signOut();
+  currentCloudUser=null;cloudReady=false;cloudRowId=null;
+  showCloudLogin("Signed out. Sign in again to load your cloud dashboard.");
+}
+
+async function restoreCloudSession(){
+  if(!initSupabase())return;
+  const {data}=await supabaseClient.auth.getSession();
+  if(data.session?.user)await finishCloudLogin(data.session.user);
+  else showCloudLogin();
+}
+
+function esc(t){let d=document.createElement("div");d.textContent=t??"";return d.innerHTML}
+function dateKey(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function todayKey(){return dateKey(new Date())}
+function fromKey(k){return new Date(k+"T12:00:00")}
+function weekStart(k=todayKey()){let d=fromKey(k);d.setDate(d.getDate()-d.getDay());return dateKey(d)}
+function weekEnd(k=todayKey()){let d=fromKey(weekStart(k));d.setDate(d.getDate()+6);return dateKey(d)}
+function prettyDate(k){return fromKey(k).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}
+function formatTime(t){if(!t)return"";let [h,m]=t.split(":").map(Number),s=h>=12?"PM":"AM";return(h%12||12)+":"+String(m).padStart(2,"0")+" "+s}
+function dayIndex(k=todayKey()){return Math.floor(fromKey(k).getTime()/86400000)}
+function seededIndex(seed,len){let h=0;for(let c of seed)h=(h*31+c.charCodeAt(0))>>>0;return h%len}
+function showPage(id,btn){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");document.body.classList.toggle("home-immersive",id==="home");renderAll()}
+function openModal(html){document.getElementById("modalBox").innerHTML=html;document.getElementById("modal").classList.add("show")}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeModal()}
+
+function addHistory(item){state.history.push({id:"h-"+Date.now()+"-"+Math.random(),...item})}
+function pointsEarnedOn(date){return state.history.filter(h=>h.date===date&&h.points>0).reduce((s,h)=>s+Number(h.points||0),0)}
+function routineHistory(r,date=todayKey()){return state.history.find(h=>h.routineId===r.id&&(r.type==="daily"?h.date===date:h.week===weekStart(date)))}
+function bonusHistory(b,date=todayKey()){return state.history.find(h=>h.bonusId===b.id&&h.date===date)}
+function toggleRoutine(id,date=todayKey()){let r=state.routines.find(x=>x.id===id);if(!r)return;let h=routineHistory(r,date);if(h){state.points-=h.points;state.history=state.history.filter(x=>x.id!==h.id)}else{state.points+=r.points;addHistory({name:r.name,points:r.points,date,week:r.type==="weekly"?weekStart(date):null,routineId:r.id,routineType:r.type,category:r.category})}if(state.points<0)state.points=0;checkStreakBonuses();checkDailyReward();saveState();renderAll()}
+function toggleBonus(id,date=todayKey()){let b=state.bonus.find(x=>x.id===id);if(!b)return;let h=bonusHistory(b,date);if(h){state.points-=h.points;state.history=state.history.filter(x=>x.id!==h.id)}else{state.points+=b.points;addHistory({name:b.name,points:b.points,date,bonusId:b.id,category:b.category})}if(state.points<0)state.points=0;checkStreakBonuses();checkDailyReward();saveState();renderAll()}
+function checkStreakBonuses(){const ws=weekStart(),we=weekEnd();state.bonus.filter(b=>b.active&&b.streakBonus>0).forEach(b=>{let req=b.days.map(day=>{let x=fromKey(ws);x.setDate(x.getDate()+day);return dateKey(x)}),all=req.length&&req.every(k=>bonusHistory(b,k)),key=b.id+"-"+ws;if(all&&!state.awardedStreaks.includes(key)){state.points+=b.streakBonus;state.awardedStreaks.push(key);addHistory({name:b.name+" — weekly streak bonus",points:b.streakBonus,date:we,bonusId:b.id,streak:true,category:b.category})}})}
+
+function openNewTaskModal(date=todayKey()){openModal(`<h3>📝 Create a Task or Project</h3><label>Task name<input id="tn" placeholder="Create September Science Lesson Plans"></label><br><br><div class="formrow"><label>Trail Points<select id="tp">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?"selected":""}>${n}</option>`).join("")}</select></label><label>Due date<input type="date" id="td" value="${date}"><span class="muted">Tasks are sorted by this date and appear on the calendar.</span></label></div><br><b>Subtasks</b><p class="muted">Points are awarded only after the entire task is complete.</p><div id="subtaskInputs"></div><button class="btn secondary" onclick="addSubInput()">＋ Add Subtask</button><div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="createTask()">Create Task</button></div>`)}
+function addSubInput(){let w=document.createElement("div");w.className="sub-input";w.innerHTML=`<input placeholder="Subtask"><button class="btn danger" onclick="this.parentElement.remove()">×</button>`;document.getElementById("subtaskInputs").appendChild(w)}
+function createTask(){let name=document.getElementById("tn").value.trim();if(!name)return alert("Please enter a task name.");let subs=[...document.querySelectorAll("#subtaskInputs input")].map(x=>x.value.trim()).filter(Boolean).map((name,i)=>({id:i,name,done:false}));state.tasks.push({id:"t-"+Date.now(),name,points:+document.getElementById("tp").value,due:document.getElementById("td").value||"",subtasks:subs,done:false,completedAt:null});saveState();closeModal();renderAll()}
+function toggleSub(tid,sid){let t=state.tasks.find(x=>x.id===tid),s=t?.subtasks.find(x=>x.id===sid);if(s){s.done=!s.done;saveState();renderAll()}}
+function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(!t)return;if(t.done){t.done=false;t.completedAt=null;state.points-=t.points;state.history=state.history.filter(h=>h.taskId!==t.id)}else{if(t.subtasks.some(s=>!s.done))return alert("Complete every subtask before earning the Trail Points.");t.done=true;t.completedAt=todayKey();state.points+=t.points;addHistory({name:t.name,points:t.points,date:t.completedAt,taskId:t.id,category:"Task"})}if(state.points<0)state.points=0;checkDailyReward();saveState();renderAll()}
+function deleteTask(id){if(confirm("Delete this task? Completed history will stay.")){state.tasks=state.tasks.filter(x=>x.id!==id);saveState();renderAll()}}
+function taskEl(t){let d=document.createElement("div");d.className="task "+(t.done?"done":"");let subs=t.subtasks?.length?`<div class="subtasks">${t.subtasks.map(s=>`<label class="sub"><input type="checkbox" ${s.done?"checked":""} onchange="toggleSub('${t.id}',${s.id})"><span>${esc(s.name)}</span></label>`).join("")}</div>`:"";d.innerHTML=`<div class="task-main"><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask('${t.id}')"><span class="task-name">${esc(t.name)}</span>${t.subtasks?.length?`<span class="badge">${t.subtasks.filter(s=>s.done).length}/${t.subtasks.length}</span>`:""}<span class="pts">+${t.points} 🐾</span><button class="smallbtn" onclick="deleteTask('${t.id}')">×</button></div><div class="muted" style="margin-left:29px">${t.due?"Due "+prettyDate(t.due):"No due date"}${t.completedAt?" · Completed "+prettyDate(t.completedAt):""}</div>${subs}`;return d}
+function routineEl(r,date){let h=routineHistory(r,date),d=document.createElement("div");d.className="task "+(h?"done":"");d.innerHTML=`<div class="task-main"><input type="checkbox" ${h?"checked":""} onchange="toggleRoutine('${r.id}','${date}')"><span class="task-name">${esc(r.name)}</span><span class="badge ${r.type}">${r.type}</span><span class="pts">+${r.points} 🐾</span></div><div class="muted" style="margin-left:29px">${esc(r.category||"General")}${r.dueTime?" · Due by "+formatTime(r.dueTime):""}${h&&r.type==="weekly"?" · Completed "+prettyDate(h.date):""}</div>`;return d}
+function bonusEl(b,date){let h=bonusHistory(b,date),d=document.createElement("div");d.className="task "+(h?"done":"");d.innerHTML=`<div class="task-main"><input type="checkbox" ${h?"checked":""} onchange="toggleBonus('${b.id}','${date}')"><span class="task-name">${esc(b.name)}</span><span class="badge bonus">bonus</span><span class="pts">+${b.points} 🐾</span></div><div class="muted" style="margin-left:29px">${esc(b.category||"Bonus")}${b.streakBonus?` · Weekly streak bonus +${b.streakBonus}`:""}</div>`;return d}
+
+function toggleCollapse(id){
+  document.getElementById(id)?.classList.toggle("open");
+}
+function relativeDueLabel(date){
+  const today=todayKey();
+  const d=fromKey(date), t=fromKey(today);
+  const diff=Math.round((d-t)/86400000);
+  if(diff<0) return {text:"Overdue",cls:"overdue"};
+  if(diff===0) return {text:"Today",cls:"today"};
+  if(diff===1) return {text:"Tomorrow",cls:""};
+  if(diff<=7) return {text:d.toLocaleDateString("en-US",{weekday:"long"}),cls:""};
+  return {text:prettyDate(date),cls:""};
+}
+function incompleteSorted(){
+  return state.tasks.filter(t=>!t.done).sort((a,b)=>{
+    const ad=a.due||"9999-12-31", bd=b.due||"9999-12-31";
+    return ad.localeCompare(bd) || a.name.localeCompare(b.name);
+  });
+}
+function renderTodoSidebars(){
+  const items=incompleteSorted(), today=todayKey(), end=weekEnd(today);
+  const overdue=items.filter(t=>t.due&&t.due<today).length;
+  const dueToday=items.filter(t=>t.due===today).length;
+  const dueWeek=items.filter(t=>t.due&&t.due>=today&&t.due<=end).length;
+  [["sideOverdueHome",overdue],["sideTodayHome",dueToday],["sideWeekHome",dueWeek],
+   ["sideOverdueTasks",overdue],["sideTodayTasks",dueToday],["sideWeekTasks",dueWeek]]
+   .forEach(([id,val])=>{let el=document.getElementById(id);if(el)el.textContent=val});
+  const make = containerId=>{
+    const box=document.getElementById(containerId); if(!box)return;
+    const top=items.slice(0,8);
+    box.innerHTML=top.length?top.map(t=>{
+      const lab=t.due?relativeDueLabel(t.due):{text:"No due date",cls:""};
+      return `<div class="todo-item ${lab.cls==="overdue"?"overdue":""}">
+        <div class="name">${esc(t.name)}</div>
+        <div class="meta"><span class="due-label ${lab.cls}">${lab.text}</span> · ${t.points} 🐾</div>
+      </div>`;
+    }).join(""):`<div class="todo-empty">Nothing incomplete right now. 🎉</div>`;
+  };
+  make("todoSidebarHome");make("todoSidebarTasks");make("heroTodoList");
+}
+
+function renderTasks(){
+  const today=todayKey();
+
+  const incBox=document.getElementById("incompleteTasks");
+  if(incBox){
+    const items=incompleteSorted();
+    incBox.innerHTML="";
+    if(!items.length) incBox.innerHTML='<p class="muted">No incomplete tasks. 🎉</p>';
+    items.forEach(t=>{
+      const wrap=document.createElement("div");
+      const lab=t.due?relativeDueLabel(t.due):{text:"No due date",cls:""};
+      const el=taskEl(t);
+      const meta=el.querySelector(".muted");
+      if(meta) meta.innerHTML=`<span class="due-label ${lab.cls}">${lab.text}</span> · Due ${t.due?prettyDate(t.due):"No due date"}${t.completedAt?" · Completed "+prettyDate(t.completedAt):""}`;
+      incBox.appendChild(el);
+    });
+  }
+
+  const daily=state.routines.filter(r=>r.active&&r.type==="daily");
+  const dbox=document.getElementById("dailyTasks"); if(dbox){dbox.innerHTML="";daily.forEach(r=>dbox.appendChild(routineEl(r,today))); if(!daily.length)dbox.innerHTML='<p class="muted">No daily tasks.</p>'}
+  const dailyDone=daily.filter(r=>routineHistory(r,today)).length;
+  const ds=document.getElementById("dailySummary"); if(ds)ds.textContent=`${dailyDone} of ${daily.length} complete`;
+
+  const weekly=state.routines.filter(r=>r.active&&r.type==="weekly");
+  const wbox=document.getElementById("weeklyTasks"); if(wbox){wbox.innerHTML="";weekly.forEach(r=>wbox.appendChild(routineEl(r,today)))}
+  const wc=weekly.filter(r=>routineHistory(r,today)).length, wp=weekly.length?Math.round(wc/weekly.length*100):0;
+  const wtxt=document.getElementById("weekTaskText"); if(wtxt)wtxt.textContent=`${wc} / ${weekly.length} completed`;
+  const wpct=document.getElementById("weekTaskPercent"); if(wpct)wpct.textContent=wp+"%";
+  const wfill=document.getElementById("weekTaskFill"); if(wfill)wfill.style.width=wp+"%";
+  const ws=document.getElementById("weeklySummary"); if(ws)ws.textContent=`${wc} of ${weekly.length} complete · ${weekly.filter(r=>!routineHistory(r,today)).reduce((s,r)=>s+r.points,0)} points still available`;
+
+  const dow=new Date().getDay();
+  const bonus=state.bonus.filter(b=>b.active&&b.days.includes(dow));
+  const bbox=document.getElementById("bonusGoals"); if(bbox){bbox.innerHTML="";bonus.forEach(b=>bbox.appendChild(bonusEl(b,today))); if(!bonus.length)bbox.innerHTML='<p class="muted">No bonus goals scheduled for today.</p>'}
+  const bs=document.getElementById("bonusSummary"); if(bs)bs.textContent=`${bonus.filter(b=>bonusHistory(b,today)).length} of ${bonus.length} available goals complete`;
+
+  renderTodoSidebars();
+}
+
+function openRoutineModal(type,id=null){let r=id?state.routines.find(x=>x.id===id):null;openModal(`<h3>${r?"⚙️ Edit":"＋ Add"} ${type==="daily"?"Daily":"Weekly"} Task</h3><label>Name<input id="rn" value="${esc(r?.name||"")}"></label><br><br><div class="formrow"><label>Trail Points<select id="rp">${[1,2,3,4,5].map(n=>`<option value="${n}" ${(r?.points||3)===n?"selected":""}>${n}</option>`).join("")}</select></label><label>Category<input id="rc" value="${esc(r?.category||"")}"></label></div>${type==="daily"?`<br><label>Optional due time<input type="time" id="rt" value="${r?.dueTime||""}"></label>`:""}<div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveRoutine('${type}','${id||""}')">Save</button></div>`)}
+function saveRoutine(type,id){let name=document.getElementById("rn").value.trim();if(!name)return alert("Please enter a name.");let r=id?state.routines.find(x=>x.id===id):null;if(!r){r={id:"r-"+Date.now(),type,active:true};state.routines.push(r)}r.name=name;r.points=+document.getElementById("rp").value;r.category=document.getElementById("rc").value.trim()||"General";r.active=true;if(type==="daily")r.dueTime=document.getElementById("rt").value;saveState();closeModal();renderAll()}
+function toggleRoutineActive(id){let r=state.routines.find(x=>x.id===id);if(r){r.active=!r.active;saveState();renderAll()}}
+function deleteRoutine(id){if(confirm("Delete this routine? Past history will remain.")){state.routines=state.routines.filter(x=>x.id!==id);saveState();renderAll()}}
+function openBonusModal(id=null){let b=id?state.bonus.find(x=>x.id===id):null,days=b?.days||[1,2,3,4,5];openModal(`<h3>${b?"⚙️ Edit":"＋ Add"} Bonus Goal</h3><label>Name<input id="bn" value="${esc(b?.name||"")}"></label><br><br><div class="formrow"><label>Points each time<select id="bp">${[1,2,3,4,5].map(n=>`<option value="${n}" ${(b?.points||1)===n?"selected":""}>${n}</option>`).join("")}</select></label><label>Weekly streak bonus<input type="number" min="0" id="bs" value="${b?.streakBonus??0}"></label></div><br><label>Category<input id="bc" value="${esc(b?.category||"")}"></label><br><br><b>Active days</b><div class="day-picker">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((x,i)=>`<label><input type="checkbox" class="bday" value="${i}" ${days.includes(i)?"checked":""}> ${x}</label>`).join("")}</div><div class="row" style="justify-content:flex-end;margin-top:20px"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveBonus('${id||""}')">Save</button></div>`)}
+function saveBonus(id){let name=document.getElementById("bn").value.trim();if(!name)return alert("Please enter a name.");let b=id?state.bonus.find(x=>x.id===id):null;if(!b){b={id:"b-"+Date.now(),active:true};state.bonus.push(b)}b.name=name;b.points=+document.getElementById("bp").value;b.streakBonus=Math.max(0,+document.getElementById("bs").value||0);b.category=document.getElementById("bc").value.trim()||"Bonus";b.days=[...document.querySelectorAll(".bday:checked")].map(x=>+x.value);b.active=true;saveState();closeModal();renderAll()}
+function toggleBonusActive(id){let b=state.bonus.find(x=>x.id===id);if(b){b.active=!b.active;saveState();renderAll()}}
+function deleteBonus(id){if(confirm("Delete this bonus goal? Past history will remain.")){state.bonus=state.bonus.filter(x=>x.id!==id);saveState();renderAll()}}
+function renderRoutines(){const row=(r,type)=>`<div class="task"><div class="task-main"><span class="task-name">${esc(r.name)}</span><span class="badge ${type}">${r.active?"active":"paused"}</span><span class="pts">${r.points} 🐾</span><button class="btn secondary tiny" onclick="openRoutineModal('${type}','${r.id}')">Edit</button><button class="btn secondary tiny" onclick="toggleRoutineActive('${r.id}')">${r.active?"Pause":"Resume"}</button><button class="smallbtn" onclick="deleteRoutine('${r.id}')">×</button></div><div class="muted">${esc(r.category||"General")}${r.dueTime?" · "+formatTime(r.dueTime):""}</div></div>`;document.getElementById("manageDaily").innerHTML=state.routines.filter(r=>r.type==="daily").map(r=>row(r,"daily")).join("");document.getElementById("manageWeekly").innerHTML=state.routines.filter(r=>r.type==="weekly").map(r=>row(r,"weekly")).join("");document.getElementById("manageBonus").innerHTML=state.bonus.map(b=>`<div class="task"><div class="task-main"><span class="task-name">${esc(b.name)}</span><span class="badge bonus">${b.active?"active":"paused"}</span><span class="pts">${b.points} 🐾</span><button class="btn secondary tiny" onclick="openBonusModal('${b.id}')">Edit</button><button class="btn secondary tiny" onclick="toggleBonusActive('${b.id}')">${b.active?"Pause":"Resume"}</button><button class="smallbtn" onclick="deleteBonus('${b.id}')">×</button></div><div class="muted">${esc(b.category||"Bonus")} · ${b.days.map(i=>["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][i]).join(", ")}${b.streakBonus?` · Streak +${b.streakBonus}`:""}</div></div>`).join("")}
+
+function openEventModal(id=null,date=todayKey()){let e=id?state.events.find(x=>x.id===id):null;openModal(`<h3>${e?"⚙️ Edit":"📅 Add"} Calendar Event</h3><label>Event name<input id="en" value="${esc(e?.name||"")}"></label><br><br><div class="formrow"><label>Date<input type="date" id="ed" value="${e?.date||date}"></label><label>Time (optional)<input type="time" id="et" value="${e?.time||""}"></label></div><br><div class="formrow"><label>Category<input id="ec" value="${esc(e?.category||"")}" placeholder="Birthday, Holiday, School…"></label><label>Repeats<select id="er"><option value="none" ${e?.repeat!=="yearly"?"selected":""}>Does not repeat</option><option value="yearly" ${e?.repeat==="yearly"?"selected":""}>Yearly</option></select></label></div><br><label>Notes<textarea id="notes" rows="3">${esc(e?.notes||"")}</textarea></label><div class="row" style="justify-content:flex-end;margin-top:20px">${e?`<button class="btn danger" onclick="deleteEvent('${e.id}')">Delete</button>`:""}<button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveEvent('${id||""}')">Save</button></div>`)}
+function saveEvent(id){let name=document.getElementById("en").value.trim();if(!name)return alert("Please enter an event name.");let e=id?state.events.find(x=>x.id===id):null;if(!e){e={id:"e-"+Date.now()};state.events.push(e)}e.name=name;e.date=document.getElementById("ed").value;e.time=document.getElementById("et").value;e.category=document.getElementById("ec").value.trim()||"Event";e.repeat=document.getElementById("er").value;e.notes=document.getElementById("notes").value.trim();saveState();closeModal();renderAll()}
+function deleteEvent(id){if(confirm("Delete this event?")){state.events=state.events.filter(x=>x.id!==id);saveState();closeModal();renderAll()}}
+function eventApplies(e,key){return e.repeat==="yearly"?e.date.slice(5)===key.slice(5):e.date===key}
+
+let calendarDate=new Date();
+function changeMonth(n){calendarDate.setMonth(calendarDate.getMonth()+n);renderCalendar()}
+function goToToday(){calendarDate=new Date();renderCalendar()}
+function renderCalendar(){let y=calendarDate.getFullYear(),m=calendarDate.getMonth(),grid=document.getElementById("calendarGrid");document.getElementById("calendarMonth").textContent=calendarDate.toLocaleDateString("en-US",{month:"long",year:"numeric"});grid.innerHTML=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(x=>`<div class="dow">${x}</div>`).join("");let first=new Date(y,m,1),start=new Date(first);start.setDate(start.getDate()-first.getDay());for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let key=dateKey(d),cell=document.createElement("div");cell.className="day "+(d.getMonth()!==m?"other ":"")+(key===todayKey()?"today":"");cell.onclick=()=>openDayView(key);cell.innerHTML=`<div class="daynum">${d.getDate()}</div>`;state.events.filter(e=>eventApplies(e,key)).forEach(e=>cell.innerHTML+=`<div class="calitem event">📅 ${esc(e.name)}</div>`);state.tasks.filter(t=>t.due===key).forEach(t=>cell.innerHTML+=`<div class="calitem ${t.done?"done":""}">🌲 ${esc(t.name)}</div>`);grid.appendChild(cell)}}
+function openDayView(key){let events=state.events.filter(e=>eventApplies(e,key)),tasks=state.tasks.filter(t=>t.due===key),daily=state.routines.filter(r=>r.active&&r.type==="daily"),weekly=state.routines.filter(r=>r.active&&r.type==="weekly"),dow=fromKey(key).getDay(),bonus=state.bonus.filter(b=>b.active&&b.days.includes(dow));let section=(title,content)=>`<div class="day-section"><h4>${title}</h4>${content||'<p class="muted">Nothing here.</p>'}</div>`;openModal(`<div class="row between"><div><h3 style="margin-bottom:3px">${fromKey(key).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})}</h3><p class="muted">Everything for this day, grouped so the month view stays clean.</p></div><button class="btn tiny" onclick="openEventModal(null,'${key}')">＋ Event</button></div><div class="day-modal-grid">
+${section("📅 Events",events.map(e=>`<div class="task"><div class="task-main"><span class="task-name">${e.time?formatTime(e.time)+" · ":""}${esc(e.name)}</span><button class="btn secondary tiny" onclick="openEventModal('${e.id}')">Edit</button></div><div class="muted">${esc(e.category)}${e.notes?" · "+esc(e.notes):""}</div></div>`).join(""))}
+${section("📝 Dated Tasks",tasks.map(t=>taskEl(t).outerHTML).join("")+`<button class="btn secondary tiny" onclick="openNewTaskModal('${key}')">＋ Task for this day</button>`)}
+${section("☀️ Daily Tasks",daily.map(r=>routineEl(r,key).outerHTML).join(""))}
+${section("🌲 Weekly Tasks",weekly.map(r=>routineEl(r,key).outerHTML).join(""))}
+${section("✨ Bonus Goals",bonus.map(b=>bonusEl(b,key).outerHTML).join(""))}
+</div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn secondary" onclick="closeModal()">Close</button></div>`)}
+function renderHistory(){let q=(document.getElementById("historySearch")?.value||"").toLowerCase(),f=document.getElementById("historyFilter")?.value||"all",box=document.getElementById("historyList");let h=[...state.history].sort((a,b)=>b.date.localeCompare(a.date)).filter(x=>x.name.toLowerCase().includes(q));if(f==="recurring")h=h.filter(x=>x.routineId);if(f==="bonus")h=h.filter(x=>x.bonusId);if(f==="projects")h=h.filter(x=>x.taskId&&state.tasks.find(t=>t.id===x.taskId)?.subtasks?.length);box.innerHTML=h.length?h.map(x=>`<div class="task"><div class="task-main"><span class="task-name">${esc(x.name)}</span><span class="pts">+${x.points} 🐾</span></div><div class="muted">Completed ${prettyDate(x.date)} · ${x.streak?"Streak bonus":x.bonusId?"Bonus goal":x.routineType?x.routineType+" recurring":x.quiz?"Quiz":"Task"}</div></div>`).join(""):'<p class="muted">No matching completed items.</p>'}
+
+async function fetchINatTaxon(scientific){
+  try{
+    let r=await fetch("https://api.inaturalist.org/v1/taxa/autocomplete?q="+encodeURIComponent(scientific)+"&per_page=1");
+    let j=await r.json(); return j.results?.[0]||null;
+  }catch(e){return null}
+}
+async function fetchINatPhoto(scientific){
+  if(state.photoCache[scientific])return state.photoCache[scientific];
+  let t=await fetchINatTaxon(scientific),p=t?.default_photo;
+  if(p){
+    let result={url:(p.medium_url||p.square_url||"").replace("square","medium"),credit:p.attribution||"Photo via iNaturalist",license:p.license_code||""};
+    state.photoCache[scientific]=result;saveState();return result;
+  }
+  return {url:"",credit:"Photo unavailable",license:""};
+}
+async function fetchUniqueIndividualPhoto(scientific,speciesId){
+  try{
+    let taxon=await fetchINatTaxon(scientific);
+    if(!taxon?.id) return await fetchINatPhoto(scientific);
+    let r=await fetch("https://api.inaturalist.org/v1/observations?taxon_id="+taxon.id+"&photos=true&quality_grade=research&per_page=50&order=desc&order_by=created_at");
+    let j=await r.json(),choices=[];
+    (j.results||[]).forEach(obs=>(obs.photos||[]).forEach(p=>{
+      let url=(p.url||"").replace("square","medium");
+      if(url) choices.push({url,credit:p.attribution||("Photo via iNaturalist · "+(obs.user?.login||"observer")),license:p.license_code||""});
+    }));
+    let used=new Set(state.zooAnimals.filter(z=>z.speciesId===speciesId).map(z=>z.photoUrl).filter(Boolean));
+    let fresh=choices.filter(p=>!used.has(p.url));
+    let pool=fresh.length?fresh:choices;
+    if(pool.length)return pool[Math.floor(Math.random()*pool.length)];
+  }catch(e){}
+  return await fetchINatPhoto(scientific);
+}
+async function fillPhoto(el,scientific,creditEl=null){
+  let p=await fetchINatPhoto(scientific);
+  if(p.url){el.innerHTML=`<img src="${p.url}" alt="${esc(scientific)}">`;if(creditEl)creditEl.textContent=p.credit+(p.license?" · "+p.license:"")}
+  else el.textContent="🌿";
+}
+async function assignIndividualPhoto(uid){
+  let z=state.zooAnimals.find(x=>x.uid===uid),a=animals.find(x=>x.id===z?.speciesId);
+  if(!z||!a||z.photoUrl)return;
+  let p=await fetchUniqueIndividualPhoto(a.scientific,a.id);
+  z.photoUrl=p.url||"";z.photoCredit=p.credit||"";z.photoLicense=p.license||"";
+  saveState();renderZoo();
+}
+
+
+function ownedSpeciesIds(){return [...new Set(state.zooAnimals.map(z=>z.speciesId))]}
+function randomPetName(){return petNames[Math.floor(Math.random()*petNames.length)]}
+function addZooAnimal(speciesId,source="purchase",askName=true){let item={uid:"z-"+Date.now()+"-"+Math.random(),speciesId,name:"",source,date:todayKey(),photoUrl:"",photoCredit:"",photoLicense:""};state.zooAnimals.push(item);saveState();assignIndividualPhoto(item.uid);if(askName)openNameModal(item.uid);return item}
+function openNameModal(uid){let z=state.zooAnimals.find(x=>x.uid===uid),a=animals.find(x=>x.id===z?.speciesId);if(!z||!a)return;openModal(`<h3>🐾 Welcome your new ${esc(a.name)}!</h3><p class="muted">Give this animal a name, use a random suggestion, or leave it blank for now.</p><label>Name<input id="petName" value="${esc(z.name||"")}"></label><br><br><div class="row"><button class="btn secondary" onclick="document.getElementById('petName').value='${randomPetName()}'">🎲 Random Name</button><button class="btn" onclick="savePetName('${uid}')">Save Name</button></div>`)}
+function savePetName(uid){let z=state.zooAnimals.find(x=>x.uid===uid);if(z){z.name=document.getElementById("petName").value.trim();saveState();closeModal();renderAll()}}
+async function renderZoo(){
+  let hs=["Wisconsin Forest","Rivers & Lakes","Prairie & Meadow","Wetlands","Cliffs & Cities"],el=document.getElementById("habitats");el.innerHTML="";
+  for(let h of hs){
+    let items=state.zooAnimals.map(z=>({z,a:animals.find(a=>a.id===z.speciesId)})).filter(x=>x.a&&x.a.habitat===h);
+    let em=h==="Wisconsin Forest"?"🌲":h==="Rivers & Lakes"?"💧":h==="Prairie & Meadow"?"🌾":h==="Wetlands"?"🌿":"🪨";
+    let wrap=document.createElement("div");wrap.className="zoohab";wrap.innerHTML=`<div class="zoohead"><h3>${em} ${h}</h3></div><div class="zoobody">${items.length?"":'<span class="muted">This habitat is waiting for its first animal.</span>'}</div>`;
+    el.appendChild(wrap);let body=wrap.querySelector(".zoobody");
+    for(let {z,a} of items){
+      let d=document.createElement("div");d.className="zooanimal";
+      d.innerHTML=`<div class="zooicon"></div><div class="petname">${esc(z.name||"Unnamed")}</div><div>${esc(a.name)}</div><button class="btn secondary tiny" style="margin-top:6px" onclick="openNameModal('${z.uid}')">Rename</button>`;
+      body.appendChild(d);let pic=d.querySelector(".zooicon");
+      if(z.photoUrl)pic.innerHTML=`<img src="${z.photoUrl}" alt="${esc(a.name)}">`;else fillPhoto(pic,a.scientific);
+    }
+  }
+}
+let shopPhotoObserver=null;
+async function renderShop(){
+  let el=document.getElementById("shopGrid"); if(!el)return;
+  let q=(document.getElementById("shopSearch")?.value||"").toLowerCase();
+  let type=document.getElementById("shopType")?.value||"all",rarity=document.getElementById("shopRarity")?.value||"all";
+  let shown=animals.filter(a=>(!q||(a.name+" "+a.scientific).toLowerCase().includes(q))&&(type==="all"||a.type===type)&&(rarity==="all"||a.rarity===rarity));
+  let count=document.getElementById("shopCount");if(count)count.textContent=`${shown.length} of ${animals.length} animals`;
+  el.innerHTML="";
+  if(shopPhotoObserver)shopPhotoObserver.disconnect();
+  shopPhotoObserver=new IntersectionObserver(entries=>{
+    entries.filter(e=>e.isIntersecting).forEach(async e=>{
+      let card=e.target,pic=card.querySelector(".animalpic"),credit=card.querySelector(".photo-credit");
+      if(card.dataset.loaded)return;card.dataset.loaded="1";
+      await fillPhoto(pic,card.dataset.sci,credit);shopPhotoObserver.unobserve(card);
+    });
+  },{rootMargin:"300px"});
+  for(let a of shown){
+    let can=state.points>=a.price,ownedCount=state.zooAnimals.filter(z=>z.speciesId===a.id).length,d=document.createElement("div");
+    d.className="animal";d.dataset.sci=a.scientific;
+    d.innerHTML=`<div class="animalpic"><span class="muted">Loading photo…</span></div><h3>${esc(a.name)}</h3><p><i>${esc(a.scientific)}</i><br>${a.type} · ${a.habitat}</p><span class="badge">${a.rarity}</span><div class="owned-count">${ownedCount?`You have ${ownedCount} in your zoo`:"Not yet in your zoo"}</div><div class="photo-credit"></div><br><div class="bottom"><b style="font:12px Arial;color:#8a6d2c">${a.price} 🐾</b><button class="btn" ${!can?"disabled":""} onclick="purchaseAnimal('${a.id}')">${can?(ownedCount?"Welcome Another":"Purchase"):"Need more"}</button></div>`;
+    el.appendChild(d);shopPhotoObserver.observe(d);
+  }
+}
+function purchaseAnimal(id){let a=animals.find(x=>x.id===id);if(!a||state.points<a.price)return;state.points-=a.price;addZooAnimal(id,"purchase",true);saveState();renderAll()}
+async function renderCollection(){let el=document.getElementById("collectionGrid"),owned=ownedSpeciesIds();el.innerHTML="";for(let a of animals){let yes=owned.includes(a.id),d=document.createElement("div");d.className="collect "+(yes?"":"lock");d.innerHTML=`<div class="icon">${yes?"":"❔"}</div><h4>${yes?esc(a.name):"Undiscovered"}</h4><div class="muted">${yes?esc(a.type):"Keep exploring!"}</div>`;el.appendChild(d);if(yes)fillPhoto(d.querySelector(".icon"),a.scientific)}document.getElementById("collectionText").textContent=`${owned.length} / ${animals.length}`;document.getElementById("collectionFill").style.width=(owned.length/animals.length*100)+"%"}
+
+function dailyRewardAnimal(date=todayKey()){return animals[seededIndex("reward-"+date,animals.length)]}
+function checkDailyReward(){let date=todayKey(),earned=pointsEarnedOn(date),key="reward-"+date;if(earned>=20&&!state.rewardClaims.includes(key)){let a=dailyRewardAnimal(date);addZooAnimal(a.id,"daily-reward",false);state.rewardClaims.push(key);saveState();setTimeout(()=>{let latest=state.zooAnimals[state.zooAnimals.length-1];if(latest)openNameModal(latest.uid)},100)}}
+async function renderReward(){let a=dailyRewardAnimal(),earned=pointsEarnedOn(todayKey()),p=Math.min(100,earned/20*100),claimed=state.rewardClaims.includes("reward-"+todayKey());document.getElementById("rewardName").textContent=a.name;document.getElementById("rewardProgressText").textContent=`${earned} / 20 points earned today`;document.getElementById("rewardProgressFill").style.width=p+"%";document.getElementById("rewardStatus").textContent=claimed?"✅ Unlocked and added to your zoo!":earned>=20?"Unlocking…":`${Math.max(0,20-earned)} more points to unlock.`;fillPhoto(document.getElementById("rewardPhoto"),a.scientific)}
+
+function discoveryForDate(k){return discoveries[seededIndex("discover-"+k,discoveries.length)]}
+async function renderDiscovery(){let s=discoveryForDate(todayKey());document.getElementById("discoveryName").textContent=s.name;document.getElementById("discoveryType").textContent=s.type;let credit=document.getElementById("discoveryCredit");fillPhoto(document.getElementById("discoveryPhoto"),s.scientific,credit)}
+function quizWeekKey(){let d=new Date(),dow=d.getDay();if(dow===0){let x=new Date(d);x.setDate(x.getDate()-1);return weekStart(dateKey(x))}return weekStart()}
+function quizDates(ws){let arr=[];for(let i=0;i<7;i++){let d=fromKey(ws);d.setDate(d.getDate()+i);arr.push(dateKey(d))}return arr}
+async function renderQuiz(){let box=document.getElementById("quizBox"),dow=new Date().getDay(),eligible=dow===6||dow===0,ws=quizWeekKey(),claim="quiz-"+ws;if(state.quizClaims.includes(claim)){box.innerHTML=`<p>✅ You already completed the quiz for the week of ${prettyDate(ws)}.</p>`;return}if(!eligible){box.innerHTML=`<p class="muted">Your 7-species quiz unlocks at the end of the week. Each correct answer earns +1 Trail Point.</p>`;return}let dates=quizDates(ws),species=dates.map(discoveryForDate);box.innerHTML=`<p class="muted">Identify each Wisconsin plant or animal. Each correct answer is worth 1 bonus Trail Point.</p><div id="quizQuestions"></div><button class="btn" onclick="submitQuiz('${ws}')">Submit Quiz</button>`;let q=document.getElementById("quizQuestions"),options=species.map(s=>s.name);for(let i=0;i<species.length;i++){let s=species[i],wrong=[...options].sort(()=>Math.random()-.5),choices=[...new Set(wrong)].slice(0,7).sort(()=>Math.random()-.5),d=document.createElement("div");d.className="quiz-q";d.innerHTML=`<div class="row"><img class="quiz-img" id="qimg${i}"><div style="flex:1"><b>Species ${i+1}</b><br><select class="quiz-answer" data-correct="${esc(s.name)}"><option value="">Choose a name…</option>${choices.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select></div></div>`;q.appendChild(d);let p=await fetchINatPhoto(s.scientific);if(p.url)d.querySelector("img").src=p.url}}
+function submitQuiz(ws){let answers=[...document.querySelectorAll(".quiz-answer")],score=answers.filter(a=>a.value===a.dataset.correct).length,key="quiz-"+ws;if(state.quizClaims.includes(key))return;state.quizClaims.push(key);state.points+=score;addHistory({name:"Weekly Wisconsin Quiz",points:score,date:todayKey(),quiz:true,category:"Quiz"});checkDailyReward();saveState();alert(`You got ${score} out of 7 correct and earned ${score} Trail Points!`);renderAll()}
+
+function deterministicDaily(arr,prefix){return arr[seededIndex(prefix+"-"+todayKey(),arr.length)]}
+function renderJokeMemeQuote(){document.getElementById("jokeText").textContent=deterministicDaily(jokes,"joke");let q=deterministicDaily(saintQuotes,"saintquote");document.getElementById("saintQuote").innerHTML=`“${esc(q[1])}”<div class="source">— ${esc(q[0])}</div>`}
+async function fetchHistoryToday(){let d=new Date(),mm=String(d.getMonth()+1).padStart(2,"0"),dd=String(d.getDate()).padStart(2,"0"),box=document.getElementById("historyToday");try{let r=await fetch(`https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/events/${mm}/${dd}`);let j=await r.json(),events=j.events||[];let e=events[seededIndex(todayKey(),events.length)];if(e)box.innerHTML=`<p style="font-size:18px;line-height:1.5"><b>${e.year}:</b> ${esc(e.text)}</p><div class="source">Source: Wikimedia “On this day” feed.</div>`;else throw 0}catch(e){box.innerHTML='<p class="muted">Today’s history feed could not load. Try refreshing later.</p>'}}
+function weatherEmoji(code,isDay=1){
+  if(code===0)return isDay?"☀️":"🌙";
+  if(code<=2)return isDay?"🌤️":"☁️";
+  if(code===3)return "☁️";
+  if(code<=48)return "🌫️";
+  if(code<=57)return "🌦️";
+  if(code<=67)return "🌧️";
+  if(code<=77)return "🌨️";
+  if(code<=82)return "🌧️";
+  if(code<=86)return "🌨️";
+  return "⛈️";
+}
+function hourLabel(iso,index){
+  if(index===0)return "Now";
+  const d=new Date(iso);
+  return d.toLocaleTimeString("en-US",{hour:"numeric",hour12:true}).replace(" ","").toLowerCase();
+}
+async function fetchWeather(){
+  let box=document.getElementById("weatherBox"),loc=state.settings.location||"";
+  if(!loc){box.innerHTML='<p class="muted">Set your location in Settings to see weather.</p>';return}
+  try{
+    let g=await fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&format=json&name="+encodeURIComponent(loc));
+    let gj=await g.json(),p=gj.results?.[0];if(!p)throw 0;
+    let w=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${p.latitude}&longitude=${p.longitude}&current=temperature_2m,apparent_temperature,weather_code,is_day,wind_speed_10m&hourly=temperature_2m,weather_code,is_day,precipitation_probability&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto&forecast_days=2`);
+    let j=await w.json();
+    const currentTime=new Date(j.current.time);
+    let start=(j.hourly.time||[]).findIndex(t=>new Date(t)>=currentTime);
+    if(start<0)start=0;
+    const slots=[];
+    slots.push({label:"Now",temp:j.current.temperature_2m,code:j.current.weather_code,isDay:j.current.is_day,precip:null});
+    for(let i=start+1;i<Math.min(start+9,j.hourly.time.length);i++){
+      slots.push({label:hourLabel(j.hourly.time[i],slots.length),temp:j.hourly.temperature_2m[i],code:j.hourly.weather_code[i],isDay:j.hourly.is_day[i],precip:j.hourly.precipitation_probability?.[i]});
+    }
+    box.innerHTML=`
+      <div class="weather-summary">
+        <div class="weather-big">${weatherEmoji(j.current.weather_code,j.current.is_day)}</div>
+        <div>
+          <div style="font-size:34px">${Math.round(j.current.temperature_2m)}°</div>
+          <div class="muted">Feels like ${Math.round(j.current.apparent_temperature)}° · High ${Math.round(j.daily.temperature_2m_max[0])}° · Low ${Math.round(j.daily.temperature_2m_min[0])}°</div>
+        </div>
+      </div>
+      <div class="hourly-strip">
+        ${slots.map(s=>`<div class="hour-card"><div class="hour-time">${s.label}</div><div class="hour-icon">${weatherEmoji(s.code,s.isDay)}</div><div class="hour-temp">${Math.round(s.temp)}°</div>${s.precip!=null&&s.precip>=10?`<div class="muted" style="margin-top:4px">${s.precip}%</div>`:""}</div>`).join("")}
+      </div>
+      <div class="source">${esc(p.name)}, ${esc(p.admin1||"")} · Weather data: Open-Meteo.</div>`;
+  }catch(e){box.innerHTML='<p class="muted">Weather could not load. Check your location in Settings.</p>'}
+}
+async function fetchSaint(){
+  let box=document.getElementById("saintBox");
+  try{
+    let url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent("https://www.franciscanmedia.org/saint-of-the-day/feed/");
+    let r=await fetch(url),j=await r.json(),item=j.items?.[0];
+    if(!item)throw 0;
+    let source=(item.thumbnail||item.enclosure?.link||"");
+    if(!source){
+      let content=item.content||item.description||"";
+      let m=content.match(/<img[^>]+src=["']([^"']+)["']/i);
+      if(m)source=m[1];
+    }
+    let photo=source?`<img class="saint-photo" src="${source}" alt="${esc(item.title)}">`:`<div class="saint-photo-placeholder">✝️</div>`;
+    box.innerHTML=`<div class="saint-feature">${photo}<div><span class="badge">Saint of the Day</span><h3 style="margin:7px 0 5px">${esc(item.title)}</h3><p class="muted">Learn about today's saint and feast-day witness.</p><a class="btn secondary tiny" href="${item.link}" target="_blank" rel="noopener">Read about ${esc(item.title)} →</a></div></div>`;
+  }catch(e){
+    box.innerHTML=`<div class="saint-feature"><div class="saint-photo-placeholder">✝️</div><div><span class="badge">Saint of the Day</span><h3 style="margin:7px 0 5px">Today's Saint</h3><p class="muted">The live saint feed could not load right now.</p><a class="btn secondary tiny" href="https://www.franciscanmedia.org/saint-of-the-day/" target="_blank" rel="noopener">Open Saint of the Day →</a></div></div>`;
+  }
+}
+
+function renderHome(){let now=new Date(),g=now.getHours()<12?"Good morning!":now.getHours()<18?"Good afternoon!":"Good evening!";document.getElementById("greeting").textContent=g+" Welcome to your zoo!";let currentDateText=now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});if(document.getElementById("currentDate"))document.getElementById("currentDate").textContent=currentDateText;if(document.getElementById("homeGreetingLine"))document.getElementById("homeGreetingLine").textContent=g+"  "+currentDateText;document.getElementById("points").textContent=state.points;document.getElementById("homePoints").textContent=state.points;document.getElementById("earnedToday").textContent=pointsEarnedOn(todayKey());if(document.getElementById("tasksDueToday"))document.getElementById("tasksDueToday").textContent=state.tasks.filter(t=>!t.done&&t.due===todayKey()).length;document.getElementById("homeAnimals").textContent=state.zooAnimals.length;let lv=Math.floor(state.points/100)+1;document.getElementById("homeLevel").textContent=lv;let today=todayKey(),dow=new Date().getDay(),regular=state.tasks.filter(t=>t.due===today),daily=state.routines.filter(r=>r.active&&r.type==="daily"),bon=state.bonus.filter(b=>b.active&&b.days.includes(dow)),total=regular.length+daily.length+bon.length,done=regular.filter(t=>t.done).length+daily.filter(r=>routineHistory(r,today)).length+bon.filter(b=>bonusHistory(b,today)).length,p=total?Math.round(done/total*100):0;document.getElementById("todayProgressText").textContent=`${done} / ${total} completed`;document.getElementById("todayPercent").textContent=p+"%";document.getElementById("todayProgressFill").style.width=p+"%";let weekly=state.routines.filter(r=>r.active&&r.type==="weekly"),wc=weekly.filter(r=>routineHistory(r,today)).length,wp=weekly.length?Math.round(wc/weekly.length*100):0;document.getElementById("weekRange").textContent=prettyDate(weekStart())+" – "+prettyDate(weekEnd());document.getElementById("weekProgressText").textContent=`${wc} / ${weekly.length} weekly goals`;document.getElementById("weekPercent").textContent=wp+"%";document.getElementById("weekProgressFill").style.width=wp+"%";document.getElementById("weekRemaining").textContent=weekly.length-wc;document.getElementById("weekPointsLeft").textContent=weekly.filter(r=>!routineHistory(r,today)).reduce((s,r)=>s+r.points,0);document.getElementById("bonusWeekEarned").textContent=state.history.filter(h=>h.bonusId&&h.date>=weekStart()&&h.date<=weekEnd()).reduce((s,h)=>s+h.points,0);applyHomeVisibility()}
+
+const themeMap={
+ forest:{forest:"#304b3b",forest2:"#263d30",accent:"#304b3b",cream:"#f4f1e8"},
+ lake:{forest:"#315866",forest2:"#244450",accent:"#315866",cream:"#eef4f3"},
+ autumn:{forest:"#6b4c34",forest2:"#4d3828",accent:"#8a5a38",cream:"#f6efe6"},
+ soft:{forest:"#5d665d",forest2:"#464d46",accent:"#6d786d",cream:"#f5f2ed"}
+};
+function applySettings(){
+  let s=state.settings,t=themeMap[s.theme||"forest"]||themeMap.forest,root=document.documentElement.style;
+  root.setProperty("--forest",t.forest);root.setProperty("--forest2",t.forest2);root.setProperty("--accent",t.accent);root.setProperty("--cream",t.cream);
+  root.setProperty("--font",s.font||'Georgia,"Times New Roman",serif');
+  root.setProperty("--glassAlpha",Math.max(.15,Math.min(.85,(s.glassOpacity??42)/100)));
+  root.setProperty("--glassBlur",(s.glassBlur??14)+"px");
+  document.getElementById("ambientOverlay").style.background=`rgba(8,16,13,${Math.max(0,Math.min(.8,(s.bgOverlay??42)/100))})`;
+  applyAmbientMedia();
+}
+function applyAmbientMedia(){
+  const s=state.settings,img=document.getElementById("ambientImage"),vid=document.getElementById("ambientMedia");
+  img.style.display="none";vid.style.display="none";vid.pause();vid.removeAttribute("src");img.style.backgroundImage="none";
+  if(s.bgType==="image"&&s.bg){img.style.display="block";img.style.backgroundImage=`url("${s.bg.replace(/"/g,"")}")`}
+  if(s.bgType==="video"&&s.bg){vid.style.display="block";vid.src=s.bg;vid.load();if(s.videoPlay!=="off")vid.play().catch(()=>{})}
+}
+function applyHomeVisibility(){document.querySelectorAll("[data-homecard]").forEach(el=>{let key=el.dataset.homecard;el.classList.toggle("hidden-card",state.settings.homeCards?.[key]===false)})}
+function renderSettings(){
+  document.getElementById("setFont").value=state.settings.font||'Georgia,"Times New Roman",serif';
+  document.getElementById("setTheme").value=state.settings.theme||"forest";
+  document.getElementById("setBg").value=state.settings.bg||"";
+  document.getElementById("bgType").value=state.settings.bgType||"none";
+  document.getElementById("bgOverlay").value=state.settings.bgOverlay??42;
+  document.getElementById("glassOpacity").value=state.settings.glassOpacity??42;
+  document.getElementById("glassBlur").value=state.settings.glassBlur??14;
+  document.getElementById("videoPlay").value=state.settings.videoPlay||"on";
+  document.getElementById("setLocation").value=state.settings.location||"";
+  document.getElementById("spotifyClientId").value=state.settings.spotifyClientId||"";
+  document.getElementById("spotifyRedirect").value=location.origin+location.pathname;
+  let labels={today:"Today progress",week:"This Week",weather:"Weather",faith:"Faith Today",reward:"Wildlife reward",discovery:"Wisconsin Discovery",historytoday:"On this day",joke:"Joke",spotify:"Spotify",quiz:"Weekly quiz"};
+  document.getElementById("homeToggles").innerHTML=Object.entries(labels).map(([k,v])=>`<label><input type="checkbox" class="home-toggle" value="${k}" ${state.settings.homeCards?.[k]!==false?"checked":""}> ${v}</label>`).join("");
+}
+function saveAppearance(){state.settings.font=document.getElementById("setFont").value;state.settings.theme=document.getElementById("setTheme").value;saveState();applySettings();alert("Appearance saved.")}
+function saveHomeMedia(){state.settings.bgType=document.getElementById("bgType").value;state.settings.bg=document.getElementById("setBg").value.trim();state.settings.bgOverlay=+document.getElementById("bgOverlay").value;state.settings.glassOpacity=+document.getElementById("glassOpacity").value;state.settings.glassBlur=+document.getElementById("glassBlur").value;state.settings.videoPlay=document.getElementById("videoPlay").value;saveState();applySettings();alert("Home background saved.")}
+function saveLocation(){state.settings.location=document.getElementById("setLocation").value.trim();saveState();fetchWeather();alert("Weather location saved.")}
+function saveHomeCards(){document.querySelectorAll(".home-toggle").forEach(x=>state.settings.homeCards[x.value]=x.checked);saveState();applyHomeVisibility();alert("Home page saved.")}
+function saveSpotifySettings(){state.settings.spotifyClientId=document.getElementById("spotifyClientId").value.trim();saveState();alert("Spotify settings saved.")}
+function randomString(n=64){let chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~",a=new Uint32Array(n);crypto.getRandomValues(a);return Array.from(a,x=>chars[x%chars.length]).join("")}
+async function sha256(s){return new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))}
+function base64url(bytes){return btoa(String.fromCharCode(...bytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+async function connectSpotify(){let client=state.settings.spotifyClientId;if(!client)return alert("First paste your Spotify Client ID in Settings.");let verifier=randomString(),challenge=base64url(await sha256(verifier)),redirect=location.origin+location.pathname;sessionStorage.setItem("spotify_verifier",verifier);let scopes="user-read-private user-read-currently-playing user-read-playback-state user-modify-playback-state playlist-read-private";location.href="https://accounts.spotify.com/authorize?"+new URLSearchParams({client_id:client,response_type:"code",redirect_uri:redirect,scope:scopes,code_challenge_method:"S256",code_challenge:challenge}).toString()}
+async function handleSpotifyCallback(){let q=new URLSearchParams(location.search),code=q.get("code"),verifier=sessionStorage.getItem("spotify_verifier");if(!code||!verifier||!state.settings.spotifyClientId)return;try{let redirect=location.origin+location.pathname,r=await fetch("https://accounts.spotify.com/api/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({client_id:state.settings.spotifyClientId,grant_type:"authorization_code",code,redirect_uri:redirect,code_verifier:verifier})}),j=await r.json();if(j.access_token){localStorage.setItem("spotify_token",JSON.stringify({token:j.access_token,expires:Date.now()+j.expires_in*1000}));history.replaceState({},document.title,location.pathname);sessionStorage.removeItem("spotify_verifier")}}catch(e){}}
+async function renderSpotify(){let box=document.getElementById("spotifyBox"),raw=localStorage.getItem("spotify_token");if(!raw){box.innerHTML='<button class="btn" onclick="showPage(\'settings\')">Set up Spotify →</button>';return}let t=JSON.parse(raw);if(Date.now()>t.expires){localStorage.removeItem("spotify_token");box.innerHTML='<p class="muted">Spotify session expired.</p><button class="btn" onclick="connectSpotify()">Reconnect Spotify</button>';return}try{let r=await fetch("https://api.spotify.com/v1/me/player/currently-playing",{headers:{Authorization:"Bearer "+t.token}});if(r.status===204){box.innerHTML='<p class="muted">Spotify is connected. Nothing is playing right now.</p>';return}let j=await r.json(),item=j.item;if(item){box.innerHTML=`<div class="spotify-now"><img class="spotify-art" src="${item.album?.images?.[1]?.url||item.album?.images?.[0]?.url||""}"><div><b>${esc(item.name)}</b><div class="muted">${esc(item.artists?.map(a=>a.name).join(", ")||"")}</div><div class="row" style="margin-top:8px"><button class="btn secondary tiny" onclick="spotifyControl('previous')">⏮</button><button class="btn tiny" onclick="spotifyControl('${j.is_playing?"pause":"play"}')">${j.is_playing?"⏸":"▶"}</button><button class="btn secondary tiny" onclick="spotifyControl('next')">⏭</button></div></div></div>`}}catch(e){box.innerHTML='<p class="muted">Spotify is connected, but playback info could not load.</p>'}}
+async function spotifyControl(action){let raw=localStorage.getItem("spotify_token");if(!raw)return;let t=JSON.parse(raw),map={previous:["POST","previous"],next:["POST","next"],pause:["PUT","pause"],play:["PUT","play"]},[method,path]=map[action];try{await fetch("https://api.spotify.com/v1/me/player/"+path,{method,headers:{Authorization:"Bearer "+t.token}});setTimeout(renderSpotify,600)}catch(e){}}
+
+
+let layoutEdit=false;
+function toggleLayoutEdit(){
+  layoutEdit=!layoutEdit;
+  document.getElementById("homeModules")?.classList.toggle("layout-edit-active",layoutEdit);
+  document.getElementById("layoutEditBtn").textContent=layoutEdit?"✓ Done Editing":"✥ Edit Home Layout";
+  setupHomeLayoutControls();
+}
+function setupHomeLayoutControls(){
+  const grid=document.getElementById("homeModules");if(!grid)return;
+  const layout=state.settings.homeLayout||{order:[],sizes:{}};
+  const byKey=Object.fromEntries([...grid.children].map(el=>[el.dataset.key,el]));
+  (layout.order||[]).forEach(k=>{if(byKey[k])grid.appendChild(byKey[k])});
+  [...grid.children].forEach(el=>{
+    const key=el.dataset.key,size=layout.sizes?.[key]||"";
+    el.classList.remove("span-2","tall","compact");
+    if(size)el.classList.add(...size.split(" ").filter(Boolean));
+    el.draggable=layoutEdit;
+    let c=el.querySelector(".module-controls");
+    if(c)c.innerHTML=`<button class="module-drag" title="Drag">↕</button><button onclick="setModuleSize('${key}','compact')">S</button><button onclick="setModuleSize('${key}','')">M</button><button onclick="setModuleSize('${key}','span-2')">Wide</button><button onclick="setModuleSize('${key}','tall')">Tall</button><button onclick="setModuleSize('${key}','span-2 tall')">XL</button>`;
+    el.ondragstart=e=>{if(!layoutEdit){e.preventDefault();return}el.classList.add("dragging");e.dataTransfer.effectAllowed="move"};
+    el.ondragend=()=>{el.classList.remove("dragging");saveModuleOrder()};
+  });
+  grid.ondragover=e=>{
+    if(!layoutEdit)return;e.preventDefault();
+    const dragging=grid.querySelector(".dragging");if(!dragging)return;
+    const candidates=[...grid.querySelectorAll(".home-module:not(.dragging)")];
+    const after=candidates.find(el=>{const r=el.getBoundingClientRect();return e.clientY<r.top+r.height/2});
+    if(after)grid.insertBefore(dragging,after);else grid.appendChild(dragging);
+  };
+}
+function setModuleSize(key,size){state.settings.homeLayout=state.settings.homeLayout||{order:[],sizes:{}};state.settings.homeLayout.sizes=state.settings.homeLayout.sizes||{};state.settings.homeLayout.sizes[key]=size;saveState();setupHomeLayoutControls()}
+function saveModuleOrder(){const grid=document.getElementById("homeModules");if(!grid)return;state.settings.homeLayout=state.settings.homeLayout||{order:[],sizes:{}};state.settings.homeLayout.order=[...grid.children].map(el=>el.dataset.key);saveState()}
+
+function renderAll(){checkStreakBonuses();checkDailyReward();applySettings();renderHome();renderTasks();renderRoutines();renderCalendar();renderHistory();renderZoo();renderShop();renderCollection();renderSettings();renderReward();renderDiscovery();renderJokeMemeQuote();renderQuiz();renderSpotify();setupHomeLayoutControls()}
+async function boot(){
+  document.body.classList.add("home-immersive");
+  normalizeState();
+  localStorage.setItem("wisconsinZooGameV5",JSON.stringify(state));
+  applySettings();
+  await handleSpotifyCallback();
+  renderAll();
+  await restoreCloudSession();
+  if(!cloudReady){fetchWeather();fetchSaint();fetchHistoryToday()}
+}
+document.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&!document.getElementById("cloudLogin")?.classList.contains("hidden")&&
+     (document.activeElement?.id==="cloudEmail"||document.activeElement?.id==="cloudPassword")) cloudSignIn();
+});
+window.addEventListener("online",()=>{if(cloudReady)scheduleCloudSave()});
+boot();
+</script>
+</body>
+</html>
